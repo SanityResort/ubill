@@ -1,0 +1,104 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:8020852626013801793",
+      "lastPropertyId": "2:141978193061612639",
+      "name": "Bill",
+      "properties": [
+        {
+          "id": "1:5226796299989913575",
+          "name": "id"
+        },
+        {
+          "id": "2:141978193061612639",
+          "name": "remainder"
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:2580084961213042664",
+          "name": "fellows"
+        },
+        {
+          "id": "2:7839103386824988564",
+          "name": "items"
+        }
+      ]
+    },
+    {
+      "id": "2:7530898370245198974",
+      "lastPropertyId": "2:7412449752789336127",
+      "name": "Fellow",
+      "properties": [
+        {
+          "id": "1:6271597512939822915",
+          "name": "id"
+        },
+        {
+          "id": "2:7412449752789336127",
+          "name": "name"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:4349849566940344647",
+      "lastPropertyId": "3:8969170948219567666",
+      "name": "Splitting",
+      "properties": [
+        {
+          "id": "1:8816035475572662715",
+          "name": "id"
+        },
+        {
+          "id": "2:7571263321326775920",
+          "name": "amount"
+        },
+        {
+          "id": "3:8969170948219567666",
+          "indexId": "1:392597407527422903",
+          "name": "fellowId"
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:7845029053289297863",
+      "lastPropertyId": "3:7585658044204674380",
+      "name": "Item",
+      "properties": [
+        {
+          "id": "1:7956511077686038897",
+          "name": "id"
+        },
+        {
+          "id": "2:1902479703968771328",
+          "name": "sum"
+        },
+        {
+          "id": "3:7585658044204674380",
+          "name": "remainder"
+        }
+      ],
+      "relations": [
+        {
+          "id": "3:1362987240306380155",
+          "name": "splittings"
+        }
+      ]
+    }
+  ],
+  "lastEntityId": "4:7845029053289297863",
+  "lastIndexId": "1:392597407527422903",
+  "lastRelationId": "3:1362987240306380155",
+  "lastSequenceId": "0:0",
+  "modelVersion": 3,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
