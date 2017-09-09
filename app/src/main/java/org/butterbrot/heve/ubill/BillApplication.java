@@ -16,4 +16,8 @@ public class BillApplication extends Application {
         boxStore = MyObjectBox.builder().androidContext(this).build();
 
     }
+
+    public BoxStore getBoxStore() {
+        return boxStore;
+    }
 }

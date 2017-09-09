@@ -13,6 +13,11 @@ public class Splitting {
     ToOne<Fellow> fellow;
     private int amount;
 
+    public Splitting(Fellow fellow, int amount) {
+        this.fellow.setTarget(fellow);
+        this.amount = amount;
+    }
+
     public Long getId() {
         return id;
     }
