@@ -10,7 +10,6 @@ import android.widget.ListView
 
 import kotlinx.android.synthetic.main.activity_bill_list.*
 import kotlinx.android.synthetic.main.content_bill_list.*
-import org.butterbrot.heve.ubill.entity.Bill
 
 class BillListActivity : AppCompatActivity() {
 
@@ -24,7 +23,6 @@ class BillListActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
         }
 
-        bill_list.adapter = ArrayAdapter<Bill>(null, 0,0)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
