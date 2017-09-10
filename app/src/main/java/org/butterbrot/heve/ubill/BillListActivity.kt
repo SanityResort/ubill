@@ -5,11 +5,9 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.ListView
-
+import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_bill_list.*
-import kotlinx.android.synthetic.main.content_bill_list.*
+import org.butterbrot.heve.ubill.entity.Bill
 
 class BillListActivity : AppCompatActivity() {
 
@@ -17,12 +15,13 @@ class BillListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bill_list)
         setSupportActionBar(toolbar)
+        val boxStore = (application as BillApplication).boxStore
+        val billBox: Box<Bill> = boxStore.boxFor(Bill::class.java)
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
