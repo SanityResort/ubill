@@ -4,7 +4,7 @@ import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id
 
 @Entity
-class Item (sum: Int, splittings: List<Splitting>) {
+class Item (sum: Int = 0, splittings: List<Splitting> = listOf()) {
 
     @Id
     private var id: Long = 0
@@ -15,8 +15,6 @@ class Item (sum: Int, splittings: List<Splitting>) {
         val totalValue: Int = splittings.map { splitting -> splitting.amount }.reduceRight{acc, value -> acc + value}
         remainder -= totalValue
     }
-
-    private constructor():this(0, listOf())
 
     fun getId() : Long {
         return id

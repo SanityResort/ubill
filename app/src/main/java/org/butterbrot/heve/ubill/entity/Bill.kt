@@ -4,7 +4,7 @@ import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 
 @Entity
-class Bill(val name: String, val fellows: List<Fellow>, val items: MutableList<Item>) {
+class Bill(val name: String = "", val fellows: List<Fellow> = listOf(), val items: MutableList<Item> = mutableListOf()) {
 
     @Id
     private var id: Long = 0
@@ -13,9 +13,7 @@ class Bill(val name: String, val fellows: List<Fellow>, val items: MutableList<I
     init {
         updateRemainder();
     }
-
-    private constructor(): this("", listOf(), mutableListOf())
-
+    
     private fun updateRemainder() {
         items.forEach { item -> remainder += item.remainder }
     }
