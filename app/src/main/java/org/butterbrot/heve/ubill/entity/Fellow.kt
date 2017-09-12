@@ -9,6 +9,8 @@ class Fellow(val name: String) {
     @Id
     private var id: Long = 0
 
+    private constructor():this("")
+
     fun getId() : Long {
         return id
     }

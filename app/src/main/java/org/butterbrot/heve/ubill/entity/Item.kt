@@ -16,6 +16,8 @@ class Item (sum: Int, splittings: List<Splitting>) {
         remainder -= totalValue
     }
 
+    private constructor():this(0, listOf())
+
     fun getId() : Long {
         return id
     }
