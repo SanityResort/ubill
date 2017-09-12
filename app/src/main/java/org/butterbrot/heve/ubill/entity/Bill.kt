@@ -13,7 +13,7 @@ class Bill(val name: String = "", val fellows: List<Fellow> = listOf(), val item
     init {
         updateRemainder();
     }
-    
+
     private fun updateRemainder() {
         items.forEach { item -> remainder += item.remainder }
     }

@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_bill_list.*
+import kotlinx.android.synthetic.main.content_bill_list.*
 import org.butterbrot.heve.ubill.entity.Bill
 
 class BillListActivity : BoxActivity<Bill>() {
@@ -14,7 +16,7 @@ class BillListActivity : BoxActivity<Bill>() {
         setContentView(R.layout.activity_bill_list)
         setSupportActionBar(toolbar)
 
-
+        bill_list.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, box.all.map { bill -> bill.name })
 
         fab.setOnClickListener { view ->
             box.put(Bill("test" + System.currentTimeMillis(), listOf(), mutableListOf()))
