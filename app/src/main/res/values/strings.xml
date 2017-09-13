@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">U Bill</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_create_bill">Create Bill</string>
+    <string name="label_create_bill_name">Name</string>
+    <string name="label_create_bill_fellows">Fellows</string>
 </resources>

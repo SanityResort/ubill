@@ -16,12 +16,11 @@ class BillListActivity : BoxActivity<Bill>() {
         setContentView(R.layout.activity_bill_list)
         setSupportActionBar(toolbar)
 
-        bill_list.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, box.all.map { bill -> bill.name })
-
-        fab.setOnClickListener { view ->
+        new_bill.setOnClickListener { view ->
             box.put(Bill("test" + System.currentTimeMillis(), listOf(), mutableListOf()))
-            Snackbar.make(view, "Found " +  box.all.size + " elements", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()        }
+            Snackbar.make(view, "Found " + box.all.size + " elements", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -38,5 +37,10 @@ class BillListActivity : BoxActivity<Bill>() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bill_list.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, box.all.map { bill -> bill.name })
     }
 }
