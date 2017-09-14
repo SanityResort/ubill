@@ -17,9 +17,7 @@ class BillListActivity : BoxActivity<Bill>() {
         setSupportActionBar(toolbar)
 
         new_bill.setOnClickListener { view ->
-            box.put(Bill("test" + System.currentTimeMillis(), listOf(), mutableListOf()))
-            Snackbar.make(view, "Found " + box.all.size + " elements", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            CreateBillActivity.call(this)
         }
     }
 
