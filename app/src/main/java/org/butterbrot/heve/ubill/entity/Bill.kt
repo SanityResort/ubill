@@ -2,9 +2,10 @@ package org.butterbrot.heve.ubill.entity;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
+import io.objectbox.annotation.Index
 
 @Entity
-class Bill(val name: String = "", val fellows: List<Fellow> = listOf(), val items: MutableList<Item> = mutableListOf()) {
+class Bill(@Index val name: String = "", val fellows: List<Fellow> = listOf(), val items: MutableList<Item> = mutableListOf()) {
 
     @Id
     private var id: Long = 0

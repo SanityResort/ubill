@@ -4,23 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.butterbrot.heve.ubill.CreateBillActivity">
+    tools:context="org.butterbrot.heve.ubill.FellowListActivity">
 
-
-
-    <include layout="@layout/content_create_bill" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/save"
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="@dimen/first_button_margin"
-        android:layout_marginEnd="@dimen/button_row_margin"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_fellow_list" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_fellows"
+        android:id="@+id/add_fellow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -28,5 +31,13 @@
         android:layout_marginEnd="@dimen/button_row_margin"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/select_fellows"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/first_button_margin"
+        android:layout_marginEnd="@dimen/button_row_margin"
+        app:srcCompat="@android:drawable/ic_menu_add" />
 
 </android.support.design.widget.CoordinatorLayout>

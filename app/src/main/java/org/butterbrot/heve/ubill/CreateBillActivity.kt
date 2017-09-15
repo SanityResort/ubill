@@ -23,8 +23,7 @@ class CreateBillActivity : BoxActivity<Bill>(){
         }
 
         add_fellows.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            FellowListActivity.call(this)
         }
     }
 

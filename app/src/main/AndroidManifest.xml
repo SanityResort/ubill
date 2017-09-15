@@ -23,7 +23,15 @@
         <activity
             android:name=".CreateBillActivity"
             android:label="@string/title_activity_create_bill"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FellowListActivity"
+            android:label="@string/title_activity_list_fellows"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CreateFellowActivity"
+            android:label="@string/title_activity_create_fellow"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

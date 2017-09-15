@@ -2,9 +2,10 @@ package org.butterbrot.heve.ubill.entity;
 
 import io.objectbox.annotation.Entity
 import io.objectbox.annotation.Id
+import io.objectbox.annotation.Index
 
 @Entity
-class Fellow(val name: String = "") {
+class Fellow(@Index val name: String = "") {
 
     @Id
     private var id: Long = 0
