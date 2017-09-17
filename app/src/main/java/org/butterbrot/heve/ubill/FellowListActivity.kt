@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.util.SparseBooleanArray
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -21,10 +22,14 @@ class FellowListActivity : BoxActivity<Fellow>() {
     lateinit private var selectedFellows: BooleanArray
     private var passedFellowIds: LongArray = kotlin.LongArray(0)
 
+    override val layoutId: Int
+        get() = R.layout.activity_fellow_list
+
+    override val menuId: Int
+        get() = R.menu.menu_fellow_list
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_fellow_list)
-        setSupportActionBar(toolbar)
 
         // init internal lists
         allFellows = box.all.sortedBy { it.name }
@@ -50,20 +55,7 @@ class FellowListActivity : BoxActivity<Fellow>() {
         fellow_list.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, pos, _ ->
             selectedFellows.set(pos, (view as CheckedTextView).isChecked)
         }
-
-        // define button actions
-        add_fellow.setOnClickListener { _ ->
-            CreateFellowActivity.call(this)
-        }
-
-        select_fellows.setOnClickListener { _ ->
-            val result = Intent()
-            result.putExtra(InterfaceConstants.RESULT_KEY, allFellows.
-                    filterIndexed { index, _ -> selectedFellows[index] }.map { it.getId() }.toLongArray())
-            setResult(InterfaceConstants.RESULT_SUCCESS, result)
-            finish()
-        }
-
+        
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -73,6 +65,27 @@ class FellowListActivity : BoxActivity<Fellow>() {
             allFellows = box.all.sortedBy { it.name }
             selectedFellows = kotlin.BooleanArray(allFellows.size)
             passedFellowIds.plus(data?.extras?.getLongArray(InterfaceConstants.RESULT_KEY) ?: kotlin.LongArray(0))
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.create_fellow -> {
+                CreateFellowActivity.call(this)
+                return true
+            }
+            R.id.add_fellows -> {
+                val result = Intent()
+                result.putExtra(InterfaceConstants.RESULT_KEY, allFellows.
+                        filterIndexed { index, _ -> selectedFellows[index] }.map { it.getId() }.toLongArray())
+                setResult(InterfaceConstants.RESULT_SUCCESS, result)
+                finish()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
