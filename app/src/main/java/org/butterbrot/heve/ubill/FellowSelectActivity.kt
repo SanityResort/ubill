@@ -16,7 +16,6 @@ import org.butterbrot.heve.ubill.entity.Fellow
 class FellowSelectActivity : BoxActivity<Fellow>() {
 
     lateinit private var allFellows: List<Fellow>
-    lateinit private var selectedFellows: BooleanArray
     private var passedFellowIds: LongArray = kotlin.LongArray(0)
 
     override val layoutId: Int
@@ -30,27 +29,22 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
 
         // init internal lists
         allFellows = box.all.sortedBy { it.name }
-        selectedFellows = kotlin.BooleanArray(allFellows.size)
 
         // read fellow ids passed from calling activity
         if (intent?.extras?.containsKey(InterfaceConstants.PARAM_FELLOWS) == true) {
             passedFellowIds = intent.extras.getLongArray(InterfaceConstants.PARAM_FELLOWS)
         }
 
-        evaluatePassedFellows()
-
-        fellow_list.adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,
-                allFellows.map { it.name }) {
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-                val view = super.getView(position, convertView, parent)
-                (parent as ListView).checkedItemPositions.append(position, selectedFellows[position])
-                return view
-            }
-        }
+        initAdapter()
 
         // register listener to map checkbox status to boolean area
-        fellow_list.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, pos, _ ->
-            selectedFellows.set(pos, (view as CheckedTextView).isChecked)
+        fellow_list.onItemClickListener = AdapterView.OnItemClickListener { _, view, pos, _ ->
+            val id = allFellows[pos].id
+            if ((view as CheckedTextView).isChecked) {
+                passedFellowIds = passedFellowIds.plus(id)
+            } else {
+                passedFellowIds = passedFellowIds.filterNot { it == id }.toLongArray()
+            }
         }
     }
 
@@ -58,9 +52,13 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
         // if there has been a fellow added, we have to reinitialize the internal arrays and add
         // the new id to the passed fellows so it gets checked automatically
         if (InterfaceConstants.RESULT_SUCCESS == resultCode && InterfaceConstants.RC_CREATE_FELLOW == requestCode) {
-            allFellows = box.all.sortedBy { it.name }
-            selectedFellows = kotlin.BooleanArray(allFellows.size)
-            passedFellowIds.plus(data?.extras?.getLongArray(InterfaceConstants.RESULT_KEY) ?: kotlin.LongArray(0))
+            val createdFellows = data?.extras?.getLongArray(InterfaceConstants.RESULT_KEY) ?: kotlin.LongArray(0)
+            if (createdFellows.isNotEmpty()) {
+                allFellows = box.all.sortedBy { it.name }
+                passedFellowIds = passedFellowIds.plus(createdFellows)
+                initAdapter()
+
+            }
         }
     }
 
@@ -73,10 +71,10 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
                 CreateFellowActivity.call(this)
                 return true
             }
-            R.id.add_fellows -> {
+            R.id.save_fellow_selection -> {
                 val result = Intent()
-                result.putExtra(InterfaceConstants.RESULT_KEY, allFellows.
-                        filterIndexed { index, _ -> selectedFellows[index] }.map { it.getId() }.toLongArray())
+                result.putExtra(InterfaceConstants.RESULT_KEY, passedFellowIds)
+                        //allFellows.filterIndexed { index, _ -> selectedFellows[index] }.map { it.id }.toLongArray())
                 setResult(InterfaceConstants.RESULT_SUCCESS, result)
                 finish()
                 return true
@@ -85,15 +83,14 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
         }
     }
 
-    // read passed fellow ids and set fields in the boolean array accordingly
-    private fun evaluatePassedFellows() {
-        allFellows.forEachIndexed { index, fellow ->
-            if (passedFellowIds.contains(fellow.getId())) {
-                selectedFellows[index] = true
+    private fun initAdapter() {
+        fellow_list.adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,
+                allFellows.map { it.name }) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+                (parent as ListView).checkedItemPositions.append(position, passedFellowIds.contains(allFellows[position].id))
+                return super.getView(position, convertView, parent)
             }
         }
-
-        passedFellowIds = LongArray(0)
     }
 
     companion object {

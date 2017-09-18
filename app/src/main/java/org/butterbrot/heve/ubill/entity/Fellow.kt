@@ -8,13 +8,6 @@ import io.objectbox.annotation.Index
 class Fellow(@Index val name: String = "") {
 
     @Id
-    private var id: Long = 0
+    var id: Long = 0
 
-    fun getId() : Long {
-        return id
-    }
-
-    fun setId(id: Long){
-        this.id = id;
-    }
 }

@@ -19,7 +19,7 @@ class CreateBillActivity : BoxActivity<Bill>() {
     override val menuId: Int
         get() = R.menu.menu_create_bill
 
-    private lateinit var fellows: List<Fellow>
+    private var fellows: List<Fellow> = listOf()
 
     private lateinit var fellowBox: Box<Fellow>
 
@@ -47,7 +47,7 @@ class CreateBillActivity : BoxActivity<Bill>() {
                 return true
             }
             R.id.add_fellows -> {
-                FellowSelectActivity.call(this, kotlin.LongArray(0).plus(fellows.map { it.getId() }))
+                FellowSelectActivity.call(this, kotlin.LongArray(0).plus(fellows.map { it.id }))
                 return true
             }
             else -> super.onOptionsItemSelected(item)

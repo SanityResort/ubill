@@ -3,8 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.butterbrot.heve.ubill.FellowSelectActivity">
     <item
+        android:id="@+id/save_fellow_selection"
+        android:icon="@drawable/save"
+        android:title="@string/action_save"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/create_fellow"
         android:icon="@drawable/create"
         android:title="@string/action_create_fellow"
         app:showAsAction="ifRoom" />
+
 </menu>
