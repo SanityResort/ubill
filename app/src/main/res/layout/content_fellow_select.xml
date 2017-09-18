@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="org.butterbrot.heve.ubill.FellowListActivity"
-    tools:showIn="@layout/activity_fellow_list">
+    tools:context="org.butterbrot.heve.ubill.FellowSelectActivity"
+    tools:showIn="@layout/activity_fellow_select">
 
     <ListView
         android:id="@+id/fellow_list"

@@ -8,6 +8,7 @@ import io.objectbox.Box
 import kotlinx.android.synthetic.main.content_create_bill.*
 import org.butterbrot.heve.ubill.entity.Bill
 import org.butterbrot.heve.ubill.entity.Fellow
+import org.butterbrot.heve.ubill.entity.Fellow_
 
 
 class CreateBillActivity : BoxActivity<Bill>() {
@@ -29,7 +30,8 @@ class CreateBillActivity : BoxActivity<Bill>() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (InterfaceConstants.RESULT_SUCCESS == resultCode && InterfaceConstants.RC_SELECT_FELLOWS == requestCode) {
-            data?.extras?.getLongArray(InterfaceConstants.RESULT_KEY)
+            val fellowIds: LongArray = data?.extras?.getLongArray(InterfaceConstants.RESULT_KEY) ?: kotlin.LongArray(0)
+            fellows = fellowBox.query().`in`(Fellow_.id, fellowIds).build().find().sortedBy { it.name }
         }
 
     }
@@ -40,12 +42,12 @@ class CreateBillActivity : BoxActivity<Bill>() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.save_bill -> {
-                box.put(Bill(name.text.trim().toString(), listOf(), mutableListOf()))
+                box.put(Bill(name.text.trim().toString(), fellows))
                 finish()
                 return true
             }
             R.id.add_fellows -> {
-                FellowListActivity.call(this, kotlin.LongArray(0).plus(fellows.map { it.getId() }))
+                FellowSelectActivity.call(this, kotlin.LongArray(0).plus(fellows.map { it.getId() }))
                 return true
             }
             else -> super.onOptionsItemSelected(item)

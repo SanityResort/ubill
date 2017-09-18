@@ -10,20 +10,20 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.ListView
-import kotlinx.android.synthetic.main.content_fellow_list.*
+import kotlinx.android.synthetic.main.content_fellow_select.*
 import org.butterbrot.heve.ubill.entity.Fellow
 
-class FellowListActivity : BoxActivity<Fellow>() {
+class FellowSelectActivity : BoxActivity<Fellow>() {
 
     lateinit private var allFellows: List<Fellow>
     lateinit private var selectedFellows: BooleanArray
     private var passedFellowIds: LongArray = kotlin.LongArray(0)
 
     override val layoutId: Int
-        get() = R.layout.activity_fellow_list
+        get() = R.layout.activity_fellow_select
 
     override val menuId: Int
-        get() = R.menu.menu_fellow_list
+        get() = R.menu.menu_fellow_select
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,7 +99,7 @@ class FellowListActivity : BoxActivity<Fellow>() {
     companion object {
 
         fun call(context: Activity, ids: LongArray) {
-            val intent = Intent(context, FellowListActivity::class.java)
+            val intent = Intent(context, FellowSelectActivity::class.java)
             intent.putExtra(InterfaceConstants.PARAM_FELLOWS, ids)
             context.startActivityForResult(intent, InterfaceConstants.RC_SELECT_FELLOWS)
         }

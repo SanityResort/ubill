@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="org.butterbrot.heve.ubill.FellowListActivity">
+    tools:context="org.butterbrot.heve.ubill.FellowSelectActivity">
     <item
         android:id="@+id/create_fellow"
         android:icon="@drawable/create"

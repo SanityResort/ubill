@@ -25,7 +25,7 @@
             android:label="@string/title_activity_create_bill"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FellowListActivity"
+            android:name=".FellowSelectActivity"
             android:label="@string/title_activity_list_fellows"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
