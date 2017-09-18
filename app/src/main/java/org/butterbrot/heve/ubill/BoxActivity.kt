@@ -29,6 +29,11 @@ abstract class BoxActivity<T> : AppCompatActivity() {
         return true
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        box.closeThreadResources()
+    }
+
     protected fun getBoxType(): Class<T> {
         return (this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<T>
     }

@@ -1,11 +1,7 @@
 package org.butterbrot.heve.ubill
 
-import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
-import kotlinx.android.synthetic.main.activity_bill_list.*
 import kotlinx.android.synthetic.main.content_bill_list.*
 import org.butterbrot.heve.ubill.entity.Bill
 

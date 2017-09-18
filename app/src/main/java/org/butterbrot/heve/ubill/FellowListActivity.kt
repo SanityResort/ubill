@@ -3,8 +3,6 @@ package org.butterbrot.heve.ubill
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
-import android.util.SparseBooleanArray
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.ListView
-import kotlinx.android.synthetic.main.activity_fellow_list.*
 import kotlinx.android.synthetic.main.content_fellow_list.*
 import org.butterbrot.heve.ubill.entity.Fellow
 
@@ -55,7 +52,6 @@ class FellowListActivity : BoxActivity<Fellow>() {
         fellow_list.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, pos, _ ->
             selectedFellows.set(pos, (view as CheckedTextView).isChecked)
         }
-        
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -102,8 +98,10 @@ class FellowListActivity : BoxActivity<Fellow>() {
 
     companion object {
 
-        fun call(context: Activity) {
-            context.startActivityForResult(Intent(context, FellowListActivity::class.java), InterfaceConstants.RC_SELECT_FELLOWS)
+        fun call(context: Activity, ids: LongArray) {
+            val intent = Intent(context, FellowListActivity::class.java)
+            intent.putExtra(InterfaceConstants.PARAM_FELLOWS, ids)
+            context.startActivityForResult(intent, InterfaceConstants.RC_SELECT_FELLOWS)
         }
     }
 }

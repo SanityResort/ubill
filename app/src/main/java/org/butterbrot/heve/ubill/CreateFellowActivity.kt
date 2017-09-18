@@ -1,12 +1,9 @@
 package org.butterbrot.heve.ubill
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_create_fellow.*
 import kotlinx.android.synthetic.main.content_create_fellow.*
 import org.butterbrot.heve.ubill.entity.Fellow
 import org.butterbrot.heve.ubill.entity.Fellow_
