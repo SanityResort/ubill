@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.content_create_bill.*
 import org.butterbrot.heve.ubill.entity.Bill
@@ -32,6 +33,7 @@ class CreateBillActivity : BoxActivity<Bill>() {
         if (InterfaceConstants.RESULT_SUCCESS == resultCode && InterfaceConstants.RC_SELECT_FELLOWS == requestCode) {
             val fellowIds: LongArray = data?.extras?.getLongArray(InterfaceConstants.RESULT_KEY) ?: kotlin.LongArray(0)
             fellows = fellowBox.query().`in`(Fellow_.id, fellowIds).build().find().sortedBy { it.name }
+            fellow_list.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fellows.map { it.name })
         }
 
     }

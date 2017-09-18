@@ -33,7 +33,7 @@
             android:text="@string/label_create_bill_fellows" />
 
         <ListView
-            android:id="@+id/fellows"
+            android:id="@+id/fellow_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
