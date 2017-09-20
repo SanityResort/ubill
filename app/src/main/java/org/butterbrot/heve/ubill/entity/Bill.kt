@@ -6,7 +6,8 @@ import io.objectbox.annotation.Index
 import io.objectbox.relation.ToMany
 
 @Entity
-class Bill(@Index val name: String = "", @Transient val fellows: List<Fellow> = listOf(), val items: MutableList<Item> = mutableListOf()) {
+class Bill(@Index var name: String = "", @Transient private var fellows: List<Fellow> = listOf(),
+           val items: MutableList<Item> = mutableListOf()) {
 
     @Id
     var id: Long = 0
@@ -20,6 +21,12 @@ class Bill(@Index val name: String = "", @Transient val fellows: List<Fellow> = 
 
     private fun updateRemainder() {
         items.forEach { item -> remainder += item.remainder }
+    }
+
+    fun setFellows(fellows: List<Fellow>) {
+        this.fellows = fellows
+        fellowsRelation.clear()
+        fellowsRelation.addAll(fellows)
     }
 
     fun getRemainder(): Int {
