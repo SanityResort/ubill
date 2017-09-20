@@ -35,13 +35,17 @@
         <activity
             android:name=".CreateFellowActivity"
             android:label="@string/title_activity_create_fellow"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".EditFellowActivity"
             android:label="@string/title_activity_edit_fellow"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".BillActivity"
+            android:label="@string/title_activity_bill"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

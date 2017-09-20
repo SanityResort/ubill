@@ -24,18 +24,16 @@ class CreateFellowActivity : BoxActivity<Fellow>() {
         return when (item.itemId) {
             R.id.save_fellow -> {
                 val fellowName = name.text.trim().toString()
-                if (fellowName.isNotBlank()) {
-                    if (box.query().equal(Fellow_.name, fellowName).build().find().isEmpty()) {
+                when {
+                    fellowName.isBlank() -> Snackbar.make(toolbar, R.string.error_fellow_name_empty, Snackbar.LENGTH_SHORT).show()
+                    box.query().equal(Fellow_.name, fellowName).build().find().isNotEmpty() -> Snackbar.make(toolbar, R.string.error_fellow_name_duplicate, Snackbar.LENGTH_SHORT).show()
+                    else -> {
                         val id = box.put(Fellow(fellowName))
                         val intent = Intent()
                         intent.putExtra(InterfaceConstants.RESULT_KEY, kotlin.LongArray(0).plus(id))
                         setResult(InterfaceConstants.RESULT_SUCCESS, intent)
                         finish()
-                    } else {
-                        Snackbar.make(toolbar, R.string.error_fellow_name_duplicate, Snackbar.LENGTH_SHORT).show()
                     }
-                } else {
-                    Snackbar.make(toolbar, R.string.error_fellow_name_empty, Snackbar.LENGTH_SHORT).show()
                 }
                 return true
             }
@@ -44,7 +42,7 @@ class CreateFellowActivity : BoxActivity<Fellow>() {
     }
 
     companion object {
-        fun call(context: Activity){
+        fun call(context: Activity) {
             context.startActivityForResult(Intent(context, CreateFellowActivity::class.java), InterfaceConstants.RC_CREATE_FELLOW)
         }
     }

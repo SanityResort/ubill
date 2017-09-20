@@ -3,11 +3,14 @@ package org.butterbrot.heve.ubill
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import io.objectbox.Box
+import kotlinx.android.synthetic.main.activity_create_fellow.*
 import kotlinx.android.synthetic.main.content_create_bill.*
 import org.butterbrot.heve.ubill.entity.Bill
+import org.butterbrot.heve.ubill.entity.Bill_
 import org.butterbrot.heve.ubill.entity.Fellow
 import org.butterbrot.heve.ubill.entity.Fellow_
 
@@ -44,8 +47,15 @@ class CreateBillActivity : BoxActivity<Bill>() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.save_bill -> {
-                box.put(Bill(name.text.trim().toString(), fellows))
-                finish()
+                val billName: String = name.text.trim().toString()
+                when {
+                    billName.isEmpty() -> Snackbar.make(toolbar, R.string.error_bill_name_empty, Snackbar.LENGTH_SHORT).show()
+                    box.find(Bill_.name, billName).isNotEmpty() -> Snackbar.make(toolbar, R.string.error_bill_name_duplicate, Snackbar.LENGTH_SHORT).show()
+                    else -> {
+                        box.put(Bill(billName, fellows))
+                        finish()
+                    }
+                }
                 return true
             }
             R.id.add_fellows -> {
