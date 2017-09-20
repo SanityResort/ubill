@@ -49,7 +49,8 @@ class CreateBillActivity : BoxActivity<Bill>() {
                 return true
             }
             R.id.add_fellows -> {
-                FellowSelectActivity.call(this, kotlin.LongArray(0).plus(fellows.map { it.id }))
+                FellowSelectActivity.call(this, kotlin.LongArray(0)
+                        .plus(fellows.map { it.id }), kotlin.LongArray(0))
                 return true
             }
             else -> super.onOptionsItemSelected(item)

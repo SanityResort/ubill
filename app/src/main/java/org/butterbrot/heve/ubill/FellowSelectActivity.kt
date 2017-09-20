@@ -3,6 +3,7 @@ package org.butterbrot.heve.ubill
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckedTextView
 import android.widget.ListView
+import kotlinx.android.synthetic.main.activity_bill_list.*
 import kotlinx.android.synthetic.main.content_fellow_select.*
 import org.butterbrot.heve.ubill.entity.Fellow
 
@@ -17,6 +19,7 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
 
     lateinit private var allFellows: List<Fellow>
     private var passedFellowIds: LongArray = kotlin.LongArray(0)
+    private var fellowsFromSplittings = kotlin.LongArray(0)
 
     override val layoutId: Int
         get() = R.layout.activity_fellow_select
@@ -43,7 +46,12 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
             if ((view as CheckedTextView).isChecked) {
                 passedFellowIds = passedFellowIds.plus(id)
             } else {
-                passedFellowIds = passedFellowIds.filterNot { it == id }.toLongArray()
+                if (fellowsFromSplittings.contains(id)) {
+                    Snackbar.make(toolbar, getString(R.string.error_fellow_referenced_in_splittings, view.text),
+                            Snackbar.LENGTH_SHORT).show()
+                } else {
+                    passedFellowIds = passedFellowIds.filterNot { it == id }.toLongArray()
+                }
             }
         }
     }
@@ -95,9 +103,10 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
 
     companion object {
 
-        fun call(context: Activity, ids: LongArray) {
+        fun call(context: Activity, ids: LongArray, fellowsInSplittings: LongArray) {
             val intent = Intent(context, FellowSelectActivity::class.java)
             intent.putExtra(InterfaceConstants.PARAM_FELLOWS, ids)
+            intent.putExtra(InterfaceConstants.PARAM_FELLOWS_IN_SPLITTINGS, fellowsInSplittings)
             context.startActivityForResult(intent, InterfaceConstants.RC_SELECT_FELLOWS)
         }
     }

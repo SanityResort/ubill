@@ -2,13 +2,15 @@ package org.butterbrot.heve.ubill
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.MenuItem
+import io.objectbox.Box
+import io.objectbox.query.QueryFilter
 import kotlinx.android.synthetic.main.activity_bill_list.*
 import kotlinx.android.synthetic.main.content_edit_fellow.*
+import org.butterbrot.heve.ubill.entity.Bill
 import org.butterbrot.heve.ubill.entity.Fellow
 import org.butterbrot.heve.ubill.entity.Fellow_
 
@@ -20,11 +22,14 @@ class EditFellowActivity : BoxActivity<Fellow>() {
 
     private lateinit var fellow: Fellow
 
+    private lateinit var billBox: Box<Bill>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val id = intent.getLongExtra(InterfaceConstants.PARAM_FELLOW, -1)
         fellow = box[id]
         name.setText(fellow.name)
+        billBox = (application as BillApplication).boxStore.boxFor(Bill::class.java)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -45,16 +50,36 @@ class EditFellowActivity : BoxActivity<Fellow>() {
                 return true
             }
             R.id.delete_fellow -> {
-                AlertDialog.Builder(this).setTitle(R.string.title_dialog_delete_fellow)
-                        .setMessage(getString(R.string.message_dialog_delete_fellow, fellow.name))
-                        .setPositiveButton(android.R.string.yes) { _, _ ->
-                            box.remove(fellow)
-                            finish()
-                        }.setNegativeButton(android.R.string.no, null).show()
+                val referencingBills: List<String> = referencedInBills(fellow)
+
+                if (referencingBills.isEmpty()) {
+                    AlertDialog.Builder(this).setTitle(R.string.title_dialog_delete_fellow)
+                            .setMessage(getString(R.string.message_dialog_delete_fellow, fellow.name))
+                            .setPositiveButton(android.R.string.yes) { _, _ ->
+                                box.remove(fellow)
+                                finish()
+                            }.setNegativeButton(android.R.string.no, null).show()
+                } else {
+                    Snackbar.make(toolbar, getString(R.string.error_fellow_referenced_in_bills,
+                            fellow.name, referencingBills.joinToString(",")), Snackbar.LENGTH_SHORT).show()
+                }
                 return true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun referencedInBills(fellow: Fellow):List<String> {
+        return billBox.query().filter(object : QueryFilter<Bill> {
+            override fun keep(bill: Bill): Boolean {
+                return bill.hasFellow(fellow)
+            }
+        }).build().find().map { it.name }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        billBox.closeThreadResources()
     }
 
     companion object {

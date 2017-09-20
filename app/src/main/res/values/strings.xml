@@ -8,6 +8,8 @@
     <string name="action_save">Save</string>
     <string name="error_fellow_name_empty">Fellow name cannot be empty</string>
     <string name="error_fellow_name_duplicate">A Fellow with that name already exists</string>
+    <string name="error_fellow_referenced_in_bills">Cannot delete fellow %1s, it is still referenced in: %2s</string>
+    <string name="error_fellow_referenced_in_splittings">Cannot deselect fellow %1s, it his still referenced in items</string>
     <string name="label_create_bill_name">Name</string>
     <string name="label_create_bill_fellows">Fellows</string>
     <string name="title_activity_create_bill">Create Bill</string>

@@ -33,4 +33,12 @@ class Bill(@Index val name: String = "", @Transient val fellows: List<Fellow> = 
     override fun toString(): String {
         return name
     }
+
+    fun  hasFellow(fellow: Fellow): Boolean {
+        return fellowsRelation.any{ it == fellow }
+    }
+
+    fun fellowsInSplittings(): LongArray {
+        return items.flatMap{ it.fellowsInSplittings() }.toSet().toLongArray()
+    }
 }
