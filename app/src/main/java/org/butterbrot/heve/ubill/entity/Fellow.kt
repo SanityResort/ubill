@@ -5,9 +5,12 @@ import io.objectbox.annotation.Id
 import io.objectbox.annotation.Index
 
 @Entity
-class Fellow(@Index val name: String = "") {
+class Fellow(@Index var name: String = "") {
 
     @Id
     var id: Long = 0
 
+    override fun toString(): String {
+        return name
+    }
 }

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.support.design.widget.Snackbar
 import android.view.MenuItem
+import kotlinx.android.synthetic.main.activity_create_fellow.*
 import kotlinx.android.synthetic.main.content_create_fellow.*
 import org.butterbrot.heve.ubill.entity.Fellow
 import org.butterbrot.heve.ubill.entity.Fellow_
@@ -22,19 +23,19 @@ class CreateFellowActivity : BoxActivity<Fellow>() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.save_fellow -> {
-                val name = name.text.trim().toString()
-                if (name.isNotBlank()) {
-                    if (box.query().equal(Fellow_.name, name).build().find().isEmpty()) {
-                        val id = box.put(Fellow(name))
+                val fellowName = name.text.trim().toString()
+                if (fellowName.isNotBlank()) {
+                    if (box.query().equal(Fellow_.name, fellowName).build().find().isEmpty()) {
+                        val id = box.put(Fellow(fellowName))
                         val intent = Intent()
                         intent.putExtra(InterfaceConstants.RESULT_KEY, kotlin.LongArray(0).plus(id))
                         setResult(InterfaceConstants.RESULT_SUCCESS, intent)
                         finish()
                     } else {
-                        Snackbar.make(layout, R.string.error_fellow_name_duplicate, Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(toolbar, R.string.error_fellow_name_duplicate, Snackbar.LENGTH_SHORT).show()
                     }
                 } else {
-                    Snackbar.make(layout, R.string.error_fellow_name_empty, Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(toolbar, R.string.error_fellow_name_empty, Snackbar.LENGTH_SHORT).show()
                 }
                 return true
             }

@@ -26,12 +26,22 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FellowSelectActivity"
+            android:label="@string/title_activity_select_fellows"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".FellowListActivity"
             android:label="@string/title_activity_list_fellows"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CreateFellowActivity"
             android:label="@string/title_activity_create_fellow"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".EditFellowActivity"
+            android:label="@string/title_activity_edit_fellow"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

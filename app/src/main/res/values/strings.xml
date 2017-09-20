@@ -6,11 +6,15 @@
     <string name="action_delete">Delete</string>
     <string name="action_list_fellows">List Fellows</string>
     <string name="action_save">Save</string>
-    <string name="title_activity_create_bill">Create Bill</string>
-    <string name="label_create_bill_name">Name</string>
-    <string name="label_create_bill_fellows">Fellows</string>
-    <string name="title_activity_list_fellows">Choose Fellows</string>
-    <string name="title_activity_create_fellow">Create Fellow</string>
     <string name="error_fellow_name_empty">Fellow name cannot be empty</string>
     <string name="error_fellow_name_duplicate">A Fellow with that name already exists</string>
+    <string name="label_create_bill_name">Name</string>
+    <string name="label_create_bill_fellows">Fellows</string>
+    <string name="title_activity_create_bill">Create Bill</string>
+    <string name="title_activity_select_fellows">Choose Fellows</string>
+    <string name="title_activity_list_fellows">Fellows</string>
+    <string name="title_activity_create_fellow">Create Fellow</string>
+    <string name="title_activity_edit_fellow">Edit Fellow</string>
+    <string name="title_dialog_delete_fellow">Delete Fellow</string>
+    <string name="message_dialog_delete_fellow">Are you sure you want to delete fellow %1$s</string>
 </resources>

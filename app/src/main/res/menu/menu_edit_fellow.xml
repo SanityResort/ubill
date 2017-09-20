@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.butterbrot.heve.ubill.CreateFellowActivity">
+    <item
+        android:id="@+id/save_fellow"
+        android:icon="@drawable/save"
+        android:title="@string/action_save"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/delete_fellow"
+        android:icon="@drawable/delete"
+        android:title="@string/action_delete"
+        app:showAsAction="ifRoom" />
+</menu>

@@ -9,6 +9,7 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/list_fellows"
         android:icon="@drawable/list_fellows"
         android:title="@string/action_list_fellows"
         app:showAsAction="ifRoom" />

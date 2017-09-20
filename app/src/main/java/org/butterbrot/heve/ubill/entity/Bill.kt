@@ -29,4 +29,8 @@ class Bill(@Index val name: String = "", @Transient val fellows: List<Fellow> = 
     fun add(item: Item) {
         items.add(item)
     }
+
+    override fun toString(): String {
+        return name
+    }
 }
