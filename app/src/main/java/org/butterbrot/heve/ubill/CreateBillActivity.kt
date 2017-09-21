@@ -49,8 +49,10 @@ open class CreateBillActivity : BoxActivity<Bill>() {
             R.id.save_bill -> {
                 val billName: String = name.text.trim().toString()
                 when {
-                    billName.isEmpty() -> Snackbar.make(toolbar, R.string.error_bill_name_empty, Snackbar.LENGTH_SHORT).show()
-                    box.find(Bill_.name, billName).isNotEmpty() -> Snackbar.make(toolbar, R.string.error_bill_name_duplicate, Snackbar.LENGTH_SHORT).show()
+                    billName.isEmpty() ->
+                        Snackbar.make(toolbar, R.string.error_bill_name_empty, Snackbar.LENGTH_SHORT).show()
+                    box.find(Bill_.name, billName).isNotEmpty() ->
+                        Snackbar.make(toolbar, R.string.error_bill_name_duplicate, Snackbar.LENGTH_SHORT).show()
                     else -> {
                         box.put(Bill(billName, fellows))
                         finish()
@@ -58,7 +60,7 @@ open class CreateBillActivity : BoxActivity<Bill>() {
                 }
                 return true
             }
-            R.id.add_fellows -> {
+            R.id.change_fellows -> {
                 FellowSelectActivity.call(this, kotlin.LongArray(0)
                         .plus(fellows.map { it.id }), kotlin.LongArray(0))
                 return true

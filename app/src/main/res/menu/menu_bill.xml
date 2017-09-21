@@ -1,15 +1,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="org.butterbrot.heve.ubill.CreateBillActivity">
+    tools:context="org.butterbrot.heve.ubill.BillListActivity">
+
     <item
         android:id="@+id/update_bill"
         android:icon="@drawable/save"
         android:title="@string/action_save"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/change_fellows"
-        android:icon="@drawable/change_fellows"
-        android:title="@string/action_change_fellows"
+        android:id="@+id/edit_bill"
+        android:icon="@drawable/edit"
+        android:title="@string/action_edit"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/delete_bill"
+        android:icon="@drawable/delete"
+        android:title="@string/action_delete"
+        app:showAsAction="ifRoom" />
+
 </menu>

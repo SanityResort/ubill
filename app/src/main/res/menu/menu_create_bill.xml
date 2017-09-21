@@ -8,8 +8,8 @@
         android:title="@string/action_save"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/add_fellows"
-        android:icon="@drawable/add_fellows"
-        android:title="@string/action_add_fellow"
+        android:id="@+id/change_fellows"
+        android:icon="@drawable/change_fellows"
+        android:title="@string/action_change_fellows"
         app:showAsAction="ifRoom" />
 </menu>

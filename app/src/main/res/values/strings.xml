@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">U Bill</string>
 
-    <string name="action_add_fellow">Add Fellows</string>
+    <string name="action_change_fellows">Add Fellows</string>
+    <string name="action_create_bill">New Bill</string>
     <string name="action_create_fellow">Create Fellow</string>
     <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
     <string name="action_list_fellows">List Fellows</string>
-    <string name="action_new_bill">New Bill</string>
     <string name="action_save">Save</string>
 
     <string name="error_bill_name_empty">Bill name cannot be empty</string>

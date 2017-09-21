@@ -28,8 +28,10 @@ class EditBillActivity : CreateBillActivity() {
             R.id.update_bill -> {
                 val billName: String = name.text.trim().toString()
                 when {
-                    billName.isEmpty() -> Snackbar.make(toolbar, R.string.error_bill_name_empty, Snackbar.LENGTH_SHORT).show()
-                    billName != bill.name && box.find(Bill_.name, billName).isNotEmpty() -> Snackbar.make(toolbar, R.string.error_bill_name_duplicate, Snackbar.LENGTH_SHORT).show()
+                    billName.isEmpty() ->
+                        Snackbar.make(toolbar, R.string.error_bill_name_empty, Snackbar.LENGTH_SHORT).show()
+                    billName != bill.name && box.find(Bill_.name, billName).isNotEmpty() ->
+                        Snackbar.make(toolbar, R.string.error_bill_name_duplicate, Snackbar.LENGTH_SHORT).show()
                     else -> {
                         bill.name = billName
                         bill.setFellows(fellows)
@@ -39,10 +41,9 @@ class EditBillActivity : CreateBillActivity() {
                 }
                 return true
             }
-            R.id.delete_bill -> {
-                return true
-            }
             R.id.change_fellows -> {
+                FellowSelectActivity.call(this, bill.fellowsRelation.map { it.id }.toLongArray(),
+                        bill.fellowsInSplittings())
                 return true
             }
             else -> {
