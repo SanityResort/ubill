@@ -11,26 +11,16 @@ class Bill(@Index var name: String = "", @Transient private var fellows: List<Fe
 
     @Id
     var id: Long = 0
-    private var remainder: Int = 0
     lateinit var fellowsRelation: ToMany<Fellow>
 
     init {
-        updateRemainder()
         fellowsRelation.addAll(fellows)
-    }
-
-    private fun updateRemainder() {
-        items.forEach { item -> remainder += item.remainder }
     }
 
     fun setFellows(fellows: List<Fellow>) {
         this.fellows = fellows
         fellowsRelation.clear()
         fellowsRelation.addAll(fellows)
-    }
-
-    fun getRemainder(): Int {
-        return remainder;
     }
 
     fun add(item: Item) {

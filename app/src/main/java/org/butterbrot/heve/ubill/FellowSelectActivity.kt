@@ -87,6 +87,10 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
                 finish()
                 return true
             }
+            R.id.list_fellows -> {
+                FellowListActivity.call(this)
+                return true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

@@ -45,7 +45,7 @@ open class CreateBillActivity : BoxActivity<Bill>() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.save_bill -> {
                 val billName: String = name.text.trim().toString()
                 when {
@@ -58,14 +58,14 @@ open class CreateBillActivity : BoxActivity<Bill>() {
                         finish()
                     }
                 }
-                return true
+                true
             }
             R.id.change_fellows -> {
                 FellowSelectActivity.call(this, kotlin.LongArray(0)
                         .plus(fellows.map { it.id }), kotlin.LongArray(0))
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
