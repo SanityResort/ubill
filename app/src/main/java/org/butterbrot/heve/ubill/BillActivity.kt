@@ -87,6 +87,10 @@ class BillActivity : BoxActivity<Bill>() {
                 EditBillActivity.call(this, bill.id)
                 true
             }
+            R.id.create_item -> {
+                CreateItemActivity.call(this, bill.id)
+                true
+            }
             else -> {
                 super.onOptionsItemSelected(item)
             }

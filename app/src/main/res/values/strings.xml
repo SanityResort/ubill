@@ -4,6 +4,7 @@
     <string name="action_change_fellows">Add Fellows</string>
     <string name="action_create_bill">New Bill</string>
     <string name="action_create_fellow">Create Fellow</string>
+    <string name="action_create_item">Create Item</string>
     <string name="action_delete">Delete</string>
     <string name="action_edit">Edit</string>
     <string name="action_list_fellows">List Fellows</string>
@@ -31,5 +32,6 @@
     <string name="title_activity_select_fellows">Choose Fellows</string>
 
     <string name="title_dialog_delete_fellow">Delete Fellow</string>
+    <string name="title_activity_create_item">CreateItemActivity</string>
 
 </resources>

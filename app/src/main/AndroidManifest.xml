@@ -49,6 +49,10 @@
         <activity
             android:name=".EditBillActivity"
             android:label="@string/title_activity_edit_bill"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CreateItemActivity"
+            android:label="@string/title_activity_create_item"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

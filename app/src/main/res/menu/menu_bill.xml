@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.butterbrot.heve.ubill.BillListActivity">
 
+    <item android:id="@+id/create_item"
+        android:icon="@drawable/create"
+        android:title="@string/action_create_item"
+        app:showAsAction="ifRoom"
+        />
     <item
         android:id="@+id/edit_bill"
         android:icon="@drawable/edit"
