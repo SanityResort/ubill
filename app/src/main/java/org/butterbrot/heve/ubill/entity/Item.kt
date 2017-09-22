@@ -12,8 +12,10 @@ class Item (val name: String = "", val sum: Int = 0, val splittings: List<Splitt
     var remainder: Int = sum
 
     init {
-        val totalValue: Int = splittings.map { splitting -> splitting.amount }.reduceRight{acc, value -> acc + value}
-        remainder -= totalValue
+        if (splittings.isNotEmpty()) {
+            val totalValue: Int = splittings.map { splitting -> splitting.amount }.reduceRight { acc, value -> acc + value }
+            remainder -= totalValue
+        }
     }
 
     fun fellowsInSplittings(): List<Long> {

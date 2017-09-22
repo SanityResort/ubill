@@ -25,9 +25,11 @@ class CreateItemActivity : BoxActivity<Bill>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.save_item -> {
-                val newItem = Item("test", 10, listOf(Splitting(bill.fellowsRelation[0], 5),
-                        Splitting(bill.fellowsRelation[1], 5)))
-                bill.add(newItem)
+                for (i in 1..50) {
+                    val newItem = Item("test", 10, listOf(Splitting(bill.fellowsRelation[0], 5),
+                            Splitting(bill.fellowsRelation[1], 5)))
+                    bill.add(newItem)
+                }
                 box.put(bill)
                 finish()
                 true
@@ -38,7 +40,7 @@ class CreateItemActivity : BoxActivity<Bill>() {
 
     companion object {
         fun call(context: Context, id: Long) {
-            val intent = Intent(context, BillActivity::class.java)
+            val intent = Intent(context, CreateItemActivity::class.java)
             intent.putExtra(InterfaceConstants.PARAM_BILL, id)
             context.startActivity(intent)
         }

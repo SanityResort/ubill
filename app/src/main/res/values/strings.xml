@@ -21,17 +21,19 @@
     <string name="label_create_bill_fellows">Fellows</string>
     <string name="label_total">Total</string>
 
+    <string name="message_dialog_delete_bill">Are you sure you want to delete bill %1$s</string>
     <string name="message_dialog_delete_fellow">Are you sure you want to delete fellow %1$s</string>
 
     <string name="title_activity_bill">%1s</string>
     <string name="title_activity_create_bill">Create Bill</string>
     <string name="title_activity_create_fellow">Create Fellow</string>
+    <string name="title_activity_create_item">Create Item</string>
     <string name="title_activity_edit_bill">Edit %1s</string>
     <string name="title_activity_edit_fellow">Edit Fellow</string>
     <string name="title_activity_list_fellows">Fellows</string>
     <string name="title_activity_select_fellows">Choose Fellows</string>
 
+    <string name="title_dialog_delete_bill">Delete Bill</string>
     <string name="title_dialog_delete_fellow">Delete Fellow</string>
-    <string name="title_activity_create_item">CreateItemActivity</string>
 
 </resources>
