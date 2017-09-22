@@ -4,7 +4,7 @@ import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id
 
 @Entity
-class Item (val name: String, val sum: Int = 0, val splittings: List<Splitting> = listOf()) {
+class Item (val name: String = "", val sum: Int = 0, val splittings: List<Splitting> = listOf()) {
 
     @Id
     var id: Long = 0

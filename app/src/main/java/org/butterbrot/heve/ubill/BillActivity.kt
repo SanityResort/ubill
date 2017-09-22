@@ -3,7 +3,6 @@ package org.butterbrot.heve.ubill
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.MenuItem
 import android.widget.TableRow
 import android.widget.TextView
@@ -22,12 +21,15 @@ class BillActivity : BoxActivity<Bill>() {
     private lateinit var bill: Bill
     private var id: Long = 0
     private val itemViews: MutableMap<Long, TableRow> = mutableMapOf()
-    private val nameRow: TableRow = TableRow(this)
-    private val totalsRow: TableRow = TableRow(this)
+    private lateinit var nameRow: TableRow
+    private lateinit var totalsRow: TableRow
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         id = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
+
+        nameRow = TableRow(this)
+        totalsRow = TableRow(this)
         nameRow.tag="sticky"
         totalsRow.tag="sticky"
     }
@@ -35,7 +37,7 @@ class BillActivity : BoxActivity<Bill>() {
     override fun onResume() {
         super.onResume()
         bill = box[id]
-        actionBar.title = getString(R.string.title_activity_bill, bill.name)
+        supportActionBar?.title = getString(R.string.title_activity_bill, bill.name)
         val fellows = bill.fellowsRelation.sortedBy { it.name }
         val amounts: MutableMap<Fellow, Int> = fellows.associate { it -> it to 0 }.toMutableMap()
         var remainder: Int = 0
@@ -59,6 +61,9 @@ class BillActivity : BoxActivity<Bill>() {
             nameRow.addView(createCell(it.name))
             totalsRow.addView(createCell((amounts.get(it)?: 0).toString()))
         }
+
+        table.addView(nameRow)
+        table.addView(totalsRow)
 
         bill.items.forEach{
             val row = TableRow(this)

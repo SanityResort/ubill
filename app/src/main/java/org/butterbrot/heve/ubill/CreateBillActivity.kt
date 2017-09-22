@@ -14,8 +14,7 @@ import org.butterbrot.heve.ubill.entity.Bill_
 import org.butterbrot.heve.ubill.entity.Fellow
 import org.butterbrot.heve.ubill.entity.Fellow_
 
-
-open class CreateBillActivity : BoxActivity<Bill>() {
+class CreateBillActivity : BoxActivity<Bill>() {
 
     override val layoutId: Int
         get() = R.layout.activity_upsert_bill
@@ -23,7 +22,7 @@ open class CreateBillActivity : BoxActivity<Bill>() {
     override val menuId: Int
         get() = R.menu.menu_create_bill
 
-    var fellows: List<Fellow> = listOf()
+    private var fellows: List<Fellow> = listOf()
 
     private lateinit var fellowBox: Box<Fellow>
 
@@ -54,7 +53,7 @@ open class CreateBillActivity : BoxActivity<Bill>() {
                     box.find(Bill_.name, billName).isNotEmpty() ->
                         Snackbar.make(toolbar, R.string.error_bill_name_duplicate, Snackbar.LENGTH_SHORT).show()
                     else -> {
-                        box.put(Bill(billName, fellows))
+                        box.put(Bill(billName, fellows, mutableListOf()))
                         finish()
                     }
                 }
