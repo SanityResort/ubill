@@ -53,7 +53,12 @@
         <activity
             android:name=".CreateItemActivity"
             android:label="@string/title_activity_create_item"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ChooseParticipantsActivity"
+            android:label="@string/title_activity_choose_participants"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

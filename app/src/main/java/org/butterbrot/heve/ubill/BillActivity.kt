@@ -45,13 +45,13 @@ class BillActivity : BoxActivity<Bill>() {
         super.onResume()
         bill = box[id]
         supportActionBar?.title = getString(R.string.title_activity_bill, bill.name)
-        val fellows = bill.fellowsRelation.sortedBy { it.name }
+        val fellows = bill.fellows.sortedBy { it.name }
         val amounts: MutableMap<Fellow, Int> = fellows.associate { it -> it to 0 }.toMutableMap()
         var remainder: Int = 0
         bill.items.forEach {
-            remainder += it.remainder
+            remainder += it.remainder()
             it.splittings.forEach {
-                val fellow = it.fellowRelation.target
+                val fellow = it.fellow.target
                 val oldAmount = amounts[fellow] ?: 0
                 amounts.put(fellow, oldAmount.plus(it.amount))
             }
@@ -62,11 +62,11 @@ class BillActivity : BoxActivity<Bill>() {
         table.removeAllViews()
 
         nameRow.addView(TextView(this))
-        totalsRow.addView(createCell(getString(R.string.label_total)))
+        totalsRow.addView(createCell(getString(R.string.label_bill_total)))
 
         fellows.forEach {
             nameRow.addView(createCell(it.name))
-            totalsRow.addView(createCell((amounts.get(it) ?: 0).toString()))
+            totalsRow.addView(createCell(((amounts[it] ?: 0).toDouble()/100).toString()))
         }
 
         table.addView(nameRow)
@@ -75,8 +75,11 @@ class BillActivity : BoxActivity<Bill>() {
         bill.items.forEach {
             val row = TableRow(this)
             row.addView(createCell(it.name))
-            it.splittings.sortedBy { fellows.indexOf(it.fellowRelation.target) }.forEach {
-                row.addView(createCell(it.amount.toString()))
+            val item = it
+            fellows.forEach{
+                val fellow = it
+                val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
+                row.addView(createCell((amount.toDouble()/100).toString()))
             }
             table.addView(row)
         }
@@ -106,7 +109,7 @@ class BillActivity : BoxActivity<Bill>() {
                 true
             }
             R.id.create_item -> {
-                CreateItemActivity.call(this, bill.id)
+                ChooseParticipantsActivity.call(this, bill.id)
                 true
             }
             else -> {

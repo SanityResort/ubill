@@ -6,21 +6,22 @@ import io.objectbox.annotation.Index
 import io.objectbox.relation.ToMany
 
 @Entity
-class Bill(@Index var name: String = "", @Transient private var fellows: List<Fellow> = listOf(),
-           val items: MutableList<Item> = mutableListOf()) {
+class Bill(@Index var name: String = "", @Transient private val fellowsParam: List<Fellow> = listOf(),
+           @Transient private val itemsParam: List<Item> = listOf()) {
 
     @Id
     var id: Long = 0
-    lateinit var fellowsRelation: ToMany<Fellow>
+    lateinit var fellows: ToMany<Fellow>
+    lateinit var items: ToMany<Item>
 
     init {
-        fellowsRelation.addAll(fellows)
+        fellows.addAll(fellowsParam)
+        items.addAll(itemsParam)
     }
 
     fun setFellows(fellows: List<Fellow>) {
-        this.fellows = fellows
-        fellowsRelation.clear()
-        fellowsRelation.addAll(fellows)
+        this.fellows.clear()
+        this.fellows.addAll(fellows)
     }
 
     fun add(item: Item) {
@@ -32,7 +33,7 @@ class Bill(@Index var name: String = "", @Transient private var fellows: List<Fe
     }
 
     fun  hasFellow(fellow: Fellow): Boolean {
-        return fellowsRelation.any{ it == fellow }
+        return fellows.any{ it == fellow }
     }
 
     fun fellowsInSplittings(): LongArray {

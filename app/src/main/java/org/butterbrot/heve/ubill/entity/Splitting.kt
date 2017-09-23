@@ -5,15 +5,14 @@ import io.objectbox.annotation.Id
 import io.objectbox.relation.ToOne
 
 @Entity
-class Splitting(@Transient private var fellow: Fellow? = null, val amount: Int = 0) {
+class Splitting(@Transient private var fellowParam: Fellow? = null, val amount: Int = 0) {
 
     @Id
     var id: Long = 0
 
-    lateinit var fellowRelation: ToOne<Fellow>
+    lateinit var fellow: ToOne<Fellow>
 
-    fun updateFellow(fellow: Fellow) {
-        this.fellow = fellow
-        fellowRelation.target = fellow
+    init {
+        this.fellow.target = fellowParam
     }
 }

@@ -2,6 +2,7 @@
     <string name="app_name">U Bill</string>
 
     <string name="action_change_fellows">Add Fellows</string>
+    <string name="action_choose_participants">Choose Participants</string>
     <string name="action_create_bill">New Bill</string>
     <string name="action_create_fellow">Create Fellow</string>
     <string name="action_create_item">Create Item</string>
@@ -11,20 +12,25 @@
     <string name="action_save">Save</string>
 
     <string name="error_bill_name_empty">Bill name cannot be empty</string>
-    <string name="error_bill_name_duplicate">A Bill with that name already exists</string>
+    <string name="error_bill_name_duplicate">A bill with that name already exists</string>
     <string name="error_fellow_name_empty">Fellow name cannot be empty</string>
-    <string name="error_fellow_name_duplicate">A Fellow with that name already exists</string>
+    <string name="error_fellow_name_duplicate">A fellow with that name already exists</string>
     <string name="error_fellow_referenced_in_bills">Cannot delete fellow %1s, it is still referenced in: %2s</string>
     <string name="error_fellow_referenced_in_splittings">Cannot deselect fellow %1s, it his still referenced in items</string>
+    <string name="error_item_name_empty">Item name cannot be empty</string>
+    <string name="error_item_name_duplicate">An item with that name already exists in this bill</string>
 
+    <string name="label_bill_total">Total</string>
     <string name="label_create_bill_name">Name</string>
     <string name="label_create_bill_fellows">Fellows</string>
-    <string name="label_total">Total</string>
+    <string name="label_create_item_name">Name</string>
+    <string name="label_create_item_sum">Amount</string>
 
     <string name="message_dialog_delete_bill">Are you sure you want to delete bill %1$s</string>
     <string name="message_dialog_delete_fellow">Are you sure you want to delete fellow %1$s</string>
 
     <string name="title_activity_bill">%1s</string>
+    <string name="title_activity_choose_participants">Choose Participants</string>
     <string name="title_activity_create_bill">Create Bill</string>
     <string name="title_activity_create_fellow">Create Fellow</string>
     <string name="title_activity_create_item">Create Item</string>
@@ -35,5 +41,6 @@
 
     <string name="title_dialog_delete_bill">Delete Bill</string>
     <string name="title_dialog_delete_fellow">Delete Fellow</string>
+    <string name="label_create_item_payer">Payed By</string>
 
 </resources>

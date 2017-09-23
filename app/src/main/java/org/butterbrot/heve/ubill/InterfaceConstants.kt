@@ -12,6 +12,7 @@ object InterfaceConstants {
 
     val RC_SELECT_FELLOWS: Int = 1
     val RC_CREATE_FELLOW: Int = 2
+    val RC_CREATE_ITEM: Int = 3
 
     val RESULT_CANCELED: Int = Activity.RESULT_CANCELED
     val RESULT_SUCCESS: Int = Activity.RESULT_OK

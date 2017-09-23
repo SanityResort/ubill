@@ -2,23 +2,31 @@ package org.butterbrot.heve.ubill.entity;
 
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id
+import io.objectbox.relation.ToMany
 
 @Entity
-class Item (val name: String = "", val sum: Int = 0, val splittings: List<Splitting> = listOf()) {
+class Item(val name: String = "", val sum: Int = 0, @Transient private val splittingsParam: List<Splitting> = listOf()) {
 
     @Id
     var id: Long = 0
-
-    var remainder: Int = sum
+    lateinit var splittings: ToMany<Splitting>
 
     init {
-        if (splittings.isNotEmpty()) {
-            val totalValue: Int = splittings.map { splitting -> splitting.amount }.reduceRight { acc, value -> acc + value }
-            remainder -= totalValue
+        splittings.addAll(splittingsParam)
+    }
+
+    fun remainder(): Int {
+        return when {
+            splittings.isEmpty() -> sum
+            else -> {
+                val totalValue: Int = splittings.map { splitting -> splitting.amount }.reduceRight { acc, value -> acc + value }
+                return sum - totalValue
+            }
+
         }
     }
 
     fun fellowsInSplittings(): List<Long> {
-        return splittings.map { it.fellowRelation.target.id  }
+        return splittings.map { it.fellow.target.id }
     }
 }

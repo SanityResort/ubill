@@ -33,7 +33,7 @@ class EditBillActivity : BoxActivity<Bill>() {
         bill = box[id]
         supportActionBar?.title = getString(R.string.title_activity_edit_bill, bill.name)
         name.setText(bill.name)
-        fellows = bill.fellowsRelation
+        fellows = bill.fellows
         fellow_list.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fellows.map { it.name })
 
     }
@@ -66,7 +66,7 @@ class EditBillActivity : BoxActivity<Bill>() {
                 return true
             }
             R.id.change_fellows -> {
-                FellowSelectActivity.call(this, bill.fellowsRelation.map { it.id }.toLongArray(),
+                FellowSelectActivity.call(this, bill.fellows.map { it.id }.toLongArray(),
                         bill.fellowsInSplittings())
                 return true
             }
