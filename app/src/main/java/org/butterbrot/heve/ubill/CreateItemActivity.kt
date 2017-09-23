@@ -55,8 +55,9 @@ class CreateItemActivity : BoxActivity<Bill>() {
 
     private fun createItem(itemName: String): Item {
         if (splitEvenly) {
-            val totalAmount = (sum.text.toString().toDouble() * 100).toInt()
-            val splitAmount: Int = totalAmount / participants.size
+            val totalAmountDouble: Double = (sum.text.toString().toDouble() * 100)
+            val totalAmount = totalAmountDouble.toInt()
+            val splitAmount: Int = Math.round(totalAmountDouble / participants.size).toInt()
             val payerAmount: Int = totalAmount - splitAmount
             val payingParticipant: Fellow = participants[payer.selectedItemPosition]
             return Item(itemName, totalAmount, participants.map {

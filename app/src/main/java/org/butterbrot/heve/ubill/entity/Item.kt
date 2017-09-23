@@ -15,17 +15,6 @@ class Item(val name: String = "", val sum: Int = 0, @Transient private val split
         splittings.addAll(splittingsParam)
     }
 
-    fun remainder(): Int {
-        return when {
-            splittings.isEmpty() -> sum
-            else -> {
-                val totalValue: Int = splittings.map { splitting -> splitting.amount }.reduceRight { acc, value -> acc + value }
-                return sum - totalValue
-            }
-
-        }
-    }
-
     fun fellowsInSplittings(): List<Long> {
         return splittings.map { it.fellow.target.id }
     }

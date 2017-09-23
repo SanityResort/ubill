@@ -47,9 +47,7 @@ class BillActivity : BoxActivity<Bill>() {
         supportActionBar?.title = getString(R.string.title_activity_bill, bill.name)
         val fellows = bill.fellows.sortedBy { it.name }
         val amounts: MutableMap<Fellow, Int> = fellows.associate { it -> it to 0 }.toMutableMap()
-        var remainder: Int = 0
         bill.items.forEach {
-            remainder += it.remainder()
             it.splittings.forEach {
                 val fellow = it.fellow.target
                 val oldAmount = amounts[fellow] ?: 0
