@@ -22,7 +22,6 @@ class CreateItemActivity : BoxActivity<Bill>() {
 
     private lateinit var bill: Bill
     private lateinit var participants: List<Fellow>
-    private lateinit var viewMap: MutableMap<Fellow, View>
     private var splitEvenly: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +46,10 @@ class CreateItemActivity : BoxActivity<Bill>() {
                         finish()
                     }
                 }
+                true
+            }
+            R.id.split -> {
+                SplitActivity.call(this, participants.map { it.name }.toTypedArray(), kotlin.IntArray(0).plus(10).plus(11).plus(12), 40)
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -9,4 +9,10 @@
         android:title="@string/action_save"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/split"
+        android:icon="@drawable/split"
+        android:title="@string/action_split"
+        app:showAsAction="ifRoom" />
+
 </menu>

@@ -5,7 +5,9 @@ import io.objectbox.annotation.Id
 import io.objectbox.relation.ToMany
 
 @Entity
-class Item(val name: String = "", val sum: Int = 0, @Transient private val splittingsParam: List<Splitting> = listOf()) {
+class Item(val name: String = "", var sum: Int = 0,
+           @Transient private val splittingsParam: List<Splitting> = listOf(),
+           var splitEvenly: Boolean = true) {
 
     @Id
     var id: Long = 0
@@ -17,5 +19,10 @@ class Item(val name: String = "", val sum: Int = 0, @Transient private val split
 
     fun fellowsInSplittings(): List<Long> {
         return splittings.map { it.fellow.target.id }
+    }
+
+    fun updateSplittings(splittings: List<Splitting>) {
+        this.splittings.clear()
+        this.splittings.addAll(splittings)
     }
 }

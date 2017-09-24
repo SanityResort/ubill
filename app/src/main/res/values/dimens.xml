@@ -1,4 +1,8 @@
 <resources>
-    <dimen name="activity_padding">10dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="padding_activity">10dp</dimen>
+    <dimen name="padding_split_table_top_left">2dp</dimen>
+    <dimen name="padding_split_table_top_right">2dp</dimen>
+    <dimen name="padding_split_table_top_top">1dp</dimen>
+    <dimen name="padding_split_table_top_bottom">1dp</dimen>
+    <dimen name="padding_split_table_bottom_top">2dp</dimen>
 </resources>

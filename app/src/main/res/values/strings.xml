@@ -3,6 +3,7 @@
 
     <string name="action_change_fellows">Add Fellows</string>
     <string name="action_choose_participants">Choose Participants</string>
+    <string name="action_confirm">Confirm</string>
     <string name="action_create_bill">New Bill</string>
     <string name="action_create_fellow">Create Fellow</string>
     <string name="action_create_item">Create Item</string>
@@ -10,6 +11,7 @@
     <string name="action_edit">Edit</string>
     <string name="action_list_fellows">List Fellows</string>
     <string name="action_save">Save</string>
+    <string name="action_split">Split Manually</string>
 
     <string name="error_bill_name_empty">Bill name cannot be empty</string>
     <string name="error_bill_name_duplicate">A bill with that name already exists</string>
@@ -24,7 +26,12 @@
     <string name="label_create_bill_name">Name</string>
     <string name="label_create_bill_fellows">Fellows</string>
     <string name="label_create_item_name">Name</string>
+    <string name="label_create_item_payer">Paid By</string>
     <string name="label_create_item_sum">Amount</string>
+    <string name="label_split_claim">Claim Rest</string>
+    <string name="label_split_distribute">Distribute Rest</string>
+    <string name="label_split_sum">Total Amount: %1f</string>
+    <string name="label_split_rest">Rest: %1f</string>
 
     <string name="message_dialog_delete_bill">Are you sure you want to delete bill %1$s</string>
     <string name="message_dialog_delete_fellow">Are you sure you want to delete fellow %1$s</string>
@@ -38,9 +45,9 @@
     <string name="title_activity_edit_fellow">Edit Fellow</string>
     <string name="title_activity_list_fellows">Fellows</string>
     <string name="title_activity_select_fellows">Choose Fellows</string>
+    <string name="title_activity_split">Split Manually</string>
 
     <string name="title_dialog_delete_bill">Delete Bill</string>
     <string name="title_dialog_delete_fellow">Delete Fellow</string>
-    <string name="label_create_item_payer">Payed By</string>
 
 </resources>

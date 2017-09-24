@@ -58,7 +58,11 @@
         <activity
             android:name=".ChooseParticipantsActivity"
             android:label="@string/title_activity_choose_participants"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SplitActivity"
+            android:label="@string/title_activity_split"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
