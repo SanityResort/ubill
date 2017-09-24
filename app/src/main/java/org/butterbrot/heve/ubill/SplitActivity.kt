@@ -25,13 +25,16 @@ class SplitActivity : AppCompatActivity() {
 
         val allSplits = existingSplits.reduceRight { i, acc -> acc + i }
 
+        sum.text = NumberUtil.toText(totalAmount)
+        rest.text = NumberUtil.toText(totalAmount - allSplits)
+
         participantNames.forEachIndexed { index, participantName ->
             val amount: Int = existingSplits[index]
 
             val nameView = TextView(this)
             nameView.text = participantName
             nameView.gravity = Gravity.START
-            nameView.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            nameView.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
             val top = LinearLayout(this@SplitActivity)
 
             top.setPadding(NumberUtil.getDimension(R.dimen.padding_split_table_top_left, this),
@@ -48,10 +51,10 @@ class SplitActivity : AppCompatActivity() {
             val bottom = LinearLayout(this@SplitActivity)
             val distributeButton = Button(this)
             distributeButton.setText(R.string.label_split_distribute)
-            distributeButton.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
+            distributeButton.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
             val claimButton = Button(this)
             claimButton.setText(R.string.label_split_claim)
-            claimButton.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
+            claimButton.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
 
             bottom.addView(distributeButton)
             bottom.addView(claimButton)
@@ -59,7 +62,7 @@ class SplitActivity : AppCompatActivity() {
             val separator: ImageView = ImageView(this)
             separator.setImageResource(R.drawable.separator)
             separator.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
+            separator.scaleType = ImageView.ScaleType.FIT_XY
             val wrapper = LinearLayout(this@SplitActivity)
             wrapper.orientation = LinearLayout.VERTICAL
             wrapper.addView(separator)

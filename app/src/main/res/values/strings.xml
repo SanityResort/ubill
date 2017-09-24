@@ -30,8 +30,8 @@
     <string name="label_create_item_sum">Amount</string>
     <string name="label_split_claim">Claim Rest</string>
     <string name="label_split_distribute">Distribute Rest</string>
-    <string name="label_split_sum">Total Amount: %1f</string>
-    <string name="label_split_rest">Rest: %1f</string>
+    <string name="label_split_sum">Total Amount:</string>
+    <string name="label_split_rest">Rest:</string>
 
     <string name="message_dialog_delete_bill">Are you sure you want to delete bill %1$s</string>
     <string name="message_dialog_delete_fellow">Are you sure you want to delete fellow %1$s</string>
