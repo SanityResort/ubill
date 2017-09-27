@@ -13,8 +13,8 @@ class NumberView(context: Context, attributeSet: AttributeSet?, defStyleAttr: In
         return BufferType.NORMAL
     }
 
-    constructor(context: Context) : this(context, null, 0, 0)
-    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0, 0)
+    constructor(context: Context) : this(context, null, android.R.attr.textViewStyle, 0)
+    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, android.R.attr.textViewStyle, 0)
     constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
             : this(context, attributeSet, defStyleAttr, 0)
 

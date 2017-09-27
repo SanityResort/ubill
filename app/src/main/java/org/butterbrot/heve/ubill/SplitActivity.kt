@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.Menu
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import android.widget.*
 import kotlinx.android.synthetic.main.activity_split.*
 import kotlinx.android.synthetic.main.content_split.*
 import org.butterbrot.heve.ubill.util.NumberUtil
+import org.butterbrot.heve.ubill.view.EditNumber
 
 class SplitActivity : AppCompatActivity() {
 
@@ -23,13 +26,17 @@ class SplitActivity : AppCompatActivity() {
         val participantNames: Array<String> = intent.getStringArrayExtra(InterfaceConstants.PARAM_FELLOWS)
         val totalAmount: Int = intent.getIntExtra(InterfaceConstants.PARAM_AMOUNT, 0)
 
-        val allSplits = existingSplits.reduceRight { i, acc -> acc + i }
+        sum.setNumber(totalAmount)
 
-        sum.text = NumberUtil.toText(totalAmount)
-        rest.text = NumberUtil.toText(totalAmount - allSplits)
+        fun setRest() {
+            val allSplits = existingSplits.reduceRight { i, acc -> acc + i }
+            rest.setNumber(totalAmount - allSplits)
+        }
+
+        setRest()
 
         participantNames.forEachIndexed { index, participantName ->
-            val amount: Int = existingSplits[index]
+            val amount: Int = existingSplits[index] ?: 0
 
             val nameView = TextView(this)
             nameView.text = participantName
@@ -43,10 +50,24 @@ class SplitActivity : AppCompatActivity() {
                     NumberUtil.getDimension(R.dimen.padding_split_table_top_bottom, this))
             top.addView(nameView)
 
-            val editView = EditText(this@SplitActivity)
-            editView.setText(NumberUtil.toText(amount))
-            editView.gravity = Gravity.END
-            top.addView(editView)
+            val editAmount = EditNumber(this@SplitActivity)
+            editAmount.setNumber(amount)
+            editAmount.gravity = Gravity.END
+            editAmount.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    // NOOP
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // NOOP
+                }
+
+                override fun afterTextChanged(editable: Editable) {
+                    existingSplits[index] = editAmount.getNumber()
+                    setRest()
+                }
+            })
+            top.addView(editAmount)
 
             val bottom = LinearLayout(this@SplitActivity)
             val distributeButton = Button(this)

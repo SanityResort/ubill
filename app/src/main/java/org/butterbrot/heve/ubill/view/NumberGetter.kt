@@ -8,6 +8,10 @@ interface NumberGetter : NumberSetter {
     fun getText(): Editable
 
     fun getNumber(): Int {
-        return (getText().toString().toDouble() * 100).toInt()
+        val text = getText().toString()
+        if (text.isEmpty()) {
+            return 0
+        }
+        return (text.toDouble() * 100).toInt()
     }
 }

@@ -7,10 +7,13 @@ import android.widget.EditText
 
 
 class EditNumber(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int, defStyleRes: Int)
-    : EditText(context, attributeSet, defStyleAttr, defStyleRes) {
+    : EditText(context, attributeSet, defStyleAttr, defStyleRes), NumberGetter {
+    override fun getBufferType(): BufferType {
+        return BufferType.EDITABLE
+    }
 
-    constructor(context: Context) : this(context, null, 0, 0)
-    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, 0, 0)
+    constructor(context: Context) : this(context, null, android.R.attr.editTextStyle, 0)
+    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, android.R.attr.editTextStyle, 0)
     constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
             : this(context, attributeSet, defStyleAttr, 0)
 
