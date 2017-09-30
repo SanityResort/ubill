@@ -21,6 +21,7 @@
     <string name="error_fellow_referenced_in_splittings">Cannot deselect fellow %1s, it his still referenced in items</string>
     <string name="error_item_name_empty">Item name cannot be empty</string>
     <string name="error_item_name_duplicate">An item with that name already exists in this bill</string>
+    <string name="error_split_rest">Rest must be 0</string>
 
     <string name="label_bill_total">Total</string>
     <string name="label_create_bill_name">Name</string>

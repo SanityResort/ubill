@@ -62,7 +62,8 @@
         <activity
             android:name=".SplitActivity"
             android:label="@string/title_activity_split"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>
