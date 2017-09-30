@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Gravity
 import android.view.Menu
+import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.activity_split.*
@@ -30,6 +31,8 @@ class SplitActivity : AppCompatActivity() {
 
         initValues()
 
+        header.addView(createButtonRow(createDistributeToAllButton(), createDistributeToAllZerosButton()), 2)
+
         participantNames.forEachIndexed { index, participantName ->
             val wrapper = createWrapper(index, participantName)
             splits.addView(wrapper)
@@ -38,14 +41,155 @@ class SplitActivity : AppCompatActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds itemsParam to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_split, menu)
+        return true
+    }
+
+    // helpers to set values
+    private fun initValues() {
+        totalAmount = intent.getIntExtra(InterfaceConstants.PARAM_AMOUNT, 0)
+        splitValues = intent.getIntArrayExtra(InterfaceConstants.PARAM_SPLITS)
+        participantNames = intent.getStringArrayExtra(InterfaceConstants.PARAM_FELLOWS)
+
+        sum.setNumber(totalAmount)
+
+        updateRest()
+    }
+
+    private fun updateSplit(index: Int, newValue: Int) {
+        splitValues[index] = newValue
+        editAmounts[index].setNumber(newValue)
+    }
+
+    private fun updateRest() {
+        val allSplits = splitValues.reduceRight { i, acc -> acc + i }
+        rest.setNumber(totalAmount - allSplits)
+    }
+
+    // create buttons
+    private fun createClaimButton(index: Int): Button {
+        val listener: View.OnClickListener = View.OnClickListener {
+            updateSplit(index, splitValues[index] + rest.getNumber())
+            updateRest()
+        }
+        return createButton(R.string.label_split_claim, listener)
+    }
+
+    private fun createDistributeRestButton(index: Int): Button {
+
+        val listener: View.OnClickListener = View.OnClickListener {
+            if (participantNames.size > 1) {
+                val splitRest = rest.getNumber() / (participantNames.size - 1)
+                splitValues.forEachIndexed { innerIndex, splitValue ->
+                    if (innerIndex != index) {
+                        updateSplit(innerIndex, splitValue + splitRest)
+                    }
+                }
+                updateRest()
+            }
+        }
+        return createButton(R.string.label_split_distribute_rest, listener)
+    }
+
+    private fun createDistributeEverythingElseButton(index: Int): Button {
+
+        val listener: View.OnClickListener = View.OnClickListener {
+            if (participantNames.size > 1) {
+                val splitEverythingElse = (totalAmount - splitValues[index]) / (participantNames.size - 1)
+                splitValues.forEachIndexed { innerIndex, splitValue ->
+                    if (innerIndex != index) {
+                        updateSplit(innerIndex, splitEverythingElse)
+                    }
+                }
+                updateRest()
+            }
+        }
+        return createButton(R.string.label_split_distribute_everything, listener)
+    }
+
+    private fun createSetZeroButton(index: Int): Button {
+        val listener: View.OnClickListener = View.OnClickListener {
+            updateSplit(index, 0)
+            updateRest()
+        }
+        return createButton(R.string.label_split_set_zero, listener)
+    }
+
+    private fun createDistributeToAllButton(): Button {
+        val listener: View.OnClickListener = View.OnClickListener {
+            val splitRest = rest.getNumber()/participantNames.size
+            splitValues.forEachIndexed{ index, splitValue ->
+                updateSplit(index, splitValue + splitRest)
+            }
+            updateRest()
+        }
+        return createButton(R.string.label_split_distribute_to_all, listener)
+    }
+
+    private fun createDistributeToAllZerosButton(): Button {
+        val listener: View.OnClickListener = View.OnClickListener {
+            val indexesWith0: MutableList<Int> = mutableListOf()
+            splitValues.forEachIndexed { index, splitValue  ->
+                if (splitValue == 0){
+                    indexesWith0.add(index)
+                }
+            }
+
+            val splitRest = rest.getNumber()/indexesWith0.size
+            indexesWith0.forEach { zeroIndex ->
+                updateSplit(zeroIndex, splitRest)
+            }
+
+            updateRest()
+        }
+        return createButton(R.string.label_split_distribute_to_all_0s, listener)
+    }
+
+
+    // create views
+    private fun createEditAmount(amount: Int, existingSplits: IntArray, index: Int): EditNumber {
+        val editAmount = EditNumber(this@SplitActivity)
+        editAmount.setNumber(amount)
+        editAmount.gravity = Gravity.END
+        editAmount.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // NOOP
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // NOOP
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                existingSplits[index] = editAmount.getNumber()
+                updateRest()
+            }
+        })
+        editAmounts.add(editAmount)
+        return editAmount
+    }
+
+    private fun createNameView(participantName: String): TextView {
+        val nameView = TextView(this)
+        nameView.text = participantName
+        nameView.gravity = Gravity.START
+        nameView.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        return nameView
+    }
+
+    // view helpers
     private fun createWrapper(index: Int, participantName: String): LinearLayout {
         val top = createValueRow(index, participantName)
-        val bottom = createButtonRow(createDistributeButton(index), createClaimButton(index))
+        val middle = createButtonRow(createDistributeRestButton(index), createClaimButton(index))
+        val bottom = createButtonRow(createDistributeEverythingElseButton(index), createSetZeroButton(index))
         val separator: ImageView = createSeparator()
         val wrapper = LinearLayout(this@SplitActivity)
         wrapper.orientation = LinearLayout.VERTICAL
         wrapper.addView(separator)
         wrapper.addView(top)
+        wrapper.addView(middle)
         wrapper.addView(bottom)
         wrapper.setPadding(0,
                 NumberUtil.getDimension(R.dimen.padding_split_table_bottom_top, this),
@@ -69,37 +213,12 @@ class SplitActivity : AppCompatActivity() {
         return bottom
     }
 
-    private fun updateSplit(index: Int, newValue: Int) {
-        splitValues[index] = newValue
-        editAmounts[index].setNumber(newValue)
-        setRest()
-    }
-
-    private fun createClaimButton(index: Int): Button {
-        val claimButton = Button(this)
-        claimButton.setText(R.string.label_split_claim)
-        claimButton.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
-        claimButton.setOnClickListener { _ ->
-            updateSplit(index, splitValues[index] + rest.getNumber())
-        }
-        return claimButton
-    }
-
-    private fun createDistributeButton(index: Int): Button {
-        val distributeButton = Button(this)
-        distributeButton.setText(R.string.label_split_distribute)
-        distributeButton.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
-        return distributeButton
-    }
-
-    private fun initValues() {
-        totalAmount = intent.getIntExtra(InterfaceConstants.PARAM_AMOUNT, 0)
-        splitValues = intent.getIntArrayExtra(InterfaceConstants.PARAM_SPLITS)
-        participantNames = intent.getStringArrayExtra(InterfaceConstants.PARAM_FELLOWS)
-
-        sum.setNumber(totalAmount)
-
-        setRest()
+    private fun createButton(textResId: Int, listener: View.OnClickListener): Button {
+        val button = Button(this)
+        button.setText(textResId)
+        button.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 0.5f)
+        button.setOnClickListener(listener)
+        return button
     }
 
     private fun createValueRow(index: Int, participantName: String): LinearLayout {
@@ -117,48 +236,6 @@ class SplitActivity : AppCompatActivity() {
         val editAmount = createEditAmount(amount, splitValues, index)
         top.addView(editAmount)
         return top
-    }
-
-    private fun setRest() {
-        val allSplits = splitValues.reduceRight { i, acc -> acc + i }
-        rest.setNumber(totalAmount - allSplits)
-    }
-
-
-    private fun createEditAmount(amount: Int, existingSplits: IntArray, index: Int): EditNumber {
-        val editAmount = EditNumber(this@SplitActivity)
-        editAmount.setNumber(amount)
-        editAmount.gravity = Gravity.END
-        editAmount.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // NOOP
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // NOOP
-            }
-
-            override fun afterTextChanged(editable: Editable) {
-                existingSplits[index] = editAmount.getNumber()
-                setRest()
-            }
-        })
-        editAmounts.add(editAmount)
-        return editAmount
-    }
-
-    private fun createNameView(participantName: String): TextView {
-        val nameView = TextView(this)
-        nameView.text = participantName
-        nameView.gravity = Gravity.START
-        nameView.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-        return nameView
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds itemsParam to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_split, menu)
-        return true
     }
 
     companion object {

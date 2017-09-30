@@ -26,11 +26,15 @@
     <string name="label_create_bill_name">Name</string>
     <string name="label_create_bill_fellows">Fellows</string>
     <string name="label_create_item_name">Name</string>
-    <string name="label_create_item_payer">Paid By</string>
+    <string name="label_create_item_payer">Paid by</string>
     <string name="label_create_item_sum">Amount</string>
-    <string name="label_split_claim">Claim Rest</string>
-    <string name="label_split_distribute">Distribute Rest</string>
-    <string name="label_split_sum">Total Amount:</string>
+    <string name="label_split_claim">Claim rest</string>
+    <string name="label_split_distribute_rest">Split rest to others</string>
+    <string name="label_split_distribute_everything">Split everything else to others</string>
+    <string name="label_split_set_zero">Set to 0</string>
+    <string name="label_split_distribute_to_all_0s">Split rest to all with 0</string>
+    <string name="label_split_distribute_to_all">Split rest to all</string>
+    <string name="label_split_sum">Total amount:</string>
     <string name="label_split_rest">Rest:</string>
 
     <string name="message_dialog_delete_bill">Are you sure you want to delete bill %1$s</string>
