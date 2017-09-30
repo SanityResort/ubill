@@ -3,9 +3,9 @@ package org.butterbrot.heve.ubill.view
 import android.text.Editable
 
 
-interface NumberGetter : NumberSetter {
+interface NumberGetter<T> : NumberSetter {
 
-    fun getText(): Editable
+    fun getText(): T
 
     fun getNumber(): Int {
         val text = getText().toString()

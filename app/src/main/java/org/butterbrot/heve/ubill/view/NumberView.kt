@@ -11,7 +11,7 @@ class NumberView(
         context: Context,
         attributeSet: AttributeSet?,
         defStyleAttr: Int,
-        defStyleRes: Int): TextView(context, attributeSet, defStyleAttr, defStyleRes), NumberSetter {
+        defStyleRes: Int): TextView(context, attributeSet, defStyleAttr, defStyleRes), NumberGetter<CharSequence> {
 
     private var dynamicColoringEnabled: Boolean = true
 

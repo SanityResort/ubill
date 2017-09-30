@@ -12,7 +12,7 @@ class EditNumber(
         context: Context,
         attributeSet: AttributeSet?,
         defStyleAttr: Int,
-        defStyleRes: Int): EditText(context, attributeSet, defStyleAttr, defStyleRes), NumberGetter {
+        defStyleRes: Int): EditText(context, attributeSet, defStyleAttr, defStyleRes), NumberGetter<Editable> {
 
     override fun getBufferType(): BufferType {
         return BufferType.EDITABLE

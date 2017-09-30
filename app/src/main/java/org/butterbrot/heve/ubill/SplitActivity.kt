@@ -21,6 +21,8 @@ class SplitActivity : AppCompatActivity() {
     private lateinit var splitValues: IntArray
     private lateinit var participantNames: Array<String>
 
+    private var editAmounts: MutableList<EditNumber> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_split)
@@ -38,7 +40,7 @@ class SplitActivity : AppCompatActivity() {
 
     private fun createWrapper(index: Int, participantName: String): LinearLayout {
         val top = createValueRow(index, participantName)
-        val bottom = createButtonRow()
+        val bottom = createButtonRow(index)
         val separator: ImageView = createSeparator()
         val wrapper = LinearLayout(this@SplitActivity)
         wrapper.orientation = LinearLayout.VERTICAL
@@ -60,24 +62,33 @@ class SplitActivity : AppCompatActivity() {
         return separator
     }
 
-    private fun createButtonRow(): LinearLayout {
+    private fun createButtonRow(index: Int): LinearLayout {
         val bottom = LinearLayout(this@SplitActivity)
-        val distributeButton = createDistributeButton()
-        val claimButton = createClaimButton()
+        val distributeButton = createDistributeButton(index)
+        val claimButton = createClaimButton(index)
 
         bottom.addView(distributeButton)
         bottom.addView(claimButton)
         return bottom
     }
 
-    private fun createClaimButton(): Button {
+    private fun updateSplit(index: Int, newValue: Int) {
+        splitValues[index] = newValue
+        editAmounts[index].setNumber(newValue)
+        setRest()
+    }
+
+    private fun createClaimButton(index: Int): Button {
         val claimButton = Button(this)
         claimButton.setText(R.string.label_split_claim)
         claimButton.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
+        claimButton.setOnClickListener { _ ->
+            updateSplit(index, splitValues[index] + rest.getNumber())
+        }
         return claimButton
     }
 
-    private fun createDistributeButton(): Button {
+    private fun createDistributeButton(index: Int): Button {
         val distributeButton = Button(this)
         distributeButton.setText(R.string.label_split_distribute)
         distributeButton.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
@@ -135,6 +146,7 @@ class SplitActivity : AppCompatActivity() {
                 setRest()
             }
         })
+        editAmounts.add(editAmount)
         return editAmount
     }
 
