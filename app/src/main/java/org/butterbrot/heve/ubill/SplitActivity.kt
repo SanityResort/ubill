@@ -17,86 +17,133 @@ import org.butterbrot.heve.ubill.view.EditNumber
 
 class SplitActivity : AppCompatActivity() {
 
+    private var totalAmount: Int = 0
+    private lateinit var splitValues: IntArray
+    private lateinit var participantNames: Array<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_split)
         setSupportActionBar(toolbar)
 
-        val existingSplits: IntArray = intent.getIntArrayExtra(InterfaceConstants.PARAM_SPLITS)
-        val participantNames: Array<String> = intent.getStringArrayExtra(InterfaceConstants.PARAM_FELLOWS)
-        val totalAmount: Int = intent.getIntExtra(InterfaceConstants.PARAM_AMOUNT, 0)
-
-        sum.setNumber(totalAmount)
-
-        fun setRest() {
-            val allSplits = existingSplits.reduceRight { i, acc -> acc + i }
-            rest.setNumber(totalAmount - allSplits)
-        }
-
-        setRest()
+        initValues()
 
         participantNames.forEachIndexed { index, participantName ->
-            val amount: Int = existingSplits[index]
-
-            val nameView = TextView(this)
-            nameView.text = participantName
-            nameView.gravity = Gravity.START
-            nameView.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
-            val top = LinearLayout(this@SplitActivity)
-
-            top.setPadding(NumberUtil.getDimension(R.dimen.padding_split_table_top_left, this),
-                    NumberUtil.getDimension(R.dimen.padding_split_table_top_top, this),
-                    NumberUtil.getDimension(R.dimen.padding_split_table_top_right, this),
-                    NumberUtil.getDimension(R.dimen.padding_split_table_top_bottom, this))
-            top.addView(nameView)
-
-            val editAmount = EditNumber(this@SplitActivity)
-            editAmount.setNumber(amount)
-            editAmount.gravity = Gravity.END
-            editAmount.addTextChangedListener(object : TextWatcher{
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                    // NOOP
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    // NOOP
-                }
-
-                override fun afterTextChanged(editable: Editable) {
-                    existingSplits[index] = editAmount.getNumber()
-                    setRest()
-                }
-            })
-            top.addView(editAmount)
-
-            val bottom = LinearLayout(this@SplitActivity)
-            val distributeButton = Button(this)
-            distributeButton.setText(R.string.label_split_distribute)
-            distributeButton.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
-            val claimButton = Button(this)
-            claimButton.setText(R.string.label_split_claim)
-            claimButton.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
-
-            bottom.addView(distributeButton)
-            bottom.addView(claimButton)
-
-            val separator: ImageView = ImageView(this)
-            separator.setImageResource(R.drawable.separator)
-            separator.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            separator.scaleType = ImageView.ScaleType.FIT_XY
-            val wrapper = LinearLayout(this@SplitActivity)
-            wrapper.orientation = LinearLayout.VERTICAL
-            wrapper.addView(separator)
-            wrapper.addView(top)
-            wrapper.addView(bottom)
-            wrapper.setPadding(0,
-                    NumberUtil.getDimension(R.dimen.padding_split_table_bottom_top, this),
-                    0,
-                    0)
+            val wrapper = createWrapper(index, participantName)
             splits.addView(wrapper)
 
         }
 
+    }
+
+    private fun createWrapper(index: Int, participantName: String): LinearLayout {
+        val top = createValueRow(index, participantName)
+        val bottom = createButtonRow()
+        val separator: ImageView = createSeparator()
+        val wrapper = LinearLayout(this@SplitActivity)
+        wrapper.orientation = LinearLayout.VERTICAL
+        wrapper.addView(separator)
+        wrapper.addView(top)
+        wrapper.addView(bottom)
+        wrapper.setPadding(0,
+                NumberUtil.getDimension(R.dimen.padding_split_table_bottom_top, this),
+                0,
+                0)
+        return wrapper
+    }
+
+    private fun createSeparator(): ImageView {
+        val separator: ImageView = ImageView(this)
+        separator.setImageResource(R.drawable.separator)
+        separator.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        separator.scaleType = ImageView.ScaleType.FIT_XY
+        return separator
+    }
+
+    private fun createButtonRow(): LinearLayout {
+        val bottom = LinearLayout(this@SplitActivity)
+        val distributeButton = createDistributeButton()
+        val claimButton = createClaimButton()
+
+        bottom.addView(distributeButton)
+        bottom.addView(claimButton)
+        return bottom
+    }
+
+    private fun createClaimButton(): Button {
+        val claimButton = Button(this)
+        claimButton.setText(R.string.label_split_claim)
+        claimButton.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
+        return claimButton
+    }
+
+    private fun createDistributeButton(): Button {
+        val distributeButton = Button(this)
+        distributeButton.setText(R.string.label_split_distribute)
+        distributeButton.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f)
+        return distributeButton
+    }
+
+    private fun initValues() {
+        totalAmount = intent.getIntExtra(InterfaceConstants.PARAM_AMOUNT, 0)
+        splitValues = intent.getIntArrayExtra(InterfaceConstants.PARAM_SPLITS)
+        participantNames = intent.getStringArrayExtra(InterfaceConstants.PARAM_FELLOWS)
+
+        sum.setNumber(totalAmount)
+
+        setRest()
+    }
+
+    private fun createValueRow(index: Int, participantName: String): LinearLayout {
+        val amount: Int = splitValues[index]
+
+        val nameView = createNameView(participantName)
+        val top = LinearLayout(this@SplitActivity)
+
+        top.setPadding(NumberUtil.getDimension(R.dimen.padding_split_table_top_left, this),
+                NumberUtil.getDimension(R.dimen.padding_split_table_top_top, this),
+                NumberUtil.getDimension(R.dimen.padding_split_table_top_right, this),
+                NumberUtil.getDimension(R.dimen.padding_split_table_top_bottom, this))
+        top.addView(nameView)
+
+        val editAmount = createEditAmount(amount, splitValues, index)
+        top.addView(editAmount)
+        return top
+    }
+
+    private fun setRest() {
+        val allSplits = splitValues.reduceRight { i, acc -> acc + i }
+        rest.setNumber(totalAmount - allSplits)
+    }
+
+
+    private fun createEditAmount(amount: Int, existingSplits: IntArray, index: Int): EditNumber {
+        val editAmount = EditNumber(this@SplitActivity)
+        editAmount.setNumber(amount)
+        editAmount.gravity = Gravity.END
+        editAmount.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // NOOP
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // NOOP
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+                existingSplits[index] = editAmount.getNumber()
+                setRest()
+            }
+        })
+        return editAmount
+    }
+
+    private fun createNameView(participantName: String): TextView {
+        val nameView = TextView(this)
+        nameView.text = participantName
+        nameView.gravity = Gravity.START
+        nameView.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+        return nameView
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
