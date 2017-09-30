@@ -40,7 +40,7 @@ class SplitActivity : AppCompatActivity() {
 
     private fun createWrapper(index: Int, participantName: String): LinearLayout {
         val top = createValueRow(index, participantName)
-        val bottom = createButtonRow(index)
+        val bottom = createButtonRow(createDistributeButton(index), createClaimButton(index))
         val separator: ImageView = createSeparator()
         val wrapper = LinearLayout(this@SplitActivity)
         wrapper.orientation = LinearLayout.VERTICAL
@@ -62,13 +62,10 @@ class SplitActivity : AppCompatActivity() {
         return separator
     }
 
-    private fun createButtonRow(index: Int): LinearLayout {
+    private fun createButtonRow(left: Button, right: Button): LinearLayout {
         val bottom = LinearLayout(this@SplitActivity)
-        val distributeButton = createDistributeButton(index)
-        val claimButton = createClaimButton(index)
-
-        bottom.addView(distributeButton)
-        bottom.addView(claimButton)
+        bottom.addView(left)
+        bottom.addView(right)
         return bottom
     }
 
