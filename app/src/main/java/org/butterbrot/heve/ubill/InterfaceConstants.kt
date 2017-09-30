@@ -1,9 +1,15 @@
 package org.butterbrot.heve.ubill
 
 import android.app.Activity
+import android.graphics.Color
+import android.support.annotation.ColorInt
 
 
 object InterfaceConstants {
+
+    val COLOR_AMOUNT_NEGATIV: Int = Color.RED
+    @ColorInt val COLOR_AMOUNT_POSITIV: Int = 0xFF1bb510.toInt()
+    val COLOR_AMOUNT_ZERO: Int = Color.BLACK
 
     val PARAM_AMOUNT : String = "ubill.param_amount"
     val PARAM_BILL : String = "ubill.param_bill"

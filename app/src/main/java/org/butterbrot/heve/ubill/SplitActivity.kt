@@ -36,7 +36,7 @@ class SplitActivity : AppCompatActivity() {
         setRest()
 
         participantNames.forEachIndexed { index, participantName ->
-            val amount: Int = existingSplits[index] ?: 0
+            val amount: Int = existingSplits[index]
 
             val nameView = TextView(this)
             nameView.text = participantName
