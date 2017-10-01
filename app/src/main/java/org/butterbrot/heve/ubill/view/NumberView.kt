@@ -11,9 +11,9 @@ class NumberView(
         context: Context,
         attributeSet: AttributeSet?,
         defStyleAttr: Int,
-        defStyleRes: Int): TextView(context, attributeSet, defStyleAttr, defStyleRes), NumberGetter<CharSequence> {
+        defStyleRes: Int): TextView(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<CharSequence> {
 
-    private var dynamicColoringEnabled: Boolean = true
+    override var dynamicColoringEnabled: Boolean = true
 
     constructor(context: Context) : this(context, null, android.R.attr.textViewStyle, 0)
     constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, android.R.attr.textViewStyle, 0)
@@ -31,13 +31,4 @@ class NumberView(
     override fun getBufferType(): BufferType {
         return BufferType.NORMAL
     }
-
-    override fun setNumber(number: Int) {
-        if (dynamicColoringEnabled) {
-            adjustColor(number)
-        }
-
-        super.setNumber(number)
-    }
-
 }

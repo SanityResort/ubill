@@ -43,6 +43,8 @@ class EditBillActivity : BoxActivity<Bill>() {
             val fellowIds: LongArray = data?.extras?.getLongArray(InterfaceConstants.RESULT_KEY) ?: kotlin.LongArray(0)
             fellows = fellowBox.query().`in`(Fellow_.id, fellowIds).build().find().sortedBy { it.name }
             fellow_list.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fellows.map { it.name })
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
         }
 
     }

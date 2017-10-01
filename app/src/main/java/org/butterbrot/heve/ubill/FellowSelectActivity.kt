@@ -67,6 +67,8 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
                 initAdapter()
 
             }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
         }
     }
 

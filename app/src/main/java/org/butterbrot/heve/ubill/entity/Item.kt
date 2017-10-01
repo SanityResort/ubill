@@ -6,8 +6,8 @@ import io.objectbox.relation.ToMany
 
 @Entity
 class Item(val name: String = "", var sum: Int = 0,
-           @Transient private val splittingsParam: List<Splitting> = listOf(),
-           var splitEvenly: Boolean = true) {
+           var splitEvenly: Boolean = true,
+           @Transient private val splittingsParam: List<Splitting> = listOf()) {
 
     @Id
     var id: Long = 0

@@ -1,18 +1,22 @@
 package org.butterbrot.heve.ubill.view
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.widget.EditText
+import org.butterbrot.heve.ubill.R
 
 
 class EditNumber(
         context: Context,
         attributeSet: AttributeSet?,
         defStyleAttr: Int,
-        defStyleRes: Int): EditText(context, attributeSet, defStyleAttr, defStyleRes), NumberGetter<Editable> {
+        defStyleRes: Int): EditText(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<Editable> {
+
+    override var dynamicColoringEnabled: Boolean = true
 
     override fun getBufferType(): BufferType {
         return BufferType.EDITABLE
@@ -24,6 +28,12 @@ class EditNumber(
             : this(context, attributeSet, defStyleAttr, 0)
 
     init {
+
+        val typedArray: TypedArray = context.obtainStyledAttributes(attributeSet, R.styleable.NumberView, 0, 0)
+
+        dynamicColoringEnabled = typedArray.getBoolean(R.styleable.NumberView_dynamicTextColoring, true)
+
+        typedArray.recycle()
 
         addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

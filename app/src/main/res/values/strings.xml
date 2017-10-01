@@ -26,6 +26,7 @@
     <string name="label_bill_total">Total</string>
     <string name="label_create_bill_name">Name</string>
     <string name="label_create_bill_fellows">Fellows</string>
+    <string name="label_create_item_even">Split evenly</string>
     <string name="label_create_item_name">Name</string>
     <string name="label_create_item_payer">Paid by</string>
     <string name="label_create_item_sum">Amount</string>

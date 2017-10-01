@@ -22,12 +22,18 @@ class CreateItemActivity : BoxActivity<Bill>() {
 
     private lateinit var bill: Bill
     private lateinit var participants: List<Fellow>
-    private var splitEvenly: Boolean = true
+    private lateinit var splits: IntArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val id = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
         bill = box[id]
+        val fellowIds = intent.getLongArrayExtra(InterfaceConstants.PARAM_FELLOWS)
+        splits = kotlin.IntArray(fellowIds.size)
+        participants = bill.fellows.filter { fellowIds.contains(it.id) }.sortedBy { it.name }
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, participants.map { it.name })
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        payer.adapter = adapter
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -49,7 +55,7 @@ class CreateItemActivity : BoxActivity<Bill>() {
                 true
             }
             R.id.split -> {
-                SplitActivity.call(this, participants.map { it.name }.toTypedArray(), kotlin.IntArray(0).plus(10).plus(11).plus(12), 40)
+                SplitActivity.call(this, participants.map { it.name }.toTypedArray(), splits, sum.getNumber())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -57,30 +63,36 @@ class CreateItemActivity : BoxActivity<Bill>() {
     }
 
     private fun createItem(itemName: String): Item {
-        if (splitEvenly) {
-            val totalAmountDouble: Double = (sum.text.toString().toDouble() * 100)
-            val totalAmount = totalAmountDouble.toInt()
-            val splitAmount: Int = Math.round(totalAmountDouble / participants.size).toInt()
+        val totalAmount = sum.getNumber()
+        val payingParticipant: Fellow = participants[payer.selectedItemPosition]
+        if (splitEvenly.isChecked) {
+            val splitAmount: Int = Math.round(totalAmount.toDouble() / participants.size).toInt()
             val payerAmount: Int = totalAmount - splitAmount
-            val payingParticipant: Fellow = participants[payer.selectedItemPosition]
-            return Item(itemName, totalAmount, participants.map {
+            return Item(itemName, totalAmount, splitEvenly.isChecked, participants.map {
                 Splitting(it, when (it) {
                     payingParticipant -> payerAmount
                     else -> -splitAmount
                 })
             })
         } else {
-            TODO()
+            return Item(itemName, totalAmount, splitEvenly.isChecked, participants.mapIndexed { index, participant ->
+                Splitting(participant, when (participant) {
+                    payingParticipant -> totalAmount - splits[index]
+                    else -> -splits[index]
+                })
+            })
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        val fellowIds = intent.getLongArrayExtra(InterfaceConstants.PARAM_FELLOWS)
-        participants = bill.fellows.filter { fellowIds.contains(it.id) }.sortedBy { it.name }
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, participants.map { it.name })
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        payer.adapter = adapter
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (InterfaceConstants.RESULT_SUCCESS == resultCode && InterfaceConstants.RC_SPLIT == requestCode) {
+            if (data != null) {
+                splits = data.getIntArrayExtra(InterfaceConstants.RESULT_KEY)
+                splitEvenly.isChecked = false
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     companion object {
