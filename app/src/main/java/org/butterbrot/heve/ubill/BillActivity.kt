@@ -13,6 +13,7 @@ import org.butterbrot.heve.ubill.entity.Bill
 import org.butterbrot.heve.ubill.entity.Fellow
 import org.butterbrot.heve.ubill.entity.Item
 import org.butterbrot.heve.ubill.entity.Splitting
+import org.butterbrot.heve.ubill.view.NumberView
 
 class BillActivity : BoxActivity<Bill>() {
 
@@ -64,11 +65,10 @@ class BillActivity : BoxActivity<Bill>() {
 
         fellows.forEach {
             nameRow.addView(createCell(it.name))
-            totalsRow.addView(createCell(((amounts[it] ?: 0).toDouble()/100).toString()))
+            totalsRow.addView(createNumberCell(amounts[it] ?: 0))
         }
 
         table.addView(nameRow)
-        table.addView(totalsRow)
 
         bill.items.forEach {
             val row = TableRow(this)
@@ -77,10 +77,21 @@ class BillActivity : BoxActivity<Bill>() {
             fellows.forEach{
                 val fellow = it
                 val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
-                row.addView(createCell((amount.toDouble()/100).toString()))
+                row.addView(createNumberCell(amount))
+            }
+            row.setOnClickListener{ _ ->
+                UpsertItemActivity.call(this, bill.id, item.id)
             }
             table.addView(row)
         }
+
+        table.addView(totalsRow)
+    }
+
+    private fun createNumberCell(amount: Int): NumberView {
+        val view = NumberView(this)
+        view.setNumber(amount)
+        return view
     }
 
     private fun createCell(text: String): TextView {

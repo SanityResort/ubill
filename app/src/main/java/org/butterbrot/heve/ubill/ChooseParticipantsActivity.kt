@@ -52,7 +52,7 @@ class ChooseParticipantsActivity : BoxActivity<Bill>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.choose -> {
-                CreateItemActivity.call(this, billId, selectedIds.toLongArray())
+                UpsertItemActivity.call(this, billId, selectedIds.toLongArray())
                 true
             }
 

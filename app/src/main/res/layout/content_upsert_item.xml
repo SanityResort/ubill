@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="org.butterbrot.heve.ubill.CreateItemActivity"
-    tools:showIn="@layout/activity_create_item">
+    tools:context="org.butterbrot.heve.ubill.UpsertItemActivity"
+    tools:showIn="@layout/activity_upsert_item">
 
     <LinearLayout
         android:layout_width="match_parent"

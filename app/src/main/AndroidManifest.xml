@@ -51,7 +51,7 @@
             android:label="@string/title_activity_edit_bill"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CreateItemActivity"
+            android:name=".UpsertItemActivity"
             android:label="@string/title_activity_create_item"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />

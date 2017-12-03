@@ -5,35 +5,53 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.MenuItem
-import android.view.View
 import android.widget.ArrayAdapter
-import kotlinx.android.synthetic.main.activity_create_item.*
-import kotlinx.android.synthetic.main.content_create_item.*
-import org.butterbrot.heve.ubill.entity.Bill
-import org.butterbrot.heve.ubill.entity.Fellow
-import org.butterbrot.heve.ubill.entity.Item
-import org.butterbrot.heve.ubill.entity.Splitting
+import kotlinx.android.synthetic.main.activity_upsert_item.*
+import kotlinx.android.synthetic.main.content_upsert_item.*
+import org.butterbrot.heve.ubill.entity.*
 
-class CreateItemActivity : BoxActivity<Bill>() {
+class UpsertItemActivity : BoxActivity<Bill>() {
     override val menuId: Int
         get() = R.menu.menu_create_item
     override val layoutId: Int
-        get() = R.layout.activity_create_item
+        get() = R.layout.activity_upsert_item
 
     private lateinit var bill: Bill
     private lateinit var participants: List<Fellow>
     private lateinit var splits: IntArray
+    private lateinit var backingItem: Item
+    private var editMode: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val id = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
         bill = box[id]
-        val fellowIds = intent.getLongArrayExtra(InterfaceConstants.PARAM_FELLOWS)
-        splits = kotlin.IntArray(fellowIds.size)
-        participants = bill.fellows.filter { fellowIds.contains(it.id) }.sortedBy { it.name }
+        populateItem(intent.getLongExtra(InterfaceConstants.PARAM_ITEM, 0))
+    }
+
+    private fun populateItem(itemId: Long) {
+        editMode = itemId > 0
+        backingItem = bill.items.find { it.id == itemId } ?: Item()
+        if (editMode) {
+            participants = backingItem.splittings.map { it.fellow.target }
+            splits = backingItem.splittings.map { it.amount }.toIntArray()
+
+        } else {
+            val fellowIds = intent.getLongArrayExtra(InterfaceConstants.PARAM_FELLOWS)
+            splits = kotlin.IntArray(fellowIds.size)
+            participants = bill.fellows.filter { fellowIds.contains(it.id) }.sortedBy { it.name }
+        }
+        sum.setNumber(backingItem.sum)
+        name.setText(backingItem.name)
+        splitEvenly.isChecked = backingItem.splitEvenly
+        createPayerAdapter(backingItem.payer.target)
+    }
+
+    private fun createPayerAdapter(existingPayer: Fellow?) {
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, participants.map { it.name })
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         payer.adapter = adapter
+        payer.setSelection(participants.indexOf(existingPayer))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -43,10 +61,18 @@ class CreateItemActivity : BoxActivity<Bill>() {
                 when {
                     itemName.isEmpty() ->
                         Snackbar.make(toolbar, R.string.error_item_name_empty, Snackbar.LENGTH_SHORT).show()
-                    bill.items.map { it.name }.contains(itemName) ->
+                    !editMode && bill.items.map { it.name }.contains(itemName) ->
                         Snackbar.make(toolbar, R.string.error_item_name_duplicate, Snackbar.LENGTH_SHORT).show()
                     else -> {
-                        bill.add(createItem(itemName))
+                        setItemFields(itemName)
+                        if (editMode) {
+                            val itemBox = (application as BillApplication).boxStore.boxFor(Item::class.java)
+                            itemBox.put(backingItem)
+                            itemBox.closeThreadResources()
+
+                        } else {
+                            bill.add(backingItem)
+                        }
                         box.put(bill)
                         setResult(InterfaceConstants.RESULT_SUCCESS)
                         finish()
@@ -62,26 +88,31 @@ class CreateItemActivity : BoxActivity<Bill>() {
         }
     }
 
-    private fun createItem(itemName: String): Item {
+    private fun setItemFields(itemName: String) {
         val totalAmount = sum.getNumber()
-        val payingParticipant: Fellow = participants[payer.selectedItemPosition]
-        if (splitEvenly.isChecked) {
+        val payingParticipant = participants[payer.selectedItemPosition]
+        val splittings: List<Splitting> = if (splitEvenly.isChecked) {
             val splitAmount: Int = Math.round(totalAmount.toDouble() / participants.size).toInt()
             val payerAmount: Int = totalAmount - splitAmount
-            return Item(itemName, totalAmount, splitEvenly.isChecked, participants.map {
+            participants.map {
                 Splitting(it, when (it) {
                     payingParticipant -> payerAmount
                     else -> -splitAmount
                 })
-            })
+            }
         } else {
-            return Item(itemName, totalAmount, splitEvenly.isChecked, participants.mapIndexed { index, participant ->
+            participants.mapIndexed { index, participant ->
                 Splitting(participant, when (participant) {
                     payingParticipant -> totalAmount - splits[index]
                     else -> -splits[index]
                 })
-            })
+            }
         }
+        backingItem.name = itemName
+        backingItem.sum = totalAmount
+        backingItem.payer.target = payingParticipant
+        backingItem.splitEvenly = splitEvenly.isChecked
+        backingItem.updateSplittings(splittings)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -97,10 +128,17 @@ class CreateItemActivity : BoxActivity<Bill>() {
 
     companion object {
         fun call(context: Activity, billId: Long, fellowIds: LongArray) {
-            val intent = Intent(context, CreateItemActivity::class.java)
+            val intent = Intent(context, UpsertItemActivity::class.java)
             intent.putExtra(InterfaceConstants.PARAM_BILL, billId)
             intent.putExtra(InterfaceConstants.PARAM_FELLOWS, fellowIds)
             context.startActivityForResult(intent, InterfaceConstants.RC_CREATE_ITEM)
+        }
+
+        fun call(context: Activity, billId: Long, itemId: Long) {
+            val intent = Intent(context, UpsertItemActivity::class.java)
+            intent.putExtra(InterfaceConstants.PARAM_BILL, billId)
+            intent.putExtra(InterfaceConstants.PARAM_ITEM, itemId)
+            context.startActivityForResult(intent, InterfaceConstants.RC_EDIT_ITEM)
         }
     }
 }
