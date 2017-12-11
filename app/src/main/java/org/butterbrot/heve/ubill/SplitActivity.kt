@@ -167,6 +167,7 @@ class SplitActivity : AppCompatActivity() {
     // create views
     private fun createEditAmount(amount: Int, existingSplits: IntArray, index: Int): EditNumber {
         val editAmount = EditNumber(this@SplitActivity)
+        editAmount.dynamicColoringEnabled = false
         editAmount.setNumber(amount)
         editAmount.gravity = Gravity.END
         editAmount.addTextChangedListener(object : TextWatcher {

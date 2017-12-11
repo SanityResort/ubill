@@ -39,8 +39,10 @@ class UpsertItemActivity : BoxActivity<Bill>() {
         backingItem = bill.items.find { it.id == itemId } ?: Item()
         if (editMode) {
             participants = backingItem.splittings.map { it.fellow.target }
-            splits = backingItem.splittings.map { it.amount }.toIntArray()
-
+            splits = backingItem.splittings.map { it.amount * -1 }.toIntArray()
+            val payerIndex = payerIndex()
+            val nonPayerSum = splits.filterIndexed { index, value ->  index != payerIndex}.foldRight(0, {value, accumulator -> accumulator + value} )
+            splits[payerIndex] = backingItem.sum - nonPayerSum
         } else {
             val fellowIds = intent.getLongArrayExtra(InterfaceConstants.PARAM_FELLOWS)
             splits = kotlin.IntArray(fellowIds.size)
@@ -49,14 +51,16 @@ class UpsertItemActivity : BoxActivity<Bill>() {
         sum.setNumber(backingItem.sum)
         name.setText(backingItem.name)
         splitEvenly.isChecked = backingItem.splitEvenly
-        createPayerAdapter(backingItem.payer.target)
+        createPayerAdapter()
     }
 
-    private fun createPayerAdapter(existingPayer: Fellow?) {
+    private fun payerIndex() = participants.indexOf(backingItem.payer.target)
+
+    private fun createPayerAdapter() {
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, participants.map { it.name })
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         payer.adapter = adapter
-        payer.setSelection(participants.indexOf(existingPayer))
+        payer.setSelection(participants.indexOf(backingItem.payer.target))
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -25,20 +25,18 @@ interface NumberAware<T> {
     fun setTextColor(color: Int)
 
     fun setNumber(number: Int) {
-        if (dynamicColoringEnabled) {
-            adjustColor(number)
-        }
-
+        adjustColor(number)
         setText((number.toDouble()/100).toString(), getBufferType())
     }
 
     fun adjustColor(number: Int) {
-        val color: Int = when {
-            number == 0 -> InterfaceConstants.COLOR_AMOUNT_ZERO
-            number < 0 -> InterfaceConstants.COLOR_AMOUNT_NEGATIV
-            else -> InterfaceConstants.COLOR_AMOUNT_POSITIV
+        if (dynamicColoringEnabled) {
+            val color: Int = when {
+                number == 0 -> InterfaceConstants.COLOR_AMOUNT_ZERO
+                number < 0 -> InterfaceConstants.COLOR_AMOUNT_NEGATIV
+                else -> InterfaceConstants.COLOR_AMOUNT_POSITIV
+            }
+            setTextColor(color)
         }
-        setTextColor(color)
     }
-
 }
