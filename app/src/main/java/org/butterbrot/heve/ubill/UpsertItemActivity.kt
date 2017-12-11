@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.MenuItem
 import android.widget.ArrayAdapter
+import android.widget.CheckBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_upsert_item.*
 import kotlinx.android.synthetic.main.content_upsert_item.*
@@ -28,6 +29,9 @@ class UpsertItemActivity : BoxActivity<Bill>() {
         val id = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
         bill = box[id]
         populateItem(intent.getLongExtra(InterfaceConstants.PARAM_ITEM, 0))
+        splitEvenly.setOnClickListener({ view -> if (!(view as CheckBox).isChecked) {
+            callSplitActivity()
+        } })
     }
 
     private fun populateItem(itemId: Long) {
@@ -82,7 +86,7 @@ class UpsertItemActivity : BoxActivity<Bill>() {
                 true
             }
             R.id.split -> {
-                SplitActivity.call(this, participants.map { it.name }.toTypedArray(), splits, sum.getNumber())
+                callSplitActivity()
                 true
             }
             R.id.delete_item -> {
@@ -96,6 +100,10 @@ class UpsertItemActivity : BoxActivity<Bill>() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun callSplitActivity() {
+        SplitActivity.call(this, participants.map { it.name }.toTypedArray(), splits, sum.getNumber())
     }
 
     private fun setItemFields(itemName: String) {
