@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.MenuItem
 import android.widget.ArrayAdapter
+import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_upsert_item.*
 import kotlinx.android.synthetic.main.content_upsert_item.*
 import org.butterbrot.heve.ubill.entity.*
@@ -112,6 +113,9 @@ class UpsertItemActivity : BoxActivity<Bill>() {
         backingItem.sum = totalAmount
         backingItem.payer.target = payingParticipant
         backingItem.splitEvenly = splitEvenly.isChecked
+        val splittingBox: Box<Splitting> = (application as BillApplication).boxStore.boxFor(Splitting::class.java)
+        splittingBox.remove(backingItem.splittings)
+        splittingBox.closeThreadResources()
         backingItem.updateSplittings(splittings)
     }
 
