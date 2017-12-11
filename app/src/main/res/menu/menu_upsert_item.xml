@@ -15,4 +15,10 @@
         android:title="@string/action_split"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/delete_item"
+        android:icon="@drawable/delete"
+        android:title="@string/action_delete"
+        app:showAsAction="ifRoom" />
+
 </menu>

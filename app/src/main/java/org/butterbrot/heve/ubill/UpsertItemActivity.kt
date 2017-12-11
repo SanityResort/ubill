@@ -13,7 +13,7 @@ import org.butterbrot.heve.ubill.entity.*
 
 class UpsertItemActivity : BoxActivity<Bill>() {
     override val menuId: Int
-        get() = R.menu.menu_create_item
+        get() = R.menu.menu_upsert_item
     override val layoutId: Int
         get() = R.layout.activity_upsert_item
 
@@ -85,6 +85,15 @@ class UpsertItemActivity : BoxActivity<Bill>() {
                 SplitActivity.call(this, participants.map { it.name }.toTypedArray(), splits, sum.getNumber())
                 true
             }
+            R.id.delete_item -> {
+                bill.items.remove(backingItem)
+                box.put(bill)
+                val itemBox = (application as BillApplication).boxStore.boxFor(Item::class.java)
+                itemBox.remove(backingItem)
+                itemBox.closeThreadResources()
+                deleteSplittings()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -113,10 +122,14 @@ class UpsertItemActivity : BoxActivity<Bill>() {
         backingItem.sum = totalAmount
         backingItem.payer.target = payingParticipant
         backingItem.splitEvenly = splitEvenly.isChecked
+        deleteSplittings()
+        backingItem.updateSplittings(splittings)
+    }
+
+    private fun deleteSplittings() {
         val splittingBox: Box<Splitting> = (application as BillApplication).boxStore.boxFor(Splitting::class.java)
         splittingBox.remove(backingItem.splittings)
         splittingBox.closeThreadResources()
-        backingItem.updateSplittings(splittings)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

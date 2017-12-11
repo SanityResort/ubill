@@ -20,7 +20,7 @@ class CreateBillActivity : BoxActivity<Bill>() {
         get() = R.layout.activity_upsert_bill
 
     override val menuId: Int
-        get() = R.menu.menu_create_bill
+        get() = R.menu.menu_upsert_bill
 
     private var fellows: List<Fellow> = listOf()
 
