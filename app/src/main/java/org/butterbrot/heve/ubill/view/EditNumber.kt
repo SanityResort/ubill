@@ -10,22 +10,17 @@ import android.widget.EditText
 import org.butterbrot.heve.ubill.R
 
 
-class EditNumber(
+class EditNumber @JvmOverloads constructor(
         context: Context,
-        attributeSet: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int): EditText(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<Editable> {
+        attributeSet: AttributeSet? = null,
+        defStyleAttr: Int = 0,
+        defStyleRes: Int = 0): EditText(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<Editable> {
 
     override var dynamicColoringEnabled: Boolean = true
 
     override fun getBufferType(): BufferType {
         return BufferType.EDITABLE
     }
-
-    constructor(context: Context) : this(context, null, android.R.attr.editTextStyle, 0)
-    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, android.R.attr.editTextStyle, 0)
-    constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
-            : this(context, attributeSet, defStyleAttr, 0)
 
     init {
 

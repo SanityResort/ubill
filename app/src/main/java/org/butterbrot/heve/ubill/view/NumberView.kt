@@ -7,18 +7,13 @@ import android.widget.TextView
 import org.butterbrot.heve.ubill.R
 
 
-class NumberView(
+class NumberView @JvmOverloads constructor (
         context: Context,
-        attributeSet: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int): TextView(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<CharSequence> {
+        attributeSet: AttributeSet? = null,
+        defStyleAttr: Int = 0,
+        defStyleRes: Int = 0): TextView(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<CharSequence> {
 
     override var dynamicColoringEnabled: Boolean = true
-
-    constructor(context: Context) : this(context, null, android.R.attr.textViewStyle, 0)
-    constructor(context: Context, attributeSet: AttributeSet?) : this(context, attributeSet, android.R.attr.textViewStyle, 0)
-    constructor(context: Context, attributeSet: AttributeSet?, defStyleAttr: Int)
-            : this(context, attributeSet, defStyleAttr, 0)
 
     init {
         val typedArray:TypedArray = context.obtainStyledAttributes(attributeSet, R.styleable.NumberView, 0, 0)

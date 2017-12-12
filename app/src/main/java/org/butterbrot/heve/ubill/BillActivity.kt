@@ -38,8 +38,9 @@ class BillActivity : BoxActivity<Bill>() {
         id = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
 
         nameRow = TableRow(this)
-        totalsRow = TableRow(this)
         nameRow.tag = "sticky"
+
+        totalsRow = TableRow(this)
     }
 
     override fun onResume() {
