@@ -25,7 +25,6 @@ class BillActivity : BoxActivity<Bill>() {
 
     private lateinit var bill: Bill
     private var id: Long = 0
-    private val itemViews: MutableMap<Long, TableRow> = mutableMapOf()
     private lateinit var nameRow: TableRow
     private lateinit var totalsRow: TableRow
     private lateinit var itemBox: Box<Item>
@@ -59,34 +58,38 @@ class BillActivity : BoxActivity<Bill>() {
 
         nameRow.removeAllViews()
         totalsRow.removeAllViews()
-        table.removeAllViews()
+        innerTable.removeAllViews()
 
         nameRow.addView(TextView(this))
-        totalsRow.addView(createCell(getString(R.string.label_bill_total)))
 
         fellows.forEach {
             nameRow.addView(createCell(it.name))
             totalsRow.addView(createNumberCell(amounts[it] ?: 0))
         }
 
-        table.addView(nameRow)
-
+        headerTable.removeAllViews()
+        headerTable.addView(nameRow)
+        itemTable.removeAllViews()
         bill.items.forEach {
-            val row = TableRow(this)
-            row.addView(createCell(it.name))
+            val itemNameRow = TableRow(this)
+            itemNameRow.addView(createCell(it.name))
+            itemTable.addView(itemNameRow)
+            val amountRow = TableRow(this)
             val item = it
             fellows.forEach{
                 val fellow = it
                 val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
-                row.addView(createNumberCell(amount))
+                amountRow.addView(createNumberCell(amount))
             }
-            row.setOnClickListener{ _ ->
+            amountRow.setOnClickListener{ _ ->
                 UpsertItemActivity.call(this, bill.id, item.id)
             }
-            table.addView(row)
+            innerTable.addView(amountRow)
         }
 
-        table.addView(totalsRow)
+        innerTable.addView(totalsRow)
+        itemTable.addView(createCell(getString(R.string.label_bill_total)))
+
     }
 
     private fun createNumberCell(amount: Int): NumberView {
