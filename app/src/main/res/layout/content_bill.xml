@@ -19,6 +19,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/northWest"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -26,7 +27,7 @@
                 android:id="@+id/outerVertScroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:vmirror="@+id/mainvertview">
+                app:vmirror="@+id/innerVertScroll">
 
                 <TableLayout
                     android:id="@+id/itemTable"
@@ -66,7 +67,7 @@
                     android:id="@+id/innerVertScroll"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:vmirror="@+id/itemnameview">
+                    app:vmirror="@+id/outerVertScroll">
 
                     <TableLayout
                         android:id="@+id/innerTable"

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.widget.TableRow
 import android.widget.TextView
 import io.objectbox.Box
@@ -60,8 +61,6 @@ class BillActivity : BoxActivity<Bill>() {
         totalsRow.removeAllViews()
         innerTable.removeAllViews()
 
-        nameRow.addView(TextView(this))
-
         fellows.forEach {
             nameRow.addView(createCell(it.name))
             totalsRow.addView(createNumberCell(amounts[it] ?: 0))
@@ -87,8 +86,49 @@ class BillActivity : BoxActivity<Bill>() {
 
         innerTable.addView(totalsRow)
         itemTable.addView(createCell(getString(R.string.label_bill_total)))
+        syncWidths()
+    }
+
+    private fun syncWidths(){
+        val headerRow = (headerTable.getChildAt(0) as TableRow)
+        val columnCount = headerRow.childCount
+        val rowCount = innerTable.childCount
+
+
+        var colCounter = 0
+
+        while (colCounter < columnCount) {
+            var maxWidth = viewWidth(headerRow.getChildAt(colCounter))
+            var rowCounter = 0
+
+            while (rowCounter < rowCount) {
+                maxWidth = Math.max(maxWidth, viewWidth((innerTable.getChildAt(rowCounter) as TableRow).getChildAt(colCounter)))
+                rowCounter++
+            }
+
+            rowCounter = 0
+            setViewWidth(headerRow.getChildAt(colCounter), maxWidth)
+
+            while (rowCounter < rowCount) {
+                setViewWidth((innerTable.getChildAt(rowCounter) as TableRow).getChildAt(colCounter), maxWidth)
+                rowCounter++
+            }
+
+            colCounter++
+        }
 
     }
+
+    private fun viewWidth(view: View):Int {
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        return view.getMeasuredWidth();
+    }
+
+    private fun setViewWidth(view: View, width: Int) {
+        val params = view.layoutParams as TableRow.LayoutParams
+        params.width = width
+    }
+
 
     private fun createNumberCell(amount: Int): NumberView {
         val view = NumberView(this)
