@@ -70,11 +70,7 @@ class EditFellowActivity : BoxActivity<Fellow>() {
     }
 
     private fun referencedInBills(fellow: Fellow):List<String> {
-        return billBox.query().filter(object : QueryFilter<Bill> {
-            override fun keep(bill: Bill): Boolean {
-                return bill.hasFellow(fellow)
-            }
-        }).build().find().map { it.name }
+        return billBox.query().filter { bill -> bill.hasFellow(fellow) }.build().find().map { it.name }
     }
 
     override fun onDestroy() {
