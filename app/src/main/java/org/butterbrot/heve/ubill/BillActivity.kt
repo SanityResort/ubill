@@ -70,14 +70,12 @@ class BillActivity : BoxActivity<Bill>() {
         headerTable.removeAllViews()
         headerTable.addView(nameRow)
         itemTable.removeAllViews()
-        bill.items.forEach {
+        bill.items.forEach { item ->
             val itemNameRow = TableRow(this)
-            itemNameRow.addView(createCell(it.name))
+            itemNameRow.addView(createCell(item.name))
             itemTable.addView(itemNameRow)
             val amountRow = TableRow(this)
-            val item = it
-            fellows.forEach{
-                val fellow = it
+            fellows.forEach{ fellow ->
                 val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
                 amountRow.addView(createNumberCell(amount))
             }
