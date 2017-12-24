@@ -38,6 +38,10 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
             passedFellowIds = intent.extras.getLongArray(InterfaceConstants.PARAM_FELLOWS)
         }
 
+        if (intent?.extras?.containsKey(InterfaceConstants.PARAM_FELLOWS_IN_SPLITTINGS) == true) {
+            fellowsFromSplittings = intent.extras.getLongArray(InterfaceConstants.PARAM_FELLOWS_IN_SPLITTINGS)
+        }
+
         initAdapter()
 
         // register listener to map checkbox status to boolean area
@@ -49,6 +53,7 @@ class FellowSelectActivity : BoxActivity<Fellow>() {
                 if (fellowsFromSplittings.contains(id)) {
                     Snackbar.make(toolbar, getString(R.string.error_fellow_referenced_in_splittings, view.text),
                             Snackbar.LENGTH_SHORT).show()
+                    fellow_list.setItemChecked(pos,true)
                 } else {
                     passedFellowIds = passedFellowIds.filterNot { it == id }.toLongArray()
                 }
