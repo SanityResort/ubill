@@ -153,12 +153,15 @@ class SplitActivity : AppCompatActivity() {
                 }
             }
 
-            val splitRest = rest.getNumber()/indexesWith0.size
-            indexesWith0.forEach { zeroIndex ->
-                updateSplit(zeroIndex, splitRest)
-            }
+            if (indexesWith0.isNotEmpty()) {
 
-            updateRest()
+                val splitRest = rest.getNumber() / indexesWith0.size
+                indexesWith0.forEach { zeroIndex ->
+                    updateSplit(zeroIndex, splitRest)
+                }
+
+                updateRest()
+            }
         }
         return createButton(R.string.label_split_distribute_to_all_0s, listener)
     }
