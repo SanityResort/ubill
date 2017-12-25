@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.TableRow
@@ -62,7 +63,7 @@ class BillActivity : BoxActivity<Bill>() {
         innerTable.removeAllViews()
 
         fellows.forEach {
-            nameRow.addView(createCell(it.name))
+            nameRow.addView(createCell(it.name, Gravity.CENTER_HORIZONTAL))
             totalsRow.addView(createNumberCell(amounts[it] ?: 0))
         }
 
@@ -71,7 +72,7 @@ class BillActivity : BoxActivity<Bill>() {
         itemTable.removeAllViews()
         bill.items.forEach { item ->
             val itemNameRow = TableRow(this)
-            itemNameRow.addView(createCell(item.name))
+            itemNameRow.addView(createCell(item.name, Gravity.START))
             itemTable.addView(itemNameRow)
             val amountRow = TableRow(this)
             fellows.forEach{ fellow ->
@@ -85,7 +86,7 @@ class BillActivity : BoxActivity<Bill>() {
         }
 
         innerTable.addView(totalsRow)
-        itemTable.addView(createCell(getString(R.string.label_bill_total)))
+        itemTable.addView(createCell(getString(R.string.label_bill_total), Gravity.START))
         syncWidths()
     }
 
@@ -133,12 +134,14 @@ class BillActivity : BoxActivity<Bill>() {
     private fun createNumberCell(amount: Int): NumberView {
         val view = NumberView(this)
         view.setNumber(amount)
+        view.gravity = Gravity.END
         return view
     }
 
-    private fun createCell(text: String): TextView {
+    private fun createCell(text: String, gravity: Int): TextView {
         val view = TextView(this)
         view.text = text
+        view.gravity = gravity
         return view
     }
 

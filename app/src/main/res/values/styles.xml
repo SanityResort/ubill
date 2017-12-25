@@ -32,5 +32,7 @@
 
     <style name="AppTheme.TextView" parent="android:Widget.TextView">
         <item name="android:textAppearance">@style/AppTheme.DefaultFont</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
     </style>
 </resources>
