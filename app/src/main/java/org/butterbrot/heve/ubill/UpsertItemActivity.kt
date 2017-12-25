@@ -73,18 +73,21 @@ class UpsertItemActivity : BoxActivity<Bill>() {
                     !editMode && bill.items.map { it.name }.contains(itemName) ->
                         Snackbar.make(toolbar, R.string.error_item_name_duplicate, Snackbar.LENGTH_SHORT).show()
                     else -> {
-                        setItemFields(itemName)
-                        if (editMode) {
-                            val itemBox = (application as BillApplication).boxStore.boxFor(Item::class.java)
-                            itemBox.put(backingItem)
-                            itemBox.closeThreadResources()
-
+                        if (!setItemFields(itemName)) {
+                            Snackbar.make(toolbar, R.string.error_split_failed, Snackbar.LENGTH_SHORT).show()
                         } else {
-                            bill.add(backingItem)
+                            if (editMode) {
+                                val itemBox = (application as BillApplication).boxStore.boxFor(Item::class.java)
+                                itemBox.put(backingItem)
+                                itemBox.closeThreadResources()
+
+                            } else {
+                                bill.add(backingItem)
+                            }
+                            box.put(bill)
+                            setResult(InterfaceConstants.RESULT_SUCCESS)
+                            finish()
                         }
-                        box.put(bill)
-                        setResult(InterfaceConstants.RESULT_SUCCESS)
-                        finish()
                     }
                 }
                 true
@@ -110,7 +113,7 @@ class UpsertItemActivity : BoxActivity<Bill>() {
         SplitActivity.call(this, participants.map { it.name }.toTypedArray(), splits, sum.getNumber())
     }
 
-    private fun setItemFields(itemName: String) {
+    private fun setItemFields(itemName: String): Boolean {
         val totalAmount = sum.getNumber()
         val payingParticipant = participants[payer.selectedItemPosition]
         val splittings: List<Splitting> = if (splitEvenly.isChecked) {
@@ -129,13 +132,19 @@ class UpsertItemActivity : BoxActivity<Bill>() {
                     else -> -splits[index]
                 })
             }
+        }.filterNot { it.amount == 0 }
+
+        if (splittings.isEmpty()) {
+            return false
         }
+
         backingItem.name = itemName
         backingItem.sum = totalAmount
         backingItem.payer.target = payingParticipant
         backingItem.splitEvenly = splitEvenly.isChecked
         deleteSplittings()
         backingItem.updateSplittings(splittings)
+        return true
     }
 
     private fun deleteSplittings() {
