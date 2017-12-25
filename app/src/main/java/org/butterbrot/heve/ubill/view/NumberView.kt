@@ -10,7 +10,7 @@ import org.butterbrot.heve.ubill.R
 class NumberView @JvmOverloads constructor (
         context: Context,
         attributeSet: AttributeSet? = null,
-        defStyleAttr: Int = 0,
+        defStyleAttr: Int = android.R.attr.textViewStyle,
         defStyleRes: Int = 0): TextView(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<CharSequence> {
 
     override var dynamicColoringEnabled: Boolean = true

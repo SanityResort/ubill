@@ -13,7 +13,7 @@ import org.butterbrot.heve.ubill.R
 class EditNumber @JvmOverloads constructor(
         context: Context,
         attributeSet: AttributeSet? = null,
-        defStyleAttr: Int = 0,
+        defStyleAttr: Int = android.R.attr.editTextStyle,
         defStyleRes: Int = 0): EditText(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<Editable> {
 
     override var dynamicColoringEnabled: Boolean = true
