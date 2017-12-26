@@ -16,6 +16,9 @@ import org.butterbrot.heve.ubill.entity.Fellow
 import org.butterbrot.heve.ubill.entity.Item
 import org.butterbrot.heve.ubill.entity.Splitting
 import org.butterbrot.heve.ubill.view.NumberView
+import android.widget.LinearLayout
+
+
 
 class BillActivity : BoxActivity<Bill>() {
 
@@ -38,10 +41,14 @@ class BillActivity : BoxActivity<Bill>() {
         splittingBox = (application as BillApplication).boxStore.boxFor(Splitting::class.java)
         id = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
 
-        nameRow = TableRow(this)
-        nameRow.tag = "sticky"
+        nameRow = createRow()
+        totalsRow = createRow()
+    }
 
-        totalsRow = TableRow(this)
+    private fun createRow() : TableRow {
+        val row = TableRow(this)
+        row.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
+        return row
     }
 
     override fun onResume() {
@@ -71,10 +78,10 @@ class BillActivity : BoxActivity<Bill>() {
         headerTable.addView(nameRow)
         itemTable.removeAllViews()
         bill.items.forEach { item ->
-            val itemNameRow = TableRow(this)
+            val amountRow = createRow()
+            val itemNameRow = createRow()
             itemNameRow.addView(createCell(item.name, Gravity.START))
             itemTable.addView(itemNameRow)
-            val amountRow = TableRow(this)
             fellows.forEach{ fellow ->
                 val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
                 amountRow.addView(createNumberCell(amount))
@@ -135,6 +142,11 @@ class BillActivity : BoxActivity<Bill>() {
         val view = NumberView(this)
         view.setNumber(amount)
         view.gravity = Gravity.END
+        view.setBackgroundColor(resources.getColor(R.color.colorBackground))
+        val llp = TableRow.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT)
+        llp.setMargins(2, 1, 2, 1)
+        view.setPadding(4, 4, 4, 4)
+        view.layoutParams=llp
         return view
     }
 
@@ -142,6 +154,11 @@ class BillActivity : BoxActivity<Bill>() {
         val view = TextView(this)
         view.text = text
         view.gravity = gravity
+        view.setBackgroundColor(resources.getColor(R.color.colorBackground))
+        val llp = TableRow.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT)
+        llp.setMargins(2, 1, 2, 1)
+        view.setPadding(4, 4, 4, 4)
+        view.layoutParams=llp
         return view
     }
 

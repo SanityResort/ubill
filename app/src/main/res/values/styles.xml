@@ -10,7 +10,6 @@
         <item name="android:textAppearanceListItemSmall">@style/AppTheme.DefaultFont</item>
         <item name="android:textAppearanceListItem">@style/AppTheme.DefaultFont</item>
         <item name="android:textAppearanceButton">@style/AppTheme.DefaultFont</item>
-        <item name="android:textViewStyle">@style/AppTheme.TextView</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -30,9 +29,4 @@
         <item name="android:padding">1sp</item>
     </style>
 
-    <style name="AppTheme.TextView" parent="android:Widget.TextView">
-        <item name="android:textAppearance">@style/AppTheme.DefaultFont</item>
-        <item name="android:paddingLeft">2dp</item>
-        <item name="android:paddingRight">2dp</item>
-    </style>
 </resources>
