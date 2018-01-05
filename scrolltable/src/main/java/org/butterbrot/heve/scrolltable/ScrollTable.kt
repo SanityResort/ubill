@@ -3,11 +3,9 @@ package org.butterbrot.heve.scrolltable
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.widget.LinearLayout
-import android.widget.TableLayout
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TableRow
+import android.widget.*
 
 
 class ScrollTable @JvmOverloads constructor(
@@ -36,6 +34,10 @@ class ScrollTable @JvmOverloads constructor(
     private var leftBorderWidth: Int = 0
     private var rightBorderWidth: Int = 0
     private var maxColWidth: Int = 0
+    private var shrinkTop: Boolean = false
+    private var shrinkBottom: Boolean = false
+    private var shrinkLeft: Boolean = false
+    private var shrinkRight: Boolean = false
 
     private val widths: MutableMap<Int, Int> = mutableMapOf()
     private val heights: MutableMap<Int, Int> = mutableMapOf()
@@ -95,6 +97,34 @@ class ScrollTable @JvmOverloads constructor(
         handleRows(0, topFixedIndex, northWest, north, northEast, leftFixedIndex, rightFixedIndex)
         handleRows(topFixedIndex, bottomFixedIndex, west, center, east, leftFixedIndex, rightFixedIndex)
         handleRows(bottomFixedIndex, rows.size, southWest, south, southEast, leftFixedIndex, rightFixedIndex)
+        setEdgeSizes(topFixedIndex, bottomFixedIndex, leftFixedIndex, rightFixedIndex)
+    }
+
+    private fun setEdgeSizes(topIndex: Int, bottomIndex: Int, leftIndex: Int, rightIndex: Int) {
+        if (shrinkTop) {
+            listOf(R.id.northEastVScroll, R.id.northVScroll, R.id.northWestVScroll).forEach { id ->
+                rootView.findViewById<ScrollView>(id).layoutParams.height = maxSize(0, topIndex - 1, heights)
+            }
+        }
+        if (shrinkBottom) {
+            listOf(R.id.southEastVScroll, R.id.southVScroll, R.id.southWestVScroll).forEach { id ->
+                rootView.findViewById<ScrollView>(id).layoutParams.height = maxSize(bottomIndex, heights.size - 1, heights)
+            }
+        }
+        if (shrinkRight) {
+            listOf(R.id.eastHScroll, R.id.northEastHScroll, R.id.southEastHScroll).forEach { id ->
+                rootView.findViewById<HorizontalScrollView>(id).layoutParams.width = maxSize(rightIndex, widths.size - 1, widths)
+            }
+        }
+        if (shrinkLeft) {
+            listOf(R.id.westHScroll, R.id.southWestHScroll, R.id.northWestHScroll).forEach { id ->
+                rootView.findViewById<HorizontalScrollView>(id).layoutParams.width = maxSize(0, leftIndex - 1, widths)
+            }
+        }
+    }
+
+    private fun maxSize(start: Int, end: Int, sizes: Map<Int, Int>): Int {
+        return (start..end).map { sizes[it] ?: 0 }.foldRight(0, { value, acc -> Math.max(value, acc) })
     }
 
     private fun handleRows(fromRowIndex: Int, toRowIndex: Int, left: TableLayout, middle: TableLayout, right: TableLayout, leftFixedIndex: Int, rightFixedIndex: Int) {
@@ -106,7 +136,7 @@ class ScrollTable @JvmOverloads constructor(
         }
     }
 
-    private fun handleRow(row: List<View>, rowIndex: Int,  left: TableLayout, middle: TableLayout, right: TableLayout, leftFixedIndex: Int, rightFixedIndex: Int) {
+    private fun handleRow(row: List<View>, rowIndex: Int, left: TableLayout, middle: TableLayout, right: TableLayout, leftFixedIndex: Int, rightFixedIndex: Int) {
         left.addView(createTableRow(row.subList(0, leftFixedIndex), rowIndex, 0))
         middle.addView(createTableRow(row.subList(leftFixedIndex, rightFixedIndex), rowIndex, leftFixedIndex))
         right.addView(createTableRow(row.subList(rightFixedIndex, widths.size), rowIndex, rightFixedIndex))
@@ -117,8 +147,8 @@ class ScrollTable @JvmOverloads constructor(
 //      TODO  tableRow.setBackgroundColor(borderColor)
         row.forEachIndexed { colIndex, it ->
             val params = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT)
-            params.width = widths[colIndex + colStartIndex]?:0
-            params.height = heights[rowIndex]?:0
+            params.width = widths[colIndex + colStartIndex] ?: 0
+            params.height = heights[rowIndex] ?: 0
             it.layoutParams = params
             // TODO params.margins
             tableRow.addView(it)

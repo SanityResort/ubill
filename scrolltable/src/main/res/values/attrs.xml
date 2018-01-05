@@ -19,5 +19,10 @@
         <attr name="leftBorderWidth" format="integer"/>
         <attr name="rightBorderWidth" format="integer"/>
         <attr name="maxColWidth" format="integer"/>
+        <attr name="shrinkTop" format="boolean"/>
+        <attr name="shrinkBottom" format="boolean"/>
+        <attr name="shrinkLeft" format="boolean"/>
+        <attr name="shrinkRight" format="boolean"/>
+        <attr name="shrinkEdges" format="boolean"/>
     </declare-styleable>
 </resources>

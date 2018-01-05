@@ -10,7 +10,10 @@ import android.widget.CheckBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_upsert_item.*
 import kotlinx.android.synthetic.main.content_upsert_item.*
-import org.butterbrot.heve.ubill.entity.*
+import org.butterbrot.heve.ubill.entity.Bill
+import org.butterbrot.heve.ubill.entity.Fellow
+import org.butterbrot.heve.ubill.entity.Item
+import org.butterbrot.heve.ubill.entity.Splitting
 
 class UpsertItemActivity : BoxActivity<Bill>() {
     override val menuId: Int

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.view.MenuItem
 import io.objectbox.Box
-import io.objectbox.query.QueryFilter
 import kotlinx.android.synthetic.main.activity_bill_list.*
 import kotlinx.android.synthetic.main.content_edit_fellow.*
 import org.butterbrot.heve.ubill.entity.Bill

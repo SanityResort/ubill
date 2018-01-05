@@ -8,7 +8,10 @@ import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_split.*
 import kotlinx.android.synthetic.main.content_split.*
 import org.butterbrot.heve.ubill.util.NumberUtil

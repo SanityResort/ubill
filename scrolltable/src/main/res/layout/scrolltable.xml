@@ -15,49 +15,93 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TableLayout
-                android:id="@+id/northWest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
-            <org.butterbrot.heve.scrolltable.MirrorScrollView
-                android:id="@+id/westVScroll"
+            <org.butterbrot.heve.scrolltable.MirrorHScrollView
+                android:id="@+id/northWestHScroll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                scrolltable:hmirror="westHScroll, southWestHScroll">
+
+                <org.butterbrot.heve.scrolltable.MirrorScrollView
+                    android:id="@+id/northWestVScroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    scrolltable:vmirror="northVScroll, northEastVScroll">
+
+                    <TableLayout
+                        android:id="@+id/northWest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </org.butterbrot.heve.scrolltable.MirrorScrollView>
+            </org.butterbrot.heve.scrolltable.MirrorHScrollView>
+
+            <org.butterbrot.heve.scrolltable.MirrorHScrollView
+                android:id="@+id/westHScroll"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                scrolltable:vmirror="centerVScroll">
+                scrolltable:hmirror="northWestHScroll, southWestHScroll">
 
-                <TableLayout
-                    android:id="@+id/west"
+                <org.butterbrot.heve.scrolltable.MirrorScrollView
+                    android:id="@+id/westVScroll"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    scrolltable:vmirror="centerVScroll, eastVScroll">
 
-            </org.butterbrot.heve.scrolltable.MirrorScrollView>
+                    <TableLayout
+                        android:id="@+id/west"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-            <TableLayout
-                android:id="@+id/southWest"
+                </org.butterbrot.heve.scrolltable.MirrorScrollView>
+            </org.butterbrot.heve.scrolltable.MirrorHScrollView>
+
+            <org.butterbrot.heve.scrolltable.MirrorHScrollView
+                android:id="@+id/southWestHScroll"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                scrolltable:hmirror="westHScroll, northWestHScroll">
+
+                <org.butterbrot.heve.scrolltable.MirrorScrollView
+                    android:id="@+id/southWestVScroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    scrolltable:vmirror="southVScroll, southEastVScroll">
+
+                    <TableLayout
+                        android:id="@+id/southWest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </org.butterbrot.heve.scrolltable.MirrorScrollView>
+            </org.butterbrot.heve.scrolltable.MirrorHScrollView>
 
         </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/centerColumn"
-            android:layout_height="match_parent"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <org.butterbrot.heve.scrolltable.MirrorHScrollView
                 android:id="@+id/northHScroll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                scrolltable:hmirror="centerHScroll">
+                scrolltable:hmirror="centerHScroll, southHScroll">
 
-                <TableLayout
-                    android:id="@+id/north"
+                <org.butterbrot.heve.scrolltable.MirrorScrollView
+                    android:id="@+id/northVScroll"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    scrolltable:vmirror="northWestVScroll, northEastVScroll">
 
-                </TableLayout>
+                    <TableLayout
+                        android:id="@+id/north"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TableLayout>
+                </org.butterbrot.heve.scrolltable.MirrorScrollView>
             </org.butterbrot.heve.scrolltable.MirrorHScrollView>
 
             <org.butterbrot.heve.scrolltable.MirrorHScrollView
@@ -83,49 +127,95 @@
                 </org.butterbrot.heve.scrolltable.MirrorScrollView>
 
             </org.butterbrot.heve.scrolltable.MirrorHScrollView>
+
             <org.butterbrot.heve.scrolltable.MirrorHScrollView
                 android:id="@+id/southHScroll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                scrolltable:hmirror="centerHScroll">
+                scrolltable:hmirror="centerHScroll, northHScroll">
 
-                <TableLayout
-                    android:id="@+id/south"
+                <org.butterbrot.heve.scrolltable.MirrorScrollView
+                    android:id="@+id/southVScroll"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    scrolltable:vmirror="southWestVScroll, southEastVScroll">
 
-                </TableLayout>
+                    <TableLayout
+                        android:id="@+id/south"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TableLayout>
+                </org.butterbrot.heve.scrolltable.MirrorScrollView>
             </org.butterbrot.heve.scrolltable.MirrorHScrollView>
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:orientation="vertical">
-            <TableLayout
-                android:id="@+id/northEast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
-            <org.butterbrot.heve.scrolltable.MirrorScrollView
-                android:id="@+id/eastVScroll"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <org.butterbrot.heve.scrolltable.MirrorHScrollView
+                android:id="@+id/northEastHScroll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                scrolltable:hmirror="eastHScroll, southEastHScroll">
+
+                <org.butterbrot.heve.scrolltable.MirrorScrollView
+                    android:id="@+id/northEastVScroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    scrolltable:vmirror="northVScroll, northWestVScroll">
+
+
+                    <TableLayout
+                        android:id="@+id/northEast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </org.butterbrot.heve.scrolltable.MirrorScrollView>
+            </org.butterbrot.heve.scrolltable.MirrorHScrollView>
+
+            <org.butterbrot.heve.scrolltable.MirrorHScrollView
+                android:id="@+id/eastHScroll"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                scrolltable:vmirror="centerVScroll">
+                scrolltable:hmirror="northEastHScroll, southEastHScroll">
 
-                <TableLayout
-                    android:id="@+id/east"
+                <org.butterbrot.heve.scrolltable.MirrorScrollView
+                    android:id="@+id/eastVScroll"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    scrolltable:vmirror="centerVScroll, westVScroll">
 
-            </org.butterbrot.heve.scrolltable.MirrorScrollView>
+                    <TableLayout
+                        android:id="@+id/east"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-            <TableLayout
-                android:id="@+id/southEast"
+                </org.butterbrot.heve.scrolltable.MirrorScrollView>
+            </org.butterbrot.heve.scrolltable.MirrorHScrollView>
+
+            <org.butterbrot.heve.scrolltable.MirrorHScrollView
+                android:id="@+id/southEastHScroll"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                scrolltable:hmirror="eastHScroll, northEastHScroll">
 
+                <org.butterbrot.heve.scrolltable.MirrorScrollView
+                    android:id="@+id/southEastVScroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    scrolltable:vmirror="southVScroll, southWestVScroll">
+
+
+                    <TableLayout
+                        android:id="@+id/southEast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </org.butterbrot.heve.scrolltable.MirrorScrollView>
+            </org.butterbrot.heve.scrolltable.MirrorHScrollView>
         </LinearLayout>
     </LinearLayout>
 
