@@ -10,25 +10,26 @@ class MirrorHScrollView @JvmOverloads
     constructor(context: Context, attributeSet: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) :
         HorizontalScrollView(context, attributeSet, defStyleAttr, defStyleRes) {
 
-    lateinit var mirror: HorizontalScrollView
-    private val mirrorId: Int
+    private lateinit var mirrors: List<HorizontalScrollView>
+    private var mirrorIds: List<Int>
 
     init {
         val typedArray: TypedArray = context.obtainStyledAttributes(attributeSet, R.styleable.MirrorHScrollView, 0, 0)
 
-        mirrorId = typedArray.getResourceId(R.styleable.MirrorHScrollView_hmirror, -1)
+        mirrorIds = typedArray.getString(R.styleable.MirrorHScrollView_hmirror).split(",").map {
+            resources.getIdentifier(it.trim(), "id", context.packageName)
+        }
 
         typedArray.recycle()
     }
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
-        mirror.scrollTo(l, 0)
+        mirrors.forEach{it.scrollTo(l, 0)}
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if (mirrorId != -1) {
-            mirror = rootView.findViewById(mirrorId)
-        }
+        mirrors = mirrorIds.map {  rootView.findViewById<HorizontalScrollView>(it)}
+
     }
 }

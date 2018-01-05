@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="MirrorHScrollView">
-        <attr name="hmirror" format="reference"/>
+        <attr name="hmirror" format="string"/>
     </declare-styleable>
     <declare-styleable name="MirrorScrollView">
-        <attr name="vmirror" format="reference"/>
+        <attr name="vmirror" format="string"/>
     </declare-styleable>
     <declare-styleable name="ScrollTable">
         <attr name="fixedTop" format="integer"/>

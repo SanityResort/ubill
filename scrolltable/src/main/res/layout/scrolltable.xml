@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                scrolltable:vmirror="@+id/centerVScroll">
+                scrolltable:vmirror="centerVScroll">
 
                 <TableLayout
                     android:id="@+id/west"
@@ -50,7 +50,7 @@
                 android:id="@+id/northHScroll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                scrolltable:hmirror="@+id/centerHScroll">
+                scrolltable:hmirror="centerHScroll">
 
                 <TableLayout
                     android:id="@+id/north"
@@ -65,14 +65,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                scrolltable:hmirror="@+id/southHScroll"
+                scrolltable:hmirror="southHScroll, northHScroll"
                 tools:ignore="NestedWeights">
 
                 <org.butterbrot.heve.scrolltable.MirrorScrollView
                     android:id="@+id/centerVScroll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    scrolltable:vmirror="@+id/eastVScroll">
+                    scrolltable:vmirror="eastVScroll, westVScroll">
 
                     <TableLayout
                         android:id="@+id/center"
@@ -87,7 +87,7 @@
                 android:id="@+id/southHScroll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                scrolltable:hmirror="@+id/northHScroll">
+                scrolltable:hmirror="centerHScroll">
 
                 <TableLayout
                     android:id="@+id/south"
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                scrolltable:vmirror="@+id/westVScroll">
+                scrolltable:vmirror="centerVScroll">
 
                 <TableLayout
                     android:id="@+id/east"

@@ -66,24 +66,25 @@ class BillActivity : BoxActivity<Bill>() {
         }
         scrolltable.addRow(headerRow)
 
-        bill.items.forEach { item ->
-            val itemRow = mutableListOf<View>()
-            itemRow.add(createCell(item.name, Gravity.START))
-            fellows.forEach { fellow ->
-                val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
-                val numberCell = createNumberCell(amount)
-                numberCell.setOnClickListener { _ ->
-                    UpsertItemActivity.call(this, bill.id, item.id)
+        (1..10).forEach {
+            bill.items.forEach { item ->
+                val itemRow = mutableListOf<View>()
+                itemRow.add(createCell(item.name, Gravity.START))
+                fellows.forEach { fellow ->
+                    val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
+                    val numberCell = createNumberCell(amount)
+                    numberCell.setOnClickListener { _ ->
+                        UpsertItemActivity.call(this, bill.id, item.id)
+                    }
+                    val numberCell2 = createNumberCell(amount)
+                    numberCell2.setOnClickListener { _ ->
+                        UpsertItemActivity.call(this, bill.id, item.id)
+                    }
+                    itemRow.add(numberCell)
                 }
-                val numberCell2 = createNumberCell(amount)
-                numberCell2.setOnClickListener { _ ->
-                    UpsertItemActivity.call(this, bill.id, item.id)
-                }
-                itemRow.add(numberCell)
+                scrolltable.addRow(itemRow)
             }
-            scrolltable.addRow(itemRow)
         }
-
         scrolltable.addRow(footerRow)
     }
 
