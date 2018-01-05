@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MirrorHScrollView">
+        <attr name="hmirror" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="MirrorScrollView">
+        <attr name="vmirror" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="ScrollTable">
+        <attr name="fixedTop" format="integer"/>
+        <attr name="fixedBottom" format="integer"/>
+        <attr name="fixedLeft" format="integer"/>
+        <attr name="fixedRight" format="integer"/>
+        <attr name="oddRowColor" format="reference"/>
+        <attr name="oddColumnColor" format="reference"/>
+        <attr name="borderColor" format="reference"/>
+        <attr name="topBorderHeight" format="integer"/>
+        <attr name="bottomBorderHeight" format="integer"/>
+        <attr name="leftBorderWidth" format="integer"/>
+        <attr name="rightBorderWidth" format="integer"/>
+        <attr name="maxColWidth" format="integer"/>
+    </declare-styleable>
+</resources>

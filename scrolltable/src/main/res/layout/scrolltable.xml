@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:scrolltable="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:id="@+id/eastColumn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TableLayout
+                android:id="@+id/northWest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <org.butterbrot.heve.scrolltable.MirrorScrollView
+                android:id="@+id/westVScroll"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                scrolltable:vmirror="@+id/centerVScroll">
+
+                <TableLayout
+                    android:id="@+id/west"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </org.butterbrot.heve.scrolltable.MirrorScrollView>
+
+            <TableLayout
+                android:id="@+id/southWest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/centerColumn"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <org.butterbrot.heve.scrolltable.MirrorHScrollView
+                android:id="@+id/northHScroll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                scrolltable:hmirror="@+id/centerHScroll">
+
+                <TableLayout
+                    android:id="@+id/north"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </TableLayout>
+            </org.butterbrot.heve.scrolltable.MirrorHScrollView>
+
+            <org.butterbrot.heve.scrolltable.MirrorHScrollView
+                android:id="@+id/centerHScroll"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                scrolltable:hmirror="@+id/southHScroll"
+                tools:ignore="NestedWeights">
+
+                <org.butterbrot.heve.scrolltable.MirrorScrollView
+                    android:id="@+id/centerVScroll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    scrolltable:vmirror="@+id/eastVScroll">
+
+                    <TableLayout
+                        android:id="@+id/center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </TableLayout>
+                </org.butterbrot.heve.scrolltable.MirrorScrollView>
+
+            </org.butterbrot.heve.scrolltable.MirrorHScrollView>
+            <org.butterbrot.heve.scrolltable.MirrorHScrollView
+                android:id="@+id/southHScroll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                scrolltable:hmirror="@+id/northHScroll">
+
+                <TableLayout
+                    android:id="@+id/south"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </TableLayout>
+            </org.butterbrot.heve.scrolltable.MirrorHScrollView>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:orientation="vertical">
+            <TableLayout
+                android:id="@+id/northEast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <org.butterbrot.heve.scrolltable.MirrorScrollView
+                android:id="@+id/eastVScroll"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                scrolltable:vmirror="@+id/westVScroll">
+
+                <TableLayout
+                    android:id="@+id/east"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </org.butterbrot.heve.scrolltable.MirrorScrollView>
+
+            <TableLayout
+                android:id="@+id/southEast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</merge>

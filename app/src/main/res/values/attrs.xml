@@ -3,10 +3,4 @@
     <declare-styleable name="NumberView">
         <attr name="dynamicTextColoring" format="boolean"/>
     </declare-styleable>
-    <declare-styleable name="MirrorHScrollView">
-        <attr name="hmirror" format="reference"/>
-    </declare-styleable>
-    <declare-styleable name="MirrorScrollView">
-        <attr name="vmirror" format="reference"/>
-    </declare-styleable>
 </resources>

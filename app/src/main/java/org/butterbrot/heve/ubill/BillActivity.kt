@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
-import android.widget.TableRow
 import android.widget.TextView
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.content_bill.*
@@ -16,8 +15,6 @@ import org.butterbrot.heve.ubill.entity.Fellow
 import org.butterbrot.heve.ubill.entity.Item
 import org.butterbrot.heve.ubill.entity.Splitting
 import org.butterbrot.heve.ubill.view.NumberView
-import android.widget.LinearLayout
-
 
 
 class BillActivity : BoxActivity<Bill>() {
@@ -30,8 +27,6 @@ class BillActivity : BoxActivity<Bill>() {
 
     private lateinit var bill: Bill
     private var id: Long = 0
-    private lateinit var nameRow: TableRow
-    private lateinit var totalsRow: TableRow
     private lateinit var itemBox: Box<Item>
     private lateinit var splittingBox: Box<Splitting>
 
@@ -41,14 +36,6 @@ class BillActivity : BoxActivity<Bill>() {
         splittingBox = (application as BillApplication).boxStore.boxFor(Splitting::class.java)
         id = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
 
-        nameRow = createRow()
-        totalsRow = createRow()
-    }
-
-    private fun createRow() : TableRow {
-        val row = TableRow(this)
-        row.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark))
-        return row
     }
 
     override fun onResume() {
@@ -65,88 +52,48 @@ class BillActivity : BoxActivity<Bill>() {
             }
         }
 
-        nameRow.removeAllViews()
-        totalsRow.removeAllViews()
-        innerTable.removeAllViews()
+        val emptyCell = View(this)
+
+        val headerRow: MutableList<View> = mutableListOf()
+        headerRow.add(emptyCell)
+        val footerRow: MutableList<View> = mutableListOf()
+        footerRow.add(createCell(getString(R.string.label_bill_total), Gravity.START))
+
 
         fellows.forEach {
-            nameRow.addView(createCell(it.name, Gravity.CENTER_HORIZONTAL))
-            totalsRow.addView(createNumberCell(amounts[it] ?: 0))
+            headerRow.add(createCell(it.name, Gravity.CENTER_HORIZONTAL))
+            footerRow.add(createNumberCell(amounts[it] ?: 0))
         }
+        scrolltable.addRow(headerRow)
 
-        headerTable.removeAllViews()
-        headerTable.addView(nameRow)
-        itemTable.removeAllViews()
         bill.items.forEach { item ->
-            val amountRow = createRow()
-            val itemNameRow = createRow()
-            itemNameRow.addView(createCell(item.name, Gravity.START))
-            itemTable.addView(itemNameRow)
-            fellows.forEach{ fellow ->
+            val itemRow = mutableListOf<View>()
+            itemRow.add(createCell(item.name, Gravity.START))
+            fellows.forEach { fellow ->
                 val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
-                amountRow.addView(createNumberCell(amount))
+                val numberCell = createNumberCell(amount)
+                numberCell.setOnClickListener { _ ->
+                    UpsertItemActivity.call(this, bill.id, item.id)
+                }
+                val numberCell2 = createNumberCell(amount)
+                numberCell2.setOnClickListener { _ ->
+                    UpsertItemActivity.call(this, bill.id, item.id)
+                }
+                itemRow.add(numberCell)
             }
-            amountRow.setOnClickListener{ _ ->
-                UpsertItemActivity.call(this, bill.id, item.id)
-            }
-            innerTable.addView(amountRow)
+            scrolltable.addRow(itemRow)
         }
 
-        innerTable.addView(totalsRow)
-        itemTable.addView(createCell(getString(R.string.label_bill_total), Gravity.START))
-        syncWidths()
+        scrolltable.addRow(footerRow)
     }
-
-    private fun syncWidths(){
-        val headerRow = (headerTable.getChildAt(0) as TableRow)
-        val columnCount = headerRow.childCount
-        val rowCount = innerTable.childCount
-
-
-        var colCounter = 0
-
-        while (colCounter < columnCount) {
-            var maxWidth = viewWidth(headerRow.getChildAt(colCounter))
-            var rowCounter = 0
-
-            while (rowCounter < rowCount) {
-                maxWidth = Math.max(maxWidth, viewWidth((innerTable.getChildAt(rowCounter) as TableRow).getChildAt(colCounter)))
-                rowCounter++
-            }
-
-            rowCounter = 0
-            setViewWidth(headerRow.getChildAt(colCounter), maxWidth)
-
-            while (rowCounter < rowCount) {
-                setViewWidth((innerTable.getChildAt(rowCounter) as TableRow).getChildAt(colCounter), maxWidth)
-                rowCounter++
-            }
-
-            colCounter++
-        }
-
-    }
-
-    private fun viewWidth(view: View):Int {
-        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        return view.getMeasuredWidth();
-    }
-
-    private fun setViewWidth(view: View, width: Int) {
-        val params = view.layoutParams as TableRow.LayoutParams
-        params.width = width
-    }
-
 
     private fun createNumberCell(amount: Int): NumberView {
         val view = NumberView(this)
         view.setNumber(amount)
         view.gravity = Gravity.END
+        @Suppress("DEPRECATION")
         view.setBackgroundColor(resources.getColor(R.color.colorBackground))
-        val llp = TableRow.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT)
-        llp.setMargins(2, 1, 2, 1)
         view.setPadding(4, 4, 4, 4)
-        view.layoutParams=llp
         return view
     }
 
@@ -154,11 +101,9 @@ class BillActivity : BoxActivity<Bill>() {
         val view = TextView(this)
         view.text = text
         view.gravity = gravity
+        @Suppress("DEPRECATION")
         view.setBackgroundColor(resources.getColor(R.color.colorBackground))
-        val llp = TableRow.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT)
-        llp.setMargins(2, 1, 2, 1)
         view.setPadding(4, 4, 4, 4)
-        view.layoutParams=llp
         return view
     }
 

@@ -1,28 +1,28 @@
-package org.butterbrot.heve.ubill.view
+package org.butterbrot.heve.scrolltable
 
 import android.content.Context
 import android.content.res.TypedArray
 import android.util.AttributeSet
-import android.widget.ScrollView
-import org.butterbrot.heve.ubill.R
+import android.widget.HorizontalScrollView
 
-class MirrorScrollView @JvmOverloads
+
+class MirrorHScrollView @JvmOverloads
     constructor(context: Context, attributeSet: AttributeSet? = null, defStyleAttr: Int = 0, defStyleRes: Int = 0) :
-        ScrollView(context, attributeSet, defStyleAttr, defStyleRes) {
+        HorizontalScrollView(context, attributeSet, defStyleAttr, defStyleRes) {
 
-    lateinit var mirror: ScrollView
+    lateinit var mirror: HorizontalScrollView
     private val mirrorId: Int
 
     init {
-        val typedArray: TypedArray = context.obtainStyledAttributes(attributeSet, R.styleable.MirrorScrollView, 0, 0)
+        val typedArray: TypedArray = context.obtainStyledAttributes(attributeSet, R.styleable.MirrorHScrollView, 0, 0)
 
-        mirrorId = typedArray.getResourceId(R.styleable.MirrorScrollView_vmirror, -1)
+        mirrorId = typedArray.getResourceId(R.styleable.MirrorHScrollView_hmirror, -1)
 
         typedArray.recycle()
     }
 
     override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
-        mirror.scrollTo(0, t)
+        mirror.scrollTo(l, 0)
     }
 
     override fun onAttachedToWindow() {
@@ -31,6 +31,4 @@ class MirrorScrollView @JvmOverloads
             mirror = rootView.findViewById(mirrorId)
         }
     }
-
-
 }

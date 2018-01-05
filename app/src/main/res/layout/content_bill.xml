@@ -8,77 +8,12 @@
     tools:context="org.butterbrot.heve.ubill.BillActivity"
     tools:showIn="@layout/activity_bill">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+   <org.butterbrot.heve.scrolltable.ScrollTable
+        android:id="@+id/scrolltable"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/northWest"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <org.butterbrot.heve.ubill.view.MirrorScrollView
-                android:id="@+id/outerVertScroll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:vmirror="@+id/innerVertScroll">
-
-                <TableLayout
-                    android:id="@+id/itemTable"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                </TableLayout>
-            </org.butterbrot.heve.ubill.view.MirrorScrollView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <org.butterbrot.heve.ubill.view.MirrorHScrollView
-                android:id="@+id/outerHorScroll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:hmirror="@+id/innerHorScroll">
-
-                <TableLayout
-                    android:id="@+id/headerTable"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                </TableLayout>
-            </org.butterbrot.heve.ubill.view.MirrorHScrollView>
-
-            <org.butterbrot.heve.ubill.view.MirrorHScrollView
-                android:id="@+id/innerHorScroll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:hmirror="@+id/outerHorScroll">
-
-                <org.butterbrot.heve.ubill.view.MirrorScrollView
-                    android:id="@+id/innerVertScroll"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:vmirror="@+id/outerVertScroll">
-
-                    <TableLayout
-                        android:id="@+id/innerTable"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                    </TableLayout>
-                </org.butterbrot.heve.ubill.view.MirrorScrollView>
-
-            </org.butterbrot.heve.ubill.view.MirrorHScrollView>
-        </LinearLayout>
-    </LinearLayout>
+    </org.butterbrot.heve.scrolltable.ScrollTable>
 
 </android.support.constraint.ConstraintLayout>
+
