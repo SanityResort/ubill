@@ -8,10 +8,24 @@
     tools:context="org.butterbrot.heve.ubill.BillActivity"
     tools:showIn="@layout/activity_bill">
 
-   <org.butterbrot.heve.scrolltable.ScrollTable
+    <org.butterbrot.heve.scrolltable.ScrollTable
         android:id="@+id/scrolltable"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        app:scrolltable_borderColor="@color/colorAccent"
+        app:scrolltable_eastCellBorder="1"
+        app:scrolltable_eastColumns="1"
+        app:scrolltable_eastColumnsGap="1"
+        app:scrolltable_northCellBorder="1"
+        app:scrolltable_northRows="1"
+        app:scrolltable_northRowsGap="1"
+        app:scrolltable_shrink="north|east"
+        app:scrolltable_southCellBorder="1"
+        app:scrolltable_southRows="1"
+        app:scrolltable_southRowsGap="1"
+        app:scrolltable_westCellBorder="1"
+        app:scrolltable_westColumns="1"
+        app:scrolltable_westColumnsGap="1">
 
     </org.butterbrot.heve.scrolltable.ScrollTable>
 

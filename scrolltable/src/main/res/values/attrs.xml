@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="MirrorHScrollView">
-        <attr name="hmirror" format="string"/>
+        <attr name="mirror_horizontal" format="string"/>
     </declare-styleable>
     <declare-styleable name="MirrorScrollView">
-        <attr name="vmirror" format="string"/>
+        <attr name="mirror_vertical" format="string"/>
     </declare-styleable>
     <declare-styleable name="ScrollTable">
-        <attr name="fixedTop" format="integer"/>
-        <attr name="fixedBottom" format="integer"/>
-        <attr name="fixedLeft" format="integer"/>
-        <attr name="fixedRight" format="integer"/>
-        <attr name="oddRowColor" format="reference"/>
-        <attr name="oddColumnColor" format="reference"/>
-        <attr name="borderColor" format="reference"/>
-        <attr name="topBorderHeight" format="integer"/>
-        <attr name="bottomBorderHeight" format="integer"/>
-        <attr name="leftBorderWidth" format="integer"/>
-        <attr name="rightBorderWidth" format="integer"/>
-        <attr name="maxColWidth" format="integer"/>
-        <attr name="shrinkTop" format="boolean"/>
-        <attr name="shrinkBottom" format="boolean"/>
-        <attr name="shrinkLeft" format="boolean"/>
-        <attr name="shrinkRight" format="boolean"/>
-        <attr name="shrinkEdges" format="boolean"/>
+        <attr name="scrolltable_northRowsGap" format="integer"/>
+        <attr name="scrolltable_southRowsGap" format="integer"/>
+        <attr name="scrolltable_westColumnsGap" format="integer"/>
+        <attr name="scrolltable_eastColumnsGap" format="integer"/>
+        <attr name="scrolltable_borderColor" format="color"/>
+        <attr name="scrolltable_northCellBorder" format="integer"/>
+        <attr name="scrolltable_southCellBorder" format="integer"/>
+        <attr name="scrolltable_westCellBorder" format="integer"/>
+        <attr name="scrolltable_eastCellBorder" format="integer"/>
+        <attr name="scrolltable_northRows" format="integer"/>
+        <attr name="scrolltable_southRows" format="integer"/>
+        <attr name="scrolltable_westColumns" format="integer"/>
+        <attr name="scrolltable_eastColumns" format="integer"/>
+        <attr name="scrolltable_shrink">
+            <flag name="none" value="0" />
+            <flag name="north" value="1" />
+            <flag name="east" value="2" />
+            <flag name="south" value="4" />
+            <flag name="west" value="8" />
+            <flag name="all" value="15" />
+        </attr>
     </declare-styleable>
 </resources>

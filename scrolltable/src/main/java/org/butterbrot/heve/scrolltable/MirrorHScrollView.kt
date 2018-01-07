@@ -16,7 +16,7 @@ class MirrorHScrollView @JvmOverloads
     init {
         val typedArray: TypedArray = context.obtainStyledAttributes(attributeSet, R.styleable.MirrorHScrollView, 0, 0)
 
-        mirrorIds = typedArray.getString(R.styleable.MirrorHScrollView_hmirror).split(",").map {
+        mirrorIds = typedArray.getString(R.styleable.MirrorHScrollView_mirror_horizontal).split(",").map {
             resources.getIdentifier(it.trim(), "id", context.packageName)
         }
 

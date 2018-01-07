@@ -22,22 +22,23 @@ class ScrollTable @JvmOverloads constructor(
     private lateinit var south: TableLayout
     private lateinit var southEast: TableLayout
 
-    private var fixedTop: Int = 0
-    private var fixedBottom: Int = 0
-    private var fixedLeft: Int = 0
-    private var fixedRight: Int = 0
-    private var oddRowColor: Int = 0
-    private var oddColumnColor: Int = 0
+    private var northRows: Int = 0
+    private var southRows: Int = 0
+    private var westColumns: Int = 0
+    private var eastColumns: Int = 0
+    private var northRowsGap: Int = 0
+    private var southRowsGap: Int = 0
+    private var westColumnsGap: Int = 0
+    private var eastColumnsGap: Int = 0
     private var borderColor: Int = 0
-    private var topBorderHeight: Int = 0
-    private var bottomBorderHeight: Int = 0
-    private var leftBorderWidth: Int = 0
-    private var rightBorderWidth: Int = 0
-    private var maxColWidth: Int = 0
-    private var shrinkTop: Boolean = false
-    private var shrinkBottom: Boolean = false
-    private var shrinkLeft: Boolean = false
-    private var shrinkRight: Boolean = false
+    private var northCellBorder: Int = 0
+    private var southCellBorder: Int = 0
+    private var westCellBorder: Int = 0
+    private var eastCellBorder: Int = 0
+    private var shrinkNorth: Boolean = false
+    private var shrinkSouth: Boolean = false
+    private var shrinkWest: Boolean = false
+    private var shrinkEast: Boolean = false
 
     private val widths: MutableMap<Int, Int> = mutableMapOf()
     private val heights: MutableMap<Int, Int> = mutableMapOf()
@@ -51,10 +52,28 @@ class ScrollTable @JvmOverloads constructor(
 
         val typedArray: TypedArray = context.obtainStyledAttributes(attributeSet, R.styleable.ScrollTable, 0, 0)
 
-        fixedTop = typedArray.getResourceId(R.styleable.ScrollTable_fixedTop, 0)
-        fixedBottom = typedArray.getResourceId(R.styleable.ScrollTable_fixedBottom, 0)
-        fixedLeft = typedArray.getResourceId(R.styleable.ScrollTable_fixedLeft, 0)
-        fixedRight = typedArray.getResourceId(R.styleable.ScrollTable_fixedRight, 0)
+        northRows = typedArray.getInt(R.styleable.ScrollTable_scrolltable_northRows, 0)
+        southRows = typedArray.getInt(R.styleable.ScrollTable_scrolltable_southRows, 0)
+        westColumns = typedArray.getInt(R.styleable.ScrollTable_scrolltable_westColumns, 0)
+        eastColumns = typedArray.getInt(R.styleable.ScrollTable_scrolltable_eastColumns, 0)
+
+        val shrinkMask = typedArray.getInt(R.styleable.ScrollTable_scrolltable_shrink, 0)
+        shrinkNorth = SHRINK_NORTH and shrinkMask != 0
+        shrinkSouth = SHRINK_SOUTH and shrinkMask != 0
+        shrinkWest = SHRINK_WEST and shrinkMask != 0
+        shrinkEast = SHRINK_EAST and shrinkMask != 0
+
+        northCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrolltable_northCellBorder, 0)
+        southCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrolltable_southCellBorder, 0)
+        westCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrolltable_westCellBorder, 0)
+        eastCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrolltable_eastCellBorder, 0)
+
+        borderColor = typedArray.getColor(R.styleable.ScrollTable_scrolltable_borderColor, -1)
+
+        northRowsGap = typedArray.getInt(R.styleable.ScrollTable_scrolltable_northRowsGap, 0)
+        southRowsGap = typedArray.getInt(R.styleable.ScrollTable_scrolltable_southRowsGap, 0)
+        westColumnsGap = typedArray.getInt(R.styleable.ScrollTable_scrolltable_westColumnsGap, 0)
+        eastColumnsGap = typedArray.getInt(R.styleable.ScrollTable_scrolltable_eastColumnsGap, 0)
 
         typedArray.recycle()
 
@@ -84,41 +103,55 @@ class ScrollTable @JvmOverloads constructor(
     }
 
     private fun viewDimension(view: View): Pair<Int, Int> {
-        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        return Pair(view.measuredWidth, view.measuredHeight);
+        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+        return Pair(view.measuredWidth, view.measuredHeight)
     }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        val topFixedIndex = Math.max(0, Math.min(rows.size, fixedTop))
-        val bottomFixedIndex = Math.max(topFixedIndex, rows.size - fixedBottom)
-        val leftFixedIndex = Math.max(0, Math.min(widths.size, fixedLeft))
-        val rightFixedIndex = Math.max(leftFixedIndex, widths.size - fixedRight)
-        handleRows(0, topFixedIndex, northWest, north, northEast, leftFixedIndex, rightFixedIndex)
-        handleRows(topFixedIndex, bottomFixedIndex, west, center, east, leftFixedIndex, rightFixedIndex)
-        handleRows(bottomFixedIndex, rows.size, southWest, south, southEast, leftFixedIndex, rightFixedIndex)
-        setEdgeSizes(topFixedIndex, bottomFixedIndex, leftFixedIndex, rightFixedIndex)
+        val northRowsIndex = Math.max(0, Math.min(rows.size, northRows))
+        val southRowsIndex = Math.max(northRowsIndex, rows.size - southRows)
+        val westColumnsIndex = Math.max(0, Math.min(widths.size, westColumns))
+        val eastColumnsIndex = Math.max(westColumnsIndex, widths.size - eastColumns)
+        handleRows(0, northRowsIndex, northWest, north, northEast, westColumnsIndex, eastColumnsIndex)
+        handleRows(northRowsIndex, southRowsIndex, west, center, east, westColumnsIndex, eastColumnsIndex)
+        handleRows(southRowsIndex, rows.size, southWest, south, southEast, westColumnsIndex, eastColumnsIndex)
+        setEdgeSizes(northRowsIndex, southRowsIndex, westColumnsIndex, eastColumnsIndex)
+        setGaps()
     }
 
-    private fun setEdgeSizes(topIndex: Int, bottomIndex: Int, leftIndex: Int, rightIndex: Int) {
-        if (shrinkTop) {
+    private fun setGaps() {
+        listOf(R.id.eastHScroll, R.id.westHScroll).map { id ->
+            rootView.findViewById<HorizontalScrollView>(id)
+        }.forEach { view -> view.setPadding(view.paddingStart, view.paddingTop + northRowsGap, view.paddingEnd, view.paddingBottom + southRowsGap) }
+
+        listOf(R.id.northHScroll, R.id.southHScroll).map { id ->
+            rootView.findViewById<HorizontalScrollView>(id)
+        }.forEach { view -> view.setPadding(view.paddingStart + westColumnsGap, view.paddingTop, view.paddingEnd + eastColumnsGap, view.paddingBottom) }
+
+        val view = rootView.findViewById<HorizontalScrollView>(R.id.centerHScroll)
+        view.setPadding(view.paddingStart + westColumnsGap, view.paddingTop + northRowsGap, view.paddingEnd + eastColumnsGap,view.paddingBottom + southRowsGap)
+    }
+
+    private fun setEdgeSizes(northRowsIndex: Int, southRowsIndex: Int, westColumnsIndex: Int, eastColumnsIndex: Int) {
+        if (shrinkNorth) {
             listOf(R.id.northEastVScroll, R.id.northVScroll, R.id.northWestVScroll).forEach { id ->
-                rootView.findViewById<ScrollView>(id).layoutParams.height = maxSize(0, topIndex - 1, heights)
+                rootView.findViewById<ScrollView>(id).layoutParams.height = maxSize(0, northRowsIndex - 1, heights)
             }
         }
-        if (shrinkBottom) {
+        if (shrinkSouth) {
             listOf(R.id.southEastVScroll, R.id.southVScroll, R.id.southWestVScroll).forEach { id ->
-                rootView.findViewById<ScrollView>(id).layoutParams.height = maxSize(bottomIndex, heights.size - 1, heights)
+                rootView.findViewById<ScrollView>(id).layoutParams.height = maxSize(southRowsIndex, heights.size - 1, heights)
             }
         }
-        if (shrinkRight) {
+        if (shrinkEast) {
             listOf(R.id.eastHScroll, R.id.northEastHScroll, R.id.southEastHScroll).forEach { id ->
-                rootView.findViewById<HorizontalScrollView>(id).layoutParams.width = maxSize(rightIndex, widths.size - 1, widths)
+                rootView.findViewById<HorizontalScrollView>(id).layoutParams.width = maxSize(eastColumnsIndex, widths.size - 1, widths)
             }
         }
-        if (shrinkLeft) {
+        if (shrinkWest) {
             listOf(R.id.westHScroll, R.id.southWestHScroll, R.id.northWestHScroll).forEach { id ->
-                rootView.findViewById<HorizontalScrollView>(id).layoutParams.width = maxSize(0, leftIndex - 1, widths)
+                rootView.findViewById<HorizontalScrollView>(id).layoutParams.width = maxSize(0, westColumnsIndex - 1, widths)
             }
         }
     }
@@ -127,36 +160,46 @@ class ScrollTable @JvmOverloads constructor(
         return (start..end).map { sizes[it] ?: 0 }.foldRight(0, { value, acc -> Math.max(value, acc) })
     }
 
-    private fun handleRows(fromRowIndex: Int, toRowIndex: Int, left: TableLayout, middle: TableLayout, right: TableLayout, leftFixedIndex: Int, rightFixedIndex: Int) {
+    private fun handleRows(fromRowIndex: Int, toRowIndex: Int, west: TableLayout, center: TableLayout, east: TableLayout, westColumnsIndex: Int, eastColumnsIndex: Int) {
         if (fromRowIndex < toRowIndex) {
             rows.subList(fromRowIndex, toRowIndex).forEachIndexed { index, it ->
                 val missingViewCount = widths.size - it.size
-                handleRow(it.plus(createDummyViews(missingViewCount)), index, left, middle, right, leftFixedIndex, rightFixedIndex)
+                handleRow(it.plus(createDummyViews(missingViewCount)), index, west, center, east, westColumnsIndex, eastColumnsIndex)
             }
         }
     }
 
-    private fun handleRow(row: List<View>, rowIndex: Int, left: TableLayout, middle: TableLayout, right: TableLayout, leftFixedIndex: Int, rightFixedIndex: Int) {
-        left.addView(createTableRow(row.subList(0, leftFixedIndex), rowIndex, 0))
-        middle.addView(createTableRow(row.subList(leftFixedIndex, rightFixedIndex), rowIndex, leftFixedIndex))
-        right.addView(createTableRow(row.subList(rightFixedIndex, widths.size), rowIndex, rightFixedIndex))
+    private fun handleRow(row: List<View>, rowIndex: Int, left: TableLayout, middle: TableLayout, right: TableLayout, westColumnsIndex: Int, eastColumnsIndex: Int) {
+        left.addView(createTableRow(row.subList(0, westColumnsIndex), rowIndex, 0))
+        middle.addView(createTableRow(row.subList(westColumnsIndex, eastColumnsIndex), rowIndex, westColumnsIndex))
+        right.addView(createTableRow(row.subList(eastColumnsIndex, widths.size), rowIndex, eastColumnsIndex))
     }
 
     private fun createTableRow(row: List<View>, rowIndex: Int, colStartIndex: Int): TableRow {
         val tableRow = TableRow(context)
-//      TODO  tableRow.setBackgroundColor(borderColor)
+        if (borderColor >= 0) {
+            tableRow.setBackgroundColor(borderColor)
+        }
         row.forEachIndexed { colIndex, it ->
             val params = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT)
             params.width = widths[colIndex + colStartIndex] ?: 0
             params.height = heights[rowIndex] ?: 0
+            params.setMargins(westCellBorder, northCellBorder, eastCellBorder, southCellBorder)
             it.layoutParams = params
-            // TODO params.margins
             tableRow.addView(it)
         }
-        return tableRow;
+        return tableRow
     }
 
     private fun createDummyViews(number: Int): List<View> {
         return (1..number).map { View(context) }
     }
+
+    companion object {
+        val SHRINK_NORTH = 1
+        val SHRINK_EAST = 2
+        val SHRINK_SOUTH = 4
+        val SHRINK_WEST = 8
+    }
 }
+
