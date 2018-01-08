@@ -2,6 +2,7 @@ package org.butterbrot.heve.scrolltable
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +50,6 @@ class ScrollTable @JvmOverloads constructor(
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.scrolltable, this)
 
-
         val typedArray: TypedArray = context.obtainStyledAttributes(attributeSet, R.styleable.ScrollTable, 0, 0)
 
         northRows = typedArray.getInt(R.styleable.ScrollTable_scrolltable_northRows, 0)
@@ -68,7 +68,7 @@ class ScrollTable @JvmOverloads constructor(
         westCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrolltable_westCellBorder, 0)
         eastCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrolltable_eastCellBorder, 0)
 
-        borderColor = typedArray.getColor(R.styleable.ScrollTable_scrolltable_borderColor, -1)
+        borderColor = typedArray.getColor(R.styleable.ScrollTable_scrolltable_borderColor, Color.TRANSPARENT)
 
         northRowsGap = typedArray.getInt(R.styleable.ScrollTable_scrolltable_northRowsGap, 0)
         southRowsGap = typedArray.getInt(R.styleable.ScrollTable_scrolltable_southRowsGap, 0)
@@ -136,22 +136,22 @@ class ScrollTable @JvmOverloads constructor(
     private fun setEdgeSizes(northRowsIndex: Int, southRowsIndex: Int, westColumnsIndex: Int, eastColumnsIndex: Int) {
         if (shrinkNorth) {
             listOf(R.id.northEastVScroll, R.id.northVScroll, R.id.northWestVScroll).forEach { id ->
-                rootView.findViewById<ScrollView>(id).layoutParams.height = maxSize(0, northRowsIndex - 1, heights)
+                rootView.findViewById<ScrollView>(id).layoutParams.height = maxSize(0, northRowsIndex - 1, heights) + (northCellBorder + southCellBorder) * northRowsIndex
             }
         }
         if (shrinkSouth) {
             listOf(R.id.southEastVScroll, R.id.southVScroll, R.id.southWestVScroll).forEach { id ->
-                rootView.findViewById<ScrollView>(id).layoutParams.height = maxSize(southRowsIndex, heights.size - 1, heights)
+                rootView.findViewById<ScrollView>(id).layoutParams.height = maxSize(southRowsIndex, heights.size - 1, heights) + (northCellBorder + southCellBorder) * Math.max(heights.size - southRowsIndex, 0)
             }
         }
         if (shrinkEast) {
             listOf(R.id.eastHScroll, R.id.northEastHScroll, R.id.southEastHScroll).forEach { id ->
-                rootView.findViewById<HorizontalScrollView>(id).layoutParams.width = maxSize(eastColumnsIndex, widths.size - 1, widths)
+                rootView.findViewById<HorizontalScrollView>(id).layoutParams.width = maxSize(eastColumnsIndex, widths.size - 1, widths) + (eastCellBorder + westCellBorder) * Math.max(widths.size - eastColumnsIndex,0)
             }
         }
         if (shrinkWest) {
             listOf(R.id.westHScroll, R.id.southWestHScroll, R.id.northWestHScroll).forEach { id ->
-                rootView.findViewById<HorizontalScrollView>(id).layoutParams.width = maxSize(0, westColumnsIndex - 1, widths)
+                rootView.findViewById<HorizontalScrollView>(id).layoutParams.width = maxSize(0, westColumnsIndex - 1, widths) + (eastCellBorder + westCellBorder) * westColumnsIndex
             }
         }
     }
@@ -177,22 +177,28 @@ class ScrollTable @JvmOverloads constructor(
 
     private fun createTableRow(row: List<View>, rowIndex: Int, colStartIndex: Int): TableRow {
         val tableRow = TableRow(context)
-        if (borderColor >= 0) {
-            tableRow.setBackgroundColor(borderColor)
-        }
+        tableRow.setBackgroundColor(borderColor)
+
         row.forEachIndexed { colIndex, it ->
-            val params = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT)
+            val params = TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT)
+            params.setMargins(westCellBorder, northCellBorder, eastCellBorder, southCellBorder)
             params.width = widths[colIndex + colStartIndex] ?: 0
             params.height = heights[rowIndex] ?: 0
-            params.setMargins(westCellBorder, northCellBorder, eastCellBorder, southCellBorder)
             it.layoutParams = params
+
             tableRow.addView(it)
         }
         return tableRow
     }
 
     private fun createDummyViews(number: Int): List<View> {
-        return (1..number).map { View(context) }
+        return (1..number).map {
+            val view = TextView(context)
+            val params = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT)
+            params.setMargins(westCellBorder, northCellBorder, eastCellBorder, southCellBorder)
+            view.layoutParams = params
+            view
+        }
     }
 
     companion object {

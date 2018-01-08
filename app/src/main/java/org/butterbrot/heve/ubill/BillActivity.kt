@@ -52,7 +52,7 @@ class BillActivity : BoxActivity<Bill>() {
             }
         }
 
-        val emptyCell = View(this)
+        val emptyCell = createCell("", Gravity.CENTER)
 
         val headerRow: MutableList<View> = mutableListOf()
         headerRow.add(emptyCell)
@@ -77,10 +77,6 @@ class BillActivity : BoxActivity<Bill>() {
                     numberCell.setOnClickListener { _ ->
                         UpsertItemActivity.call(this, bill.id, item.id)
                     }
-                    val numberCell2 = createNumberCell(amount)
-                    numberCell2.setOnClickListener { _ ->
-                        UpsertItemActivity.call(this, bill.id, item.id)
-                    }
                     itemRow.add(numberCell)
                 }
                 scrolltable.addRow(itemRow)
@@ -89,19 +85,19 @@ class BillActivity : BoxActivity<Bill>() {
         scrolltable.addRow(footerRow)
     }
 
-    private fun createNumberCell(amount: Int): NumberView {
+    private fun createNumberCell(amount: Int): TextView {
         val view = NumberView(this)
         view.setNumber(amount)
-        view.gravity = Gravity.END
-        @Suppress("DEPRECATION")
-        view.setBackgroundColor(resources.getColor(R.color.colorBackground))
-        view.setPadding(4, 4, 4, 4)
-        return view
+        return styleView(view, Gravity.END)
     }
 
     private fun createCell(text: String, gravity: Int): TextView {
         val view = TextView(this)
         view.text = text
+        return styleView(view, gravity)
+    }
+
+    private fun styleView(view: TextView, gravity: Int): TextView {
         view.gravity = gravity
         @Suppress("DEPRECATION")
         view.setBackgroundColor(resources.getColor(R.color.colorBackground))
