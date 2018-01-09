@@ -9,7 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import io.objectbox.Box
-import kotlinx.android.synthetic.main.content_bill.*
+import org.butterbrot.heve.scrolltable.ScrollTable
 import org.butterbrot.heve.ubill.entity.Bill
 import org.butterbrot.heve.ubill.entity.Fellow
 import org.butterbrot.heve.ubill.entity.Item
@@ -40,6 +40,7 @@ class BillActivity : BoxActivity<Bill>() {
 
     override fun onResume() {
         super.onResume()
+        val scrolltable: ScrollTable = findViewById(R.id.scrolltable)
         bill = box[id]
         supportActionBar?.title = getString(R.string.title_activity_bill, bill.name)
         val fellows = bill.fellows.sortedBy { it.name }

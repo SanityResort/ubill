@@ -8,7 +8,7 @@
     tools:context="org.butterbrot.heve.ubill.BillActivity"
     tools:showIn="@layout/activity_bill">
 
-    <org.butterbrot.heve.scrolltable.ScrollTable
+    <fragment class="org.butterbrot.heve.scrolltable.ScrolltableFragment"
         android:id="@+id/scrolltable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,7 +28,7 @@
         app:scrolltable_westColumns="1"
         app:scrolltable_westColumnsGap="1">
 
-    </org.butterbrot.heve.scrolltable.ScrollTable>
+    </fragment>
 
 </android.support.constraint.ConstraintLayout>
 

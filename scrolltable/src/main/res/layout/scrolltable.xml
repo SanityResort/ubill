@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<org.butterbrot.heve.scrolltable.ScrollTable xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:scrolltable="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:baselineAligned="false">
+    android:layout_height="match_parent"
+    android:baselineAligned="false">
 
         <LinearLayout
             android:id="@+id/eastColumn"
@@ -217,6 +213,5 @@
                 </org.butterbrot.heve.scrolltable.MirrorScrollView>
             </org.butterbrot.heve.scrolltable.MirrorHScrollView>
         </LinearLayout>
-    </LinearLayout>
 
-</merge>
+</org.butterbrot.heve.scrolltable.ScrollTable>
