@@ -24,7 +24,7 @@ class EditBillActivity : BoxActivity<Bill>() {
 
     private lateinit var bill: Bill
     private lateinit var fellowBox: Box<Fellow>
-    private var fellows: List<Fellow> = listOf()
+    private var fellows: List<Fellow> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,7 @@ class EditBillActivity : BoxActivity<Bill>() {
         bill = box[id]
         supportActionBar?.title = getString(R.string.title_activity_edit_bill, bill.name)
         name.setText(bill.name)
-        fellows = bill.fellows
+        fellows += bill.fellows
         fellow_list.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fellows.map { it.name })
 
     }
