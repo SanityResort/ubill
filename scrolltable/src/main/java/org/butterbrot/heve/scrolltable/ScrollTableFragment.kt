@@ -2,15 +2,15 @@ package org.butterbrot.heve.scrolltable
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import java.lang.reflect.Type
 
-class ScrolltableFragment : Fragment() {
+class ScrollTableFragment : Fragment() {
     private lateinit var scrollTable: ScrollTable
     private var typedArray: TypedArray? = null
 

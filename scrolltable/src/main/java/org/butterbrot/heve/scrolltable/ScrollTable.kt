@@ -57,6 +57,7 @@ class ScrollTable @JvmOverloads constructor(
     }
 
     fun populate() {
+        setBackgroundColor(properties.background)
         rows.forEachIndexed { rowIndex, row ->
             row.forEachIndexed { columnIndex, view ->
                 val dim = viewDimension(view)
@@ -185,30 +186,33 @@ class ScrollTable @JvmOverloads constructor(
         var shrinkSouth: Boolean = false
         var shrinkWest: Boolean = false
         var shrinkEast: Boolean = false
+        var background: Int = 0
 
         init {
-            northRows = typedArray.getInt(R.styleable.ScrollTable_scrolltable_northRows, 0)
-            southRows = typedArray.getInt(R.styleable.ScrollTable_scrolltable_southRows, 0)
-            westColumns = typedArray.getInt(R.styleable.ScrollTable_scrolltable_westColumns, 0)
-            eastColumns = typedArray.getInt(R.styleable.ScrollTable_scrolltable_eastColumns, 0)
+            northRows = typedArray.getInt(R.styleable.ScrollTable_scrollTable_northRows, 0)
+            southRows = typedArray.getInt(R.styleable.ScrollTable_scrollTable_southRows, 0)
+            westColumns = typedArray.getInt(R.styleable.ScrollTable_scrollTable_westColumns, 0)
+            eastColumns = typedArray.getInt(R.styleable.ScrollTable_scrollTable_eastColumns, 0)
 
-            val shrinkMask = typedArray.getInt(R.styleable.ScrollTable_scrolltable_shrink, 0)
+            val shrinkMask = typedArray.getInt(R.styleable.ScrollTable_scrollTable_shrink, 0)
             shrinkNorth = SHRINK_NORTH and shrinkMask != 0
             shrinkSouth = SHRINK_SOUTH and shrinkMask != 0
             shrinkWest = SHRINK_WEST and shrinkMask != 0
             shrinkEast = SHRINK_EAST and shrinkMask != 0
 
-            northCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrolltable_northCellBorder, 0)
-            southCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrolltable_southCellBorder, 0)
-            westCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrolltable_westCellBorder, 0)
-            eastCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrolltable_eastCellBorder, 0)
+            northCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrollTable_northCellBorder, 0)
+            southCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrollTable_southCellBorder, 0)
+            westCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrollTable_westCellBorder, 0)
+            eastCellBorder = typedArray.getInt(R.styleable.ScrollTable_scrollTable_eastCellBorder, 0)
 
-            borderColor = typedArray.getColor(R.styleable.ScrollTable_scrolltable_borderColor, Color.TRANSPARENT)
+            borderColor = typedArray.getColor(R.styleable.ScrollTable_scrollTable_borderColor, Color.TRANSPARENT)
 
-            northRowsGap = typedArray.getInt(R.styleable.ScrollTable_scrolltable_northRowsGap, 0)
-            southRowsGap = typedArray.getInt(R.styleable.ScrollTable_scrolltable_southRowsGap, 0)
-            westColumnsGap = typedArray.getInt(R.styleable.ScrollTable_scrolltable_westColumnsGap, 0)
-            eastColumnsGap = typedArray.getInt(R.styleable.ScrollTable_scrolltable_eastColumnsGap, 0)
+            northRowsGap = typedArray.getInt(R.styleable.ScrollTable_scrollTable_northRowsGap, 0)
+            southRowsGap = typedArray.getInt(R.styleable.ScrollTable_scrollTable_southRowsGap, 0)
+            westColumnsGap = typedArray.getInt(R.styleable.ScrollTable_scrollTable_westColumnsGap, 0)
+            eastColumnsGap = typedArray.getInt(R.styleable.ScrollTable_scrollTable_eastColumnsGap, 0)
+
+            background = typedArray.getColor(R.styleable.ScrollTable_scrollTable_background, Color.TRANSPARENT)
         }
     }
 

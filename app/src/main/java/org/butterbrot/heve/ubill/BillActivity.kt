@@ -40,7 +40,7 @@ class BillActivity : BoxActivity<Bill>() {
 
     override fun onResume() {
         super.onResume()
-        val scrolltable: ScrollTable = findViewById(R.id.scrolltable)
+        val scrollTable: ScrollTable = findViewById(R.id.scrollTable)
         bill = box[id]
         supportActionBar?.title = getString(R.string.title_activity_bill, bill.name)
         val fellows = bill.fellows.sortedBy { it.name }
@@ -65,10 +65,10 @@ class BillActivity : BoxActivity<Bill>() {
             headerRow.add(createCell(it.name, Gravity.CENTER_HORIZONTAL))
             footerRow.add(createNumberCell(amounts[it] ?: 0))
         }
-        scrolltable.addRow(headerRow)
+        scrollTable.addRow(headerRow)
 
         // TODO remove loop
-        (1..10).forEach {
+        (1..1).forEach {
             bill.items.forEach { item ->
                 val itemRow = mutableListOf<View>()
                 itemRow.add(createCell(item.name, Gravity.START))
@@ -80,10 +80,10 @@ class BillActivity : BoxActivity<Bill>() {
                     }
                     itemRow.add(numberCell)
                 }
-                scrolltable.addRow(itemRow)
+                scrollTable.addRow(itemRow)
             }
         }
-        scrolltable.addRow(footerRow)
+        scrollTable.addRow(footerRow)
     }
 
     private fun createNumberCell(amount: Int): TextView {
