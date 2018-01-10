@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class ScrolltableFragment : Fragment() {
+class ScrollTableFragment : Fragment() {
     private lateinit var scrollTable: ScrollTable
     private var typedArray: TypedArray? = null
 

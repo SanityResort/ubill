@@ -9,7 +9,7 @@
     tools:context="org.butterbrot.heve.ubill.BillActivity"
     tools:showIn="@layout/activity_bill">
 
-    <fragment class="org.butterbrot.heve.scrolltable.ScrolltableFragment"
+    <fragment class="org.butterbrot.heve.scrolltable.ScrollTableFragment"
         android:id="@+id/scrollTable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

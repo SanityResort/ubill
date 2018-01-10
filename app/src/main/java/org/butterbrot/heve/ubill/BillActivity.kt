@@ -68,7 +68,7 @@ class BillActivity : BoxActivity<Bill>() {
         scrollTable.addRow(headerRow)
 
         // TODO remove loop
-        (1..1).forEach {
+        (1..10).forEach {
             bill.items.forEach { item ->
                 val itemRow = mutableListOf<View>()
                 itemRow.add(createCell(item.name, Gravity.START))
