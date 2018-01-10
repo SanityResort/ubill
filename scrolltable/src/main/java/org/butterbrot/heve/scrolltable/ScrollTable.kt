@@ -74,6 +74,7 @@ class ScrollTable @JvmOverloads constructor(
         handleRows(southRowsIndex, rows.size, southWest, south, southEast, westColumnsIndex, eastColumnsIndex)
         setEdgeSizes(northRowsIndex, southRowsIndex, westColumnsIndex, eastColumnsIndex)
         setGaps()
+        rows.clear()
     }
 
     override fun removeAllViews() {
