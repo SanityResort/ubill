@@ -9,7 +9,7 @@
     tools:context="org.butterbrot.heve.ubill.BillActivity"
     tools:showIn="@layout/activity_bill">
 
-    <fragment class="org.butterbrot.heve.scrolltable.ScrollTableFragment"
+    <fragment class="org.butterbrot.heve.scrolltable.ScrolltableFragment"
         android:id="@+id/scrollTable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,17 +17,17 @@
         app:scrollTable_borderColor="@color/colorAccent"
         app:scrollTable_eastCellBorder="1"
         app:scrollTable_eastColumns="1"
-        app:scrollTable_eastColumnsGap="10"
+        app:scrollTable_eastColumnsGap="0"
         app:scrollTable_northCellBorder="1"
         app:scrollTable_northRows="1"
-        app:scrollTable_northRowsGap="10"
+        app:scrollTable_northRowsGap="0"
         app:scrollTable_shrink="all"
         app:scrollTable_southCellBorder="1"
         app:scrollTable_southRows="1"
-        app:scrollTable_southRowsGap="10"
+        app:scrollTable_southRowsGap="0"
         app:scrollTable_westCellBorder="1"
         app:scrollTable_westColumns="1"
-        app:scrollTable_westColumnsGap="10">
+        app:scrollTable_westColumnsGap="0">
 
     </fragment>
 

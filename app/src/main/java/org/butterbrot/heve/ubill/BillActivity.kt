@@ -16,7 +16,6 @@ import org.butterbrot.heve.ubill.entity.Item
 import org.butterbrot.heve.ubill.entity.Splitting
 import org.butterbrot.heve.ubill.view.NumberView
 
-
 class BillActivity : BoxActivity<Bill>() {
 
     override val layoutId: Int
@@ -29,6 +28,7 @@ class BillActivity : BoxActivity<Bill>() {
     private var id: Long = 0
     private lateinit var itemBox: Box<Item>
     private lateinit var splittingBox: Box<Splitting>
+    private lateinit var scrollTable: ScrollTable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +36,13 @@ class BillActivity : BoxActivity<Bill>() {
         splittingBox = (application as BillApplication).boxStore.boxFor(Splitting::class.java)
         id = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
 
+        scrollTable = findViewById(R.id.scrollTable)
+        scrollTable.dummyView = { createCell("", Gravity.CENTER) }
     }
 
     override fun onResume() {
         super.onResume()
-        val scrollTable: ScrollTable = findViewById(R.id.scrollTable)
+
         bill = box[id]
         supportActionBar?.title = getString(R.string.title_activity_bill, bill.name)
         val fellows = bill.fellows.sortedBy { it.name }
@@ -53,10 +55,8 @@ class BillActivity : BoxActivity<Bill>() {
             }
         }
 
-        val emptyCell = createCell("", Gravity.CENTER)
-
         val headerRow: MutableList<View> = mutableListOf()
-        headerRow.add(emptyCell)
+        headerRow.add(scrollTable.dummyView())
         val footerRow: MutableList<View> = mutableListOf()
         footerRow.add(createCell(getString(R.string.label_bill_total), Gravity.START))
 
