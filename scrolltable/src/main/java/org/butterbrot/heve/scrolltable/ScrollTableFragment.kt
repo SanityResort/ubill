@@ -12,10 +12,12 @@ import android.view.ViewGroup
 class ScrollTableFragment : Fragment() {
     private lateinit var scrollTable: ScrollTable
     private var typedArray: TypedArray? = null
+    private var autoPopulate: Boolean = true
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         scrollTable = inflater?.inflate(R.layout.scrolltable, container, false) as ScrollTable
         if (typedArray != null) {
+            autoPopulate = typedArray!!.getBoolean(R.styleable.ScrollTable_scrollTable_autoPopulate, true)
             scrollTable.properties = ScrollTableProperties(typedArray!!)
             typedArray?.recycle()
         }
@@ -31,7 +33,9 @@ class ScrollTableFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        scrollTable.removeAllViews()
-        scrollTable.populate()
+        if (autoPopulate) {
+            scrollTable.removeAllViews()
+            scrollTable.populate()
+        }
     }
 }
