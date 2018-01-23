@@ -87,13 +87,13 @@ class BillActivity : BoxActivity<Bill>() {
     }
 
     private fun createNumberCell(amount: Int): TextView {
-        val view = NumberView(this)
+        val view = NumberView(this, null, 0)
         view.setNumber(amount)
         return styleView(view, Gravity.END)
     }
 
     private fun createCell(text: String, gravity: Int): TextView {
-        val view = TextView(this)
+        val view = TextView(this, null, 0)
         view.text = text
         return styleView(view, gravity)
     }

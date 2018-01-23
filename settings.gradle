@@ -1,1 +1,1 @@
-include ':app', ':scrolltable'
+include ':app'
