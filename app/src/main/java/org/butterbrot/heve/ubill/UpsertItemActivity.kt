@@ -73,7 +73,7 @@ class UpsertItemActivity : BoxActivity<Bill>() {
                 when {
                     itemName.isEmpty() ->
                         Snackbar.make(toolbar, R.string.error_item_name_empty, Snackbar.LENGTH_SHORT).show()
-                    !editMode && bill.items.map { it.name }.contains(itemName) ->
+                    bill.items.filter { it.name == itemName && (!editMode || it.id != backingItem.id )}.isNotEmpty() ->
                         Snackbar.make(toolbar, R.string.error_item_name_duplicate, Snackbar.LENGTH_SHORT).show()
                     else -> {
                         if (!setItemFields(itemName)) {
