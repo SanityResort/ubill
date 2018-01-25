@@ -2,26 +2,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.butterbrot.heve.ubill.BillListActivity">
-
-    <item android:id="@+id/create_item"
-        android:icon="@drawable/create"
-        android:title="@string/action_create_item"
-        app:showAsAction="ifRoom"
-        />
     <item
-        android:id="@+id/edit_bill"
-        android:icon="@drawable/edit"
-        android:title="@string/action_edit"
+        android:id="@+id/export_bill"
+        android:title="@string/action_export"
         app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/delete_bill"
-        android:icon="@drawable/delete"
         android:title="@string/action_delete"
         app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/clear_bill"
-        android:icon="@drawable/clear"
         android:title="@string/action_clear"
         app:showAsAction="ifRoom" />
-
 </menu>

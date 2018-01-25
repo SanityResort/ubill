@@ -4,11 +4,13 @@
     <string name="action_change_fellows">Add Fellows</string>
     <string name="action_choose_participants">Choose Participants</string>
     <string name="action_confirm">Confirm</string>
+    <string name="action_clear">Clear Bill</string>
     <string name="action_create_bill">New Bill</string>
     <string name="action_create_fellow">Create Fellow</string>
     <string name="action_create_item">Create Item</string>
     <string name="action_delete">Delete</string>
     <string name="action_edit">Edit</string>
+    <string name="action_export">Export</string>
     <string name="action_list_fellows">List Fellows</string>
     <string name="action_save">Save</string>
     <string name="action_split">Split Manually</string>
@@ -40,8 +42,10 @@
     <string name="label_split_sum">Total amount:</string>
     <string name="label_split_rest">Rest:</string>
 
+    <string name="message_dialog_clear_bill">Are you sure you want to clear bill %1$s</string>
     <string name="message_dialog_delete_bill">Are you sure you want to delete bill %1$s</string>
     <string name="message_dialog_delete_fellow">Are you sure you want to delete fellow %1$s</string>
+    <string name="message_exported_bill">Bill %1$s exported to file %2$s.</string>
 
     <string name="title_activity_bill">%1s</string>
     <string name="title_activity_choose_participants">Choose Participants</string>
@@ -54,6 +58,7 @@
     <string name="title_activity_select_fellows">Choose Fellows</string>
     <string name="title_activity_split">Split Manually</string>
 
+    <string name="title_dialog_clear_bill">Clear Bill</string>
     <string name="title_dialog_delete_bill">Delete Bill</string>
     <string name="title_dialog_delete_fellow">Delete Fellow</string>
 

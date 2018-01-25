@@ -1,6 +1,5 @@
 package org.butterbrot.heve.ubill
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +13,7 @@ import org.butterbrot.heve.ubill.entity.Bill
 import org.butterbrot.heve.ubill.entity.Fellow
 import org.butterbrot.heve.ubill.entity.Item
 import org.butterbrot.heve.ubill.entity.Splitting
+import org.butterbrot.heve.ubill.service.BoxService
 import org.butterbrot.heve.ubill.view.NumberView
 
 class BillActivity : BoxActivity<Bill>() {
@@ -29,9 +29,11 @@ class BillActivity : BoxActivity<Bill>() {
     private lateinit var itemBox: Box<Item>
     private lateinit var splittingBox: Box<Splitting>
     private lateinit var scrollTable: ScrollTable
+    private lateinit var boxService: BoxService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        boxService = BoxService(this)
         itemBox = (application as BillApplication).boxStore.boxFor(Item::class.java)
         splittingBox = (application as BillApplication).boxStore.boxFor(Splitting::class.java)
         id = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
@@ -109,14 +111,11 @@ class BillActivity : BoxActivity<Bill>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.delete_bill -> {
-                AlertDialog.Builder(this).setTitle(R.string.title_dialog_delete_bill)
-                        .setMessage(getString(R.string.message_dialog_delete_bill, bill.name))
-                        .setPositiveButton(android.R.string.yes) { _, _ ->
-                            splittingBox.remove(bill.items.flatMap { it.splittings })
-                            itemBox.remove(bill.items)
-                            box.remove(bill)
-                            finish()
-                        }.setNegativeButton(android.R.string.no, null).show()
+                boxService.deleteBill(bill)
+                true
+            }
+            R.id.clear_bill -> {
+                boxService.clearBill(bill)
                 true
             }
             R.id.edit_bill -> {
@@ -135,6 +134,7 @@ class BillActivity : BoxActivity<Bill>() {
 
     override fun onDestroy() {
         super.onDestroy()
+        boxService.close()
         itemBox.closeThreadResources()
         splittingBox.closeThreadResources()
     }
