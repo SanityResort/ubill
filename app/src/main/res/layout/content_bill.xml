@@ -16,18 +16,16 @@
         app:scrollTable_gapColor="@color/colorPrimaryDark"
         app:scrollTable_borderColor="@color/colorAccent"
         app:scrollTable_eastCellBorder="2"
-        app:scrollTable_eastColumns="2"
-        app:scrollTable_eastColumnsGap="10"
         app:scrollTable_northCellBorder="2"
-        app:scrollTable_northRows="2"
-        app:scrollTable_northRowsGap="10"
+        app:scrollTable_northRows="1"
+        app:scrollTable_northRowsGap="2"
         app:scrollTable_shrink="all"
         app:scrollTable_southCellBorder="2"
-        app:scrollTable_southRows="2"
-        app:scrollTable_southRowsGap="10"
+        app:scrollTable_southRows="1"
+        app:scrollTable_southRowsGap="2"
         app:scrollTable_westCellBorder="2"
-        app:scrollTable_westColumns="2"
-        app:scrollTable_westColumnsGap="10">
+        app:scrollTable_westColumns="1"
+        app:scrollTable_westColumnsGap="2">
 
     </fragment>
 
