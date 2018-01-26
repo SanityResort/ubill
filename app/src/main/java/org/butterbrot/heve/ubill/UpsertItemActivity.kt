@@ -106,6 +106,7 @@ class UpsertItemActivity : BoxActivity<Bill>() {
                 itemBox.remove(backingItem)
                 itemBox.closeThreadResources()
                 deleteSplittings()
+                finish()
                 true
             }
             else -> super.onOptionsItemSelected(item)
