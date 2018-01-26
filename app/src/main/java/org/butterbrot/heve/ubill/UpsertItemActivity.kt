@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
@@ -35,6 +36,11 @@ class UpsertItemActivity : BoxActivity<Bill>() {
         splitEvenly.setOnClickListener({ view -> if (!(view as CheckBox).isChecked) {
             callSplitActivity()
         } })
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.getItem(2)?.setEnabled(editMode)
+        return super.onPrepareOptionsMenu(menu)
     }
 
     private fun populateItem(itemId: Long) {

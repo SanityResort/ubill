@@ -25,7 +25,7 @@ class BoxService(val activity: Activity) : Closeable {
     }
 
     fun deleteBill(bill: Bill) {
-        AlertDialog.Builder(activity).setTitle(R.string.title_dialog_clear_bill)
+        AlertDialog.Builder(activity).setTitle(R.string.title_dialog_delete_bill)
                 .setMessage(activity.getString(R.string.message_dialog_delete_bill, bill.name))
                 .setPositiveButton(android.R.string.yes) { _, _ ->
                     splittingBox.remove(bill.items.flatMap { it.splittings })
