@@ -9,7 +9,9 @@ import android.util.AttributeSet
 import android.widget.EditText
 import org.butterbrot.heve.ubill.R
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
+import java.util.*
 
 
 class EditNumber @JvmOverloads constructor(
@@ -20,7 +22,7 @@ class EditNumber @JvmOverloads constructor(
 
     override var dynamicColoringEnabled: Boolean = true
 
-    override var numberFormat: NumberFormat = DecimalFormat("#0.00")
+    override var numberFormat: NumberFormat = DecimalFormat("#0.00", DecimalFormatSymbols.getInstance(Locale.US))
 
     override fun getBufferType(): BufferType {
         return BufferType.EDITABLE
