@@ -2,11 +2,14 @@ package org.butterbrot.heve.ubill.view
 
 import android.widget.TextView
 import org.butterbrot.heve.ubill.InterfaceConstants
+import java.text.NumberFormat
 
 
 interface NumberAware<T> {
 
     var dynamicColoringEnabled: Boolean
+
+    var numberFormat: NumberFormat
 
     fun getText(): T
 
@@ -15,7 +18,7 @@ interface NumberAware<T> {
         if (text.isEmpty()) {
             return 0
         }
-        return (text.toDouble() * 100).toInt()
+        return (numberFormat.parse(text).toDouble() * 100).toInt()
     }
 
     fun getBufferType(): TextView.BufferType

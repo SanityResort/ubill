@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.widget.EditText
 import org.butterbrot.heve.ubill.R
+import java.text.NumberFormat
 
 
 class EditNumber @JvmOverloads constructor(
@@ -17,6 +18,8 @@ class EditNumber @JvmOverloads constructor(
         defStyleRes: Int = 0): EditText(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<Editable> {
 
     override var dynamicColoringEnabled: Boolean = true
+
+    override var numberFormat: NumberFormat = NumberFormat.getInstance()
 
     override fun getBufferType(): BufferType {
         return BufferType.EDITABLE

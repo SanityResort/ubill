@@ -5,6 +5,7 @@ import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.widget.TextView
 import org.butterbrot.heve.ubill.R
+import java.text.NumberFormat
 
 
 class NumberView @JvmOverloads constructor (
@@ -14,6 +15,8 @@ class NumberView @JvmOverloads constructor (
         defStyleRes: Int = 0): TextView(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<CharSequence> {
 
     override var dynamicColoringEnabled: Boolean = true
+
+    override var numberFormat: NumberFormat = NumberFormat.getInstance()
 
     init {
         val typedArray:TypedArray = context.obtainStyledAttributes(attributeSet, R.styleable.NumberView, 0, 0)
