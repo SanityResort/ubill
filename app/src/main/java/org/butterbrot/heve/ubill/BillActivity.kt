@@ -82,11 +82,12 @@ class BillActivity : BoxActivity<Bill>() {
                 itemRow.add(createCell(item.name, Gravity.START))
                 fellows.forEach { fellow ->
                     val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
-                    val numberCell = createNumberCell(amount)
-                    numberCell.setOnClickListener { _ ->
+                    itemRow.add(createNumberCell(amount))
+                }
+                itemRow.forEach {
+                    it.setOnClickListener { _ ->
                         UpsertItemActivity.call(this, bill.id, item.id)
                     }
-                    itemRow.add(numberCell)
                 }
                 scrollTable.addRow(itemRow)
             }
