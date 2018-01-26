@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.widget.EditText
 import org.butterbrot.heve.ubill.R
+import java.text.DecimalFormat
 import java.text.NumberFormat
 
 
@@ -19,7 +20,7 @@ class EditNumber @JvmOverloads constructor(
 
     override var dynamicColoringEnabled: Boolean = true
 
-    override var numberFormat: NumberFormat = NumberFormat.getInstance()
+    override var numberFormat: NumberFormat = DecimalFormat("#0.00")
 
     override fun getBufferType(): BufferType {
         return BufferType.EDITABLE

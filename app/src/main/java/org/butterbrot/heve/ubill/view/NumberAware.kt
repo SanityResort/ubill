@@ -29,7 +29,7 @@ interface NumberAware<T> {
 
     fun setNumber(number: Int) {
         adjustColor(number)
-        setText("%.2f".format(number.toDouble()/100), getBufferType())
+        setText(numberFormat.format(number.toDouble()/100), getBufferType())
     }
 
     fun adjustColor(number: Int) {
