@@ -24,7 +24,7 @@
     <string name="error_item_name_empty">Item name cannot be empty</string>
     <string name="error_item_name_duplicate">An item with that name already exists in this bill</string>
     <string name="error_split_rest">Rest must be 0</string>
-    <string name="error_split_failed">Could not split sum, all amounts resulted in 0</string>
+    <string name="error_split_failed">It seems the payer claimed the whole amount. Check the splittings.</string>
 
     <string name="label_bill_total">Total</string>
     <string name="label_create_bill_name">Name</string>
