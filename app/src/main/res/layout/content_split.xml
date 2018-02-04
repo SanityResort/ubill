@@ -28,6 +28,7 @@
                 android:layout_weight="0.5"
                 android:gravity="start"
                 android:labelFor="@+id/sum"
+                android:textAppearance="@style/AppTheme.DefaultFont"
                 android:text="@string/label_split_sum"/>
 
             <org.butterbrot.heve.ubill.view.NumberView
@@ -53,6 +54,7 @@
                 android:layout_weight="0.5"
                 android:gravity="start"
                 android:labelFor="@+id/rest"
+                android:textAppearance="@style/AppTheme.DefaultFont"
                 android:text="@string/label_split_rest" />
 
             <org.butterbrot.heve.ubill.view.NumberView
@@ -60,7 +62,8 @@
                 android:gravity="end"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5" />
+                android:layout_weight="0.5"
+                app:dynamicTextColoring="false"/>
         </LinearLayout>
 
         <LinearLayout

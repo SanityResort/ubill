@@ -14,7 +14,7 @@ import java.util.*
 class NumberView @JvmOverloads constructor (
         context: Context,
         attributeSet: AttributeSet? = null,
-        defStyleAttr: Int = android.R.attr.textViewStyle,
+        defStyleAttr: Int = 0,
         defStyleRes: Int = 0): TextView(context, attributeSet, defStyleAttr, defStyleRes), NumberAware<CharSequence> {
 
     override var dynamicColoringEnabled: Boolean = true

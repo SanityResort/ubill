@@ -31,8 +31,13 @@ class UpsertItemActivity : BoxActivity<Bill>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val id = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
+        val itemId = intent.getLongExtra(InterfaceConstants.PARAM_ITEM, 0)
         bill = box[id]
-        populateItem(intent.getLongExtra(InterfaceConstants.PARAM_ITEM, 0))
+        editMode = itemId > 0
+        if (editMode) {
+            supportActionBar?.title = getString(R.string.title_activity_edit, bill.name)
+        }
+        populateItem(itemId)
         splitEvenly.setOnClickListener({ view -> if (!(view as CheckBox).isChecked) {
             callSplitActivity()
         } })
@@ -44,7 +49,6 @@ class UpsertItemActivity : BoxActivity<Bill>() {
     }
 
     private fun populateItem(itemId: Long) {
-        editMode = itemId > 0
         backingItem = bill.items.find { it.id == itemId } ?: Item()
         if (editMode) {
             participants = backingItem.splittings.map { it.fellow.target }
@@ -68,6 +72,7 @@ class UpsertItemActivity : BoxActivity<Bill>() {
     private fun createPayerAdapter() {
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, participants.map { it.name })
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
         payer.adapter = adapter
         payer.setSelection(participants.indexOf(backingItem.payer.target))
     }

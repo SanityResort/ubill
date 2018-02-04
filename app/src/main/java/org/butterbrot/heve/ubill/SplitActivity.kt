@@ -195,7 +195,7 @@ class SplitActivity : AppCompatActivity() {
     }
 
     private fun createNameView(participantName: String): TextView {
-        val nameView = TextView(this)
+        val nameView = TextView(this, null, 0)
         nameView.text = participantName
         nameView.gravity = Gravity.START
         nameView.layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)

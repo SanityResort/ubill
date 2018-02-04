@@ -50,6 +50,7 @@ class BillActivity : BoxActivity<Bill>() {
 
     override fun onResume() {
         super.onResume()
+        invalidateOptionsMenu()
 
         bill = box[id]
         supportActionBar?.title = getString(R.string.title_activity_bill, bill.name)
@@ -75,23 +76,21 @@ class BillActivity : BoxActivity<Bill>() {
         }
         scrollTable.addRow(headerRow)
 
-        // TODO remove loop
-        (1..1).forEach {
-            bill.items.forEach { item ->
-                val itemRow = mutableListOf<View>()
-                itemRow.add(createCell(item.name, Gravity.START))
-                fellows.forEach { fellow ->
-                    val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
-                    itemRow.add(createNumberCell(amount))
-                }
-                itemRow.forEach {
-                    it.setOnClickListener { _ ->
-                        UpsertItemActivity.call(this, bill.id, item.id)
-                    }
-                }
-                scrollTable.addRow(itemRow)
+        bill.items.forEach { item ->
+            val itemRow = mutableListOf<View>()
+            itemRow.add(createCell(item.name, Gravity.START))
+            fellows.forEach { fellow ->
+                val amount = item.splittings.firstOrNull { fellow == it.fellow.target }?.amount ?: 0
+                itemRow.add(createNumberCell(amount))
             }
+            itemRow.forEach {
+                it.setOnClickListener { _ ->
+                    UpsertItemActivity.call(this, bill.id, item.id)
+                }
+            }
+            scrollTable.addRow(itemRow)
         }
+
         scrollTable.addRow(footerRow)
     }
 
@@ -111,7 +110,7 @@ class BillActivity : BoxActivity<Bill>() {
         view.gravity = gravity
         @Suppress("DEPRECATION")
         view.setBackgroundColor(resources.getColor(R.color.colorBackground))
-        view.setPadding(4, 4, 4, 4)
+        view.setPadding(20, 5, 20, 5)
         return view
     }
 

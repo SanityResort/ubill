@@ -24,19 +24,23 @@ class BoxService(val activity: Activity) : Closeable {
         splittingBox.closeThreadResources()
     }
 
-    fun deleteBill(bill: Bill) {
+    fun deleteBill(bill: Bill, finish: Boolean = true) {
         AlertDialog.Builder(activity).setTitle(R.string.title_dialog_delete_bill)
                 .setMessage(activity.getString(R.string.message_dialog_delete_bill, bill.name))
                 .setPositiveButton(android.R.string.yes) { _, _ ->
                     splittingBox.remove(bill.items.flatMap { it.splittings })
                     itemBox.remove(bill.items)
                     billBox.remove(bill)
-                    activity.finish()
+                    if (finish) {
+                        activity.finish()
+                    } else {
+                        activity.recreate()
+                    }
                 }.setNegativeButton(android.R.string.no, null).show()
 
     }
 
-    fun clearBill(bill: Bill) {
+    fun clearBill(bill: Bill, recreate: Boolean = true) {
         AlertDialog.Builder(activity).setTitle(R.string.title_dialog_clear_bill)
                 .setMessage(activity.getString(R.string.message_dialog_clear_bill, bill.name))
                 .setPositiveButton(android.R.string.yes) { _, _ ->
@@ -44,7 +48,9 @@ class BoxService(val activity: Activity) : Closeable {
                     splittingBox.remove(bill.items.flatMap { it.splittings })
                     itemBox.remove(bill.items)
                     billBox.put(bill)
-                    activity.finish()
+                    if (recreate) {
+                        activity.recreate()
+                    }
                 }.setNegativeButton(android.R.string.no, null).show()
 
     }

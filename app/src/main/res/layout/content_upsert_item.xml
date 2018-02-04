@@ -18,30 +18,46 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/label_create_item_name"
-            android:inputType="textCapSentences" />
+            android:inputType="textCapSentences"
+            android:textAppearance="@style/AppTheme.DefaultFont" />
 
         <org.butterbrot.heve.ubill.view.EditNumber
             android:id="@+id/sum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/label_create_item_sum"
-            app:dynamicTextColoring="false"
-            android:inputType="numberDecimal" />
-        <TextView
-            android:layout_width="wrap_content"
+            android:inputType="numberDecimal"
+            android:textAppearance="@style/AppTheme.DefaultFont"
+            app:dynamicTextColoring="false" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:labelFor="@+id/payer"
-            android:text="@string/label_create_item_payer"/>
-        <Spinner
-            android:id="@+id/payer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:labelFor="@+id/payer"
+                android:text="@string/label_create_item_payer"
+                android:textAppearance="@style/AppTheme.DefaultFont" />
+
+            <Spinner
+                android:id="@+id/payer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                />
+
+        </LinearLayout>
+
         <CheckBox
             android:id="@+id/splitEvenly"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/label_create_item_even"
-            android:checked="true"/>
+            android:checked="true"
+            android:text="@string/label_create_item_even" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

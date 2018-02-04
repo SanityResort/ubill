@@ -54,10 +54,10 @@ class BillListActivity : BoxActivity<Bill>() {
                 Snackbar.make(toolbar, getString(R.string.message_exported_bill, bill.name, fileName), Snackbar.LENGTH_LONG).show()
             }
             R.id.delete_bill -> {
-                boxService.deleteBill(bill)
+                boxService.deleteBill(bill, true)
             }
             R.id.clear_bill -> {
-                boxService.clearBill(bill)
+                boxService.clearBill(bill, false)
             }
             else -> {
             }

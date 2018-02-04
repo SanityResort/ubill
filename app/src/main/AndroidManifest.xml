@@ -50,7 +50,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EditBillActivity"
-            android:label="@string/title_activity_edit_bill"
+            android:label="@string/title_activity_edit"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UpsertItemActivity"

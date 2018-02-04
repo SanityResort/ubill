@@ -31,7 +31,7 @@ class EditBillActivity : BoxActivity<Bill>() {
         fellowBox = (application as BillApplication).boxStore.boxFor(Fellow::class.java)
         val id: Long = intent.getLongExtra(InterfaceConstants.PARAM_BILL, 0)
         bill = box[id]
-        supportActionBar?.title = getString(R.string.title_activity_edit_bill, bill.name)
+        supportActionBar?.title = getString(R.string.title_activity_edit, bill.name)
         name.setText(bill.name)
         fellows += bill.fellows
         fellow_list.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fellows.map { it.name })
